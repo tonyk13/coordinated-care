@@ -59,6 +59,15 @@ db.once("open", () => {
 // Command to start server: "node server.js --secretKey your_actual_secret_key" -> add this to the readme
 
 // Routes
+app.get("/", (req, res, next) => {
+	res.status(200).json({
+		status: "success",
+		data: {
+			name: "coordinated-care",
+			version: "1.0.0",
+		},
+	});
+});
 app.use("/api", answersRoutes);
 app.use("/api", tagsRoutes);
 app.use("/api", questionsRoutes);
