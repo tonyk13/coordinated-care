@@ -76,6 +76,6 @@ process.on("SIGINT", () => {
 });
 
 // Start server
-const server = app.listen(port, () => {
+const server = app.listen(process.env.PORT || 5000, () => {
 	console.log(`Server running on port ${port}`);
 });
