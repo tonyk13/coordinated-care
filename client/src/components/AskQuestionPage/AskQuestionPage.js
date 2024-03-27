@@ -175,6 +175,7 @@ export default function AskQuestionPage({ setCurrentPage, setDataBaseUpdateTrigg
 
 				if (pqReputation < 50) {
 					alert("Can not ask a question since the User's Reputation is below 50");
+					console.log("User's reputation: ", pqReputation);
 				} else {
 					// Post Question
 					let postQuestion = {
