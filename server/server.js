@@ -8,6 +8,12 @@ const mongoose = require("mongoose");
 const app = express();
 const port = 8000;
 
+require("dotenv").config();
+
+process.env.USER_ID; // "239482"
+process.env.USER_KEY; // "foobar"
+process.env.NODE_ENV; // "development"
+
 const answersRoutes = require("./routes/answersRoutes");
 const tagsRoutes = require("./routes/tagsRoutes");
 const questionsRoutes = require("./routes/questionsRoutes");
