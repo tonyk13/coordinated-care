@@ -1,0 +1,67 @@
+.tagsPageHeader div {
+    display: inline-block;
+    margin-right: 250px;
+}
+
+.askQuestionButton {
+    background-color: dodgerblue;
+    color:white;
+    border: 1.5px solid black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.tagsPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tagsPageHeader {
+    font-size: 50px;
+    font-family: sans-serif;
+    left: 22.5%;
+    margin-top: 8%;
+    margin-left: 25%;
+}
+
+#tagsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    margin-top: 5%;
+    margin-left: 25%;
+    margin-right: 10%;
+}
+
+.tag {
+    white-space: pre-line;
+    color: dodgerblue;
+    font-size: 20px;
+    padding: 30px;
+    border: 1px dashed black;
+    text-align: center;
+    text-decoration: underline;
+    text-decoration-color: dodgerblue;
+    width: 150px;
+    height: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-right: 100px;
+}
+
+.count-text {
+    color: black !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-thickness: unset !important;
+    text-decoration-style: none !important;
+    text-decoration-color: unset !important;
+}
+
+.tagRow {
+    display: flex;
+    justify-content: start;
+    margin-top: 50px;
+}
