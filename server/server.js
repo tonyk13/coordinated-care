@@ -59,15 +59,16 @@ db.once("open", () => {
 // Command to start server: "node server.js --secretKey your_actual_secret_key" -> add this to the readme
 
 // Routes
-app.get("/", (req, res, next) => {
-	res.status(200).json({
-		status: "success",
-		data: {
-			name: "coordinated-care",
-			version: "1.0.0",
-		},
+if (process.env.NODE_ENV === "production") {
+	// Exprees will serve up production assets
+	app.use(express.static("client/build"));
+
+	// Express serve up index.html file if it doesn't recognize route
+	const path = require("path");
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 	});
-});
+}
 app.use("/api", answersRoutes);
 app.use("/api", tagsRoutes);
 app.use("/api", questionsRoutes);
