@@ -59,11 +59,11 @@ db.once("open", () => {
 // Command to start server: "node server.js --secretKey your_actual_secret_key" -> add this to the readme
 
 // Serve static files from the React app build directory
+const path = require("path");
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-const path = require("path");
 app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
 });
