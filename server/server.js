@@ -62,18 +62,18 @@ db.once("open", () => {
 const path = require("path");
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
-app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
-});
-
 // Routes
 app.use("/api", answersRoutes);
 app.use("/api", tagsRoutes);
 app.use("/api", questionsRoutes);
 app.use("/api", authRoutes);
 app.use("/api", commentsRoutes);
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
+});
 
 // When the server is terminated using CTRL + C, disconnect the database
 process.on("SIGINT", () => {
