@@ -149,7 +149,7 @@ export default function AskQuestionPage({ setCurrentPage, setDataBaseUpdateTrigg
 			event.preventDefault();
 
 			if (!pqNE1 && !pqNE2 && !pqHLE1 && !pqNE3 && !pqTE1 && !pqNE4) {
-				const userid = Cookie.get("userid");
+				const userid = Cookie.get("auth");
 				let pqTagArray = await checkQuestionTags(pqTagStringArray, userid);
 
 				let pqReputation = "";
