@@ -19,7 +19,7 @@ const cookieParser = require("cookie-parser");
 
 app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: "https://coordinated-care-cce88007d728.herokuapp.com",
 		credentials: true,
 		allowedHeaders: [
 			"set-cookie",
