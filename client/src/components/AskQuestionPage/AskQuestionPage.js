@@ -149,7 +149,7 @@ export default function AskQuestionPage({ setCurrentPage, setDataBaseUpdateTrigg
 			event.preventDefault();
 
 			if (!pqNE1 && !pqNE2 && !pqHLE1 && !pqNE3 && !pqTE1 && !pqNE4) {
-				const userid = Cookie.get("auth");
+				const userid = Cookie.get("userid");
 				let pqTagArray = await checkQuestionTags(pqTagStringArray, userid);
 
 				let pqReputation = "";
@@ -165,10 +165,12 @@ export default function AskQuestionPage({ setCurrentPage, setDataBaseUpdateTrigg
 				}
 
 				try {
+					console.log("Userid: ", userid);
 					const responseReputation = await axios.get(
 						`https://coordinated-care-cce88007d728.herokuapp.com/api/getUserReputation/${userid}`
 					);
 					pqReputation = responseReputation.data.reputation;
+					console.log("User's reputation: ", pqReputation);
 				} catch (error) {
 					console.error("Error fetching user reputation:", error);
 				}
