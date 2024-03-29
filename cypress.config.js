@@ -1,7 +1,8 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
-  projectId: 'x8vfgc',
+  projectId: "x8vfgc",
+
   component: {
     devServer: {
       framework: "create-react-app",
@@ -9,5 +10,9 @@ module.exports = defineConfig({
     },
   },
 
-
+  e2e: {
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
+    },
+  },
 });
