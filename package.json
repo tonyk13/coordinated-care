@@ -7,10 +7,23 @@
 		"start": "node server/server.js",
 		"install-client": "cd client && npm install && npm run build && cd ..",
 		"install-server": "cd server && npm install && cd .. ",
-    "heroku-postbuild": "npm run install-client && npm run install-server",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"heroku-postbuild": "npm run install-client && npm run install-server",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"cypress:open": "cypress open"
 	},
 	"keywords": [],
 	"author": "",
-	"license": "ISC"
+	"license": "ISC",
+	"dependencies": {
+		"cypress": "^13.7.1"
+	},
+	"devDependencies": {
+		"@babel/preset-react": "^7.24.1",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-scripts": "^5.0.1"
+	},
+	"browserslist": [
+		"defaults"
+	]
 }
