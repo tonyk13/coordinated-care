@@ -16,7 +16,8 @@
 	"license": "ISC",
 	"dependencies": {
 		"cors": "^2.8.5",
-		"cypress": "^13.7.1"
+		"cypress": "^13.7.1",
+		"mongoose": "^8.2.4"
 	},
 	"devDependencies": {
 		"@babel/preset-react": "^7.24.1",
