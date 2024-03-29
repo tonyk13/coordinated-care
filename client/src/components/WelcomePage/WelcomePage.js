@@ -20,7 +20,7 @@ function WelcomePage({ setCurrentPage, setIsLoggedIn, isGuest, setIsGuest, isOnl
 		return (
 			<div id="welcomePage">
 				<h1>Fake Stack Overflow</h1>
-				<h2>TEsting Functionality</h2>
+				<h2>Testing Functionality 2</h2>
 				<WelcomePageBox
 					isLoggingIn={isLoggingIn}
 					setIsLoggingIn={setIsLoggingIn}
