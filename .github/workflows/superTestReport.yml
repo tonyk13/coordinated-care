@@ -27,7 +27,9 @@ jobs:
           npm install
 
       - name: RUN SuperTest API Testing
-        run: npm test
+        run: |
+          cd server
+          npm test
 
       # - name: SuperTest Test Report
       #   uses: actions/upload-artifact@v3
