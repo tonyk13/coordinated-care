@@ -89,3 +89,6 @@ process.on("SIGINT", () => {
 const server = app.listen(process.env.PORT || 5000, () => {
 	console.log(`Server running on port ${port}`);
 });
+
+// For Jest Testing
+module.exports = app; 
