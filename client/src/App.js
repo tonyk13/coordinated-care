@@ -1,24 +1,14 @@
 import { React, useState, useEffect } from "react";
-import Header from "./components/Header/Header.js";
-import Sidebar from "./components/Sidebar/Sidebar.js";
-import QuestionsPage from "./components/QuestionsPage/QuestionsPage.js";
-import { TagsPage } from "./components/TagsPage/TagsPage.js";
-import { AnswersPage } from "./components/AnswersPage/AnswersPage.js";
-import AskQuestionPage from "./components/AskQuestionPage/AskQuestionPage.js";
-import NewAnswerPage from "./components/NewAnswerPage/NewAnswerPage.js";
+
+
 import WelcomePage from "./components/WelcomePage/WelcomePage.js";
-import UserProfilePage from "./components/UserProfilePage/UserProfilePage.js";
-import SingleTagPage from "./components/SingleTagPage/SingleTagPage.js";
-import EditQuestionPage from "./components/EditQuestionPage/EditQuestionPage.js";
+
 import axios from "axios";
 import Cookie from "js-cookie";
 
 function App() {
 	const [currentPage, setCurrentPage] = useState("welcomePage");
-	const [selectedQuestion, setSelectedQuestion] = useState(null);
-	const [currentSearch, setSearch] = useState("");
-	const [questions, setQuestions] = useState([]);
-	const [tags, setTags] = useState([]);
+
 	const [databaseUpdateTrigger, setDataBaseUpdateTrigger] = useState(0);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [isGuest, setIsGuest] = useState(false);
@@ -58,6 +48,7 @@ function App() {
 		}
 	}, []);
 
+	/*
 	useEffect(() => {
 		const fetchQuestions = async () => {
 			try {
@@ -73,21 +64,8 @@ function App() {
 
 		fetchQuestions();
 	}, [databaseUpdateTrigger]);
+	*/
 
-	useEffect(() => {
-		const fetchTags = async () => {
-			try {
-				const response = await axios.get("https://coordinated-care-cce88007d728.herokuapp.com/api/tags");
-				setTags(Object.values(response.data));
-			} catch (error) {
-				console.error("Error fetching tags:", error);
-				if (isLoggedIn) {
-					alert("Error Fetching Tags");
-				}
-			}
-		};
-		fetchTags();
-	}, [databaseUpdateTrigger]);
 
 	const handleLogout = async () => {
 		if (!isGuest) {
@@ -126,6 +104,7 @@ function App() {
 
 	const renderCurrentPage = () => {
 		//setSearchTrigger("");
+		/*
 		if (currentPage === "questionsPage") {
 			return (
 				<QuestionsPage
@@ -203,20 +182,16 @@ function App() {
 				/>
 			);
 		}
+		*/
 	};
+
 
 	return (
 		<div className="app">
 			{isOnline && (isLoggedIn || isGuest) ? (
 				<div className="page">
-					<Header setSearch={setSearch} handleLogout={handleLogout} isGuest={isGuest} />
-					<Sidebar
-						currentPage={currentPage}
-						setCurrentPage={setCurrentPage}
-						setSearchTrigger={setSearchTrigger}
-						setSearch={setSearch}
-					/>
-					<div className="content">{renderCurrentPage()}</div>
+					<h1> holder for Main Page </h1>
+					
 				</div>
 			) : (
 				<div className="content">

@@ -10,7 +10,7 @@ function WelcomePage({ setCurrentPage, setIsLoggedIn, isGuest, setIsGuest, isOnl
 	if (!isOnline) {
 		return (
 			<div id="welcomePage">
-				<h1>Fake Stack Overflow</h1>
+				<h1>Coordinated Care</h1>
 				<h3>You are currently offline. Please connect to the internet to continue.</h3>
 			</div>
 		);
@@ -19,8 +19,8 @@ function WelcomePage({ setCurrentPage, setIsLoggedIn, isGuest, setIsGuest, isOnl
 	if (!isLoggingIn && !isCreatingAccount) {
 		return (
 			<div id="welcomePage">
-				<h1>Fake Stack Overflow</h1>
-				<h2>Testing Functionality 2</h2>
+				<h1>Coordinated Care</h1>
+				<h2></h2>
 				<WelcomePageBox
 					isLoggingIn={isLoggingIn}
 					setIsLoggingIn={setIsLoggingIn}
@@ -36,7 +36,7 @@ function WelcomePage({ setCurrentPage, setIsLoggedIn, isGuest, setIsGuest, isOnl
 	} else if (isLoggingIn) {
 		return (
 			<div id="welcomePage">
-				<h1>Fake Stack Overflow</h1>
+				<h1>Coordinated Care</h1>
 				<h2>Log in</h2>
 				<WelcomePageBox
 					isLoggingIn={isLoggingIn}
@@ -53,7 +53,7 @@ function WelcomePage({ setCurrentPage, setIsLoggedIn, isGuest, setIsGuest, isOnl
 	} else if (isCreatingAccount) {
 		return (
 			<div id="welcomePage">
-				<h1>Fake Stack Overflow</h1>
+				<h1>Coordinated Care</h1>
 				<h2>Create Account</h2>
 				<WelcomePageBox
 					isLoggingIn={isLoggingIn}

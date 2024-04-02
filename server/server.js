@@ -1,12 +1,12 @@
 // Run this script to launch the server.
 // The server should run on localhost port 8000.
 // This is where you should start writing server-side code for this application.
-
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 const answersRoutes = require("./routes/answersRoutes");
 const tagsRoutes = require("./routes/tagsRoutes");
@@ -17,9 +17,10 @@ const commentsRoutes = require("./routes/commentsRoutes");
 const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser");
 
+
 app.use(
 	cors({
-		origin: "https://coordinated-care-cce88007d728.herokuapp.com",
+		origin: process.env.CORS_ORIGIN,
 		credentials: true,
 		allowedHeaders: [
 			"set-cookie",
@@ -36,13 +37,13 @@ app.use(cookieParser());
 const args = process.argv.slice(2);
 
 // Check if the secret key argument is provided
-const secretKeyIndex = args.indexOf("--secretKey");
-const secretKey = secretKeyIndex !== -1 ? args[secretKeyIndex + 1] : "default_secret_key";
+//const secretKeyIndex = args.indexOf("--secretKey");
+//const secretKey = secretKeyIndex !== -1 ? args[secretKeyIndex + 1] : "default_secret_key";
 
 app.use(
 	cookieSession({
 		name: "session",
-		keys: secretKey,
+		keys: [process.env.SECRET_KEY],
 		maxAge: 24 * 60 * 60 * 1000,
 		secure: true,
 	})
@@ -86,7 +87,7 @@ process.on("SIGINT", () => {
 });
 
 // Start server
-const server = app.listen(process.env.PORT || 5000, () => {
+const server = app.listen(process.env.PORT , () => {
 	console.log(`Server running on port ${port}`);
 });
 
