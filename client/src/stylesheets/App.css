@@ -1,1 +1,55 @@
 /* Add your CSS here */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; 
+  }
+.login_screen{
+    background-color: dodgerblue;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.login_app_name{
+    padding-left: 35%;
+    padding-top: 10%;
+    display: inline-block;
+    color: white;
+    font-size:50px;
+    font-family: Inter;
+    padding-bottom: 5%;
+}
+.motto{
+    color:white;
+    font-style: italic;
+    display: inline-block;
+    padding-left: 20%;
+    font-size: 20px;
+    padding-top: 10px;
+    
+}
+.login_button{ 
+    margin-left: 18.5% !important;
+    background-color: white !important;
+    padding-left: 90px !important;
+    padding-right: 90px !important;
+  
+}
+.request_account_button{ 
+    background-color:darkgrey !important;
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+    color: black !important;
+    margin-top: 10px !important;
+    margin-left: 55% !important;
+}
+.temp{
+    margin-top: 10px !important;
+    margin-left: 55% !important;
+}
+.credits{
+    position: absolute;
+    bottom: 5%;
+    left: 39%;
+    color: white;
+}

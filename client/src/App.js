@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 
 
 import WelcomePage from "./components/WelcomePage/WelcomePage.js";
+import Login from "./c.c_components/Login /Login.js"
 
 import axios from "axios";
 import Cookie from "js-cookie";
@@ -185,7 +186,7 @@ function App() {
 		*/
 	};
 
-
+/*
 	return (
 		<div className="app">
 			{isOnline && (isLoggedIn || isGuest) ? (
@@ -194,6 +195,7 @@ function App() {
 					
 				</div>
 			) : (
+				
 				<div className="content">
 					<WelcomePage
 						setCurrentPage={setCurrentPage}
@@ -203,9 +205,15 @@ function App() {
 						isOnline={isOnline}
 					/>
 				</div>
+				
 			)}
 		</div>
 	);
+	*/
+	return(
+		<Login>
+		</Login>
+	)
 }
 
 export default App;
