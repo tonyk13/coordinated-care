@@ -10,7 +10,7 @@ import ForumIcon from '@mui/icons-material/Forum';
 
 const drawerWidth = 240;
 
-export default function SideNavigationBar() {
+export default function SideNavigationBar({setCurrentPage}) {
     const menuItems = [
         { text: 'Home', icon: <HomeIcon /> },
         { text: 'Faculty/Staff', icon: <GroupsIcon /> },
@@ -39,7 +39,7 @@ export default function SideNavigationBar() {
             <List>
               {menuItems.map((item, index) => (
                 <ListItem key={item.text} >
-                  <ListItemButton>
+                  <ListItemButton onClick={() => setCurrentPage(item.text)}>
                     <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemText primary={item.text} />
                   </ListItemButton>
