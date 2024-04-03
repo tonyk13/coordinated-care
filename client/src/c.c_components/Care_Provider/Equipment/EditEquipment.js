@@ -1,7 +1,5 @@
 import React from "react";
 import { Box } from "@mui/material";
-import Topbanner from "../../Top_banner";
-import Side_navigation_bar from "../../Side_navigation_bar";
 import ScienceIcon from "@mui/icons-material/Science";
 import { Button, Paper, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -27,13 +25,11 @@ export default function EditEquipment({ setCurrentPage }) {
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-			<Topbanner />
 			<Box sx={{ display: "flex", flexGrow: 1 }}>
-				<Side_navigation_bar setCurrentPage={setCurrentPage} />
 				<Paper
 					style={{
 						display: "grid",
-						gridRowGap: "20px",
+						gridRowGap: "10px",
 						padding: "20px",
 						width: "50vw",
 					}}
@@ -50,13 +46,13 @@ export default function EditEquipment({ setCurrentPage }) {
 					<FormInputText required={false} name="notesValue" control={control} label="Notes" />
 
 					<Box style={{ display: "flex", justifyContent: "center", gap: "5vw" }}>
-						<Button onClick={handleSubmit(onSubmit)} variant={"contained"}>
+						<Button onClick={handleSubmit(onSubmit)} variant={"contained"} sx={{ padding: "6px 50px" }}>
 							Submit
 						</Button>
-						<Button onClick={() => reset()} variant={"outlined"}>
+						<Button onClick={() => reset()} variant={"outlined"} sx={{ padding: "6px 50px" }}>
 							Reset
 						</Button>
-						<Button color="error" variant={"contained"}>
+						<Button color="error" variant={"contained"} sx={{ padding: "6px 50px" }}>
 							Delete
 						</Button>
 					</Box>

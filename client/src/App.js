@@ -8,6 +8,7 @@ import axios from "axios";
 import Cookie from "js-cookie";
 import Equipment from "./c.c_components/Care_Provider/Equipment/Equipment.js";
 import EditEquipment from "./c.c_components/Care_Provider/Equipment/EditEquipment.js";
+import DiscussionBoard from "./c.c_components/Discussion_Board/Discussion_Board.js";
 
 function App() {
 	const [currentPage, setCurrentPage] = useState("login");
@@ -111,6 +112,8 @@ function App() {
 				return <Equipment setCurrentPage={setCurrentPage} />;
 			case "editEquipment":
 				return <EditEquipment setCurrentPage={setCurrentPage} />;
+			case "Discussion Board":
+				return <DiscussionBoard setCurrentPage={setCurrentPage} />;
 			default:
 				return <div>Page not found</div>;
 		}
