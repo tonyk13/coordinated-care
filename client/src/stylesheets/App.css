@@ -56,9 +56,10 @@ html, body {
 .topbanner {
     display: flex;
     align-items: center; 
-    justify-content: start;
+    justify-content: space-between;;
     background-color: dodgerblue;
     height: 70px;
+    padding: 0 50px;
   }
   
   .heartlogo {
