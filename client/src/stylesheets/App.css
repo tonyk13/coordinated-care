@@ -53,3 +53,21 @@ html, body {
     left: 39%;
     color: white;
 }
+.topbanner {
+    display: flex;
+    align-items: center; 
+    justify-content: start;
+    background-color: dodgerblue;
+    height: 70px;
+  }
+  
+  .heartlogo {
+    width: 50px; 
+    height: auto; 
+    margin-right: 10px; 
+    margin-left: 2%;
+  }
+
+  .banner-app-name{
+    color: white;
+  }
