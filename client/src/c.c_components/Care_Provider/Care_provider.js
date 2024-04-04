@@ -5,6 +5,7 @@ import Discussion_Board from '../Discussion_Board/Discussion_Board'
 import Profile from './/Profile/Profile'
 import Send_Feedback from './/Send_Feedback/Send_Feedback'
 import { Box, Toolbar } from '@mui/material';
+import Settings from './Profile/Settings/Settings'
 
 import "../../stylesheets/App.css"
 
@@ -24,6 +25,11 @@ export default function CareProvider() {
             {currentPage === 'Discussion Board' && (
                 <Discussion_Board/>
           )}
+
+          {currentPage === 'Settings Page' && (
+            <Settings/>)
+          }
+
             {currentPage === 'profile-screen' && (
                 <Profile setCurrentPage={setCurrentPage}/>
           )}
