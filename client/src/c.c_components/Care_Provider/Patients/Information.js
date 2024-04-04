@@ -26,6 +26,7 @@ export default function Information() {
 							aria-label="Patient information tabs"
 							TabIndicatorProps={{ style: { backgroundColor: "#e35922" } }}
 							sx={{
+								".MuiTabs-indicator": { backgroundColor: "#e35922" },
 								".Mui-selected": { color: "#e35922" },
 							}}
 						>
