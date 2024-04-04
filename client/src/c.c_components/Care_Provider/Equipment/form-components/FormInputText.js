@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 
-export const FormInputText = ({ required, name, control, label }) => {
+export const FormInputText = ({ required, name, control, label, multiline, rows }) => {
 	const rules = required ? { required: "This field is required" } : {};
 
 	return (
@@ -19,6 +19,8 @@ export const FormInputText = ({ required, name, control, label }) => {
 					fullWidth
 					label={label}
 					variant="outlined"
+					multiline={multiline}
+					rows={rows}
 				/>
 			)}
 		/>

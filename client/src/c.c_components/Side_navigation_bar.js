@@ -97,7 +97,9 @@ export default function SideNavigationBar({ setCurrentPage }) {
 			if (item.text === "Procedures") setCurrentPage("procedures");
 			if (item.text === "Equipment") setCurrentPage("equipment");
 			if (item.text === "Rooms") setCurrentPage("rooms");
+			if (item.text === "Documents") setCurrentPage("Documents");
 			if (item.text === "Discussion Board") setCurrentPage("Discussion Board");
+			if (item.text === "User Feedback") setCurrentPage("User Feedback");
 		}
 	};
 
