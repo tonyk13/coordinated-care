@@ -1,8 +1,6 @@
 import React from "react";
 import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 
-// import "../../stylesheets/App.css";
-
 export default function Billing() {
 	const billingData = {
 		insuranceProvider: "Blue Cross",
@@ -21,10 +19,7 @@ export default function Billing() {
 
 	return (
 		<Container>
-			{/* <Typography variant="h4" gutterBottom>
-				{billingData.insuranceProvider}
-			</Typography> */}
-			<Typography variant="subtitle1" gutterBottom>
+			<Typography variant="subtitle1" gutterBottom sx={{ mt: 4 }}>
 				Billing Information:
 			</Typography>
 
