@@ -14,6 +14,8 @@ import Patients from "../Care_Provider/Patients/Information";
 import Billing from "../Care_Provider/Patients/Billing";
 import OrderLabTest from "../Care_Provider/Patients/Order_LabTest";
 import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
+import Add_new_faculty from "./Add_new_faculty";
+import UserFeedback from "./UserFeedback/UserFeedback";
 
 import "../../stylesheets/App.css";
 
@@ -40,6 +42,8 @@ export default function Admin() {
 					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
+					{currentPage === "Add New Faculty" && <Add_new_faculty setCurrentPage={setCurrentPage} />}
+					{currentPage === "View User Feedback" && <UserFeedback />}
 				</Box>
 			</Box>
 		</Box>
