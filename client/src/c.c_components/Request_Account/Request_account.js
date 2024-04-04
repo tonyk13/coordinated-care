@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Box, Container, Grid } from '@mui/material';
 
+// WILL SEND FORM DATA TO CONSOLE FOR NOW
 export default function Request_account({ setCurrentPage }) {
     const [formData, setFormData] = useState({
         firstName: '',
