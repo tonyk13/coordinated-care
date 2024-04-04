@@ -23,7 +23,8 @@ export default function CareProvider() {
           )}
 
           {currentPage === 'Settings Page' && (
-            <Settings/>
+            <Settings/>)
+          }
 
             {currentPage === 'profile-screen' && (
                 <Profile/>
