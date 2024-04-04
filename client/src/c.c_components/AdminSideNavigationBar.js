@@ -16,7 +16,7 @@ export default function AdminSideNavigationBar({setCurrentPage}) {
         { text: 'Faculty/Staff', icon: <GroupsIcon /> },
         { text: 'Documents', icon: <FolderSharedIcon /> },
         { text: 'Discussion Board', icon: <ForumIcon /> },
-        { text: ' View User Feedback', icon: <CommentIcon /> },
+        { text: 'View User Feedback', icon: <CommentIcon /> },
     ];
 
     return (

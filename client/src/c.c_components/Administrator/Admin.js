@@ -5,6 +5,8 @@ import AdminSideNavigationBar from '../AdminSideNavigationBar'
 import Discussion_Board from '../Discussion_Board/Discussion_Board';
 import Faculty_Staff from './Faculty_Staff';
 import Add_new_faculty from './Add_new_faculty';
+import UserFeedback from './UserFeedback/UserFeedback';
+
 
 
 import "../../stylesheets/App.css"
@@ -34,7 +36,10 @@ export default function Admin() {
                 <Add_new_faculty setCurrentPage={setCurrentPage}/>
           )}
 
-
+          {currentPage === 'View User Feedback' && (
+                <UserFeedback />
+          )}
+ 
           </Box>
         </Box>
 
