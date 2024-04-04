@@ -3,6 +3,7 @@ import Topbanner from '../Top_banner'
 import Side_navigation_bar from '../Side_navigation_bar'
 import Discussion_Board from '../Discussion_Board/Discussion_Board'
 import Profile from './/Profile/Profile'
+import Send_Feedback from './/Send_Feedback/Send_Feedback'
 import { Box, Toolbar } from '@mui/material';
 import Settings from './Profile/Settings/Settings'
 
@@ -10,7 +11,10 @@ import "../../stylesheets/App.css"
 
 export default function CareProvider() {
     const [currentPage, setCurrentPage] = useState('');
-    
+
+
+
+    //  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
         <Topbanner setCurrentPage={setCurrentPage} />
@@ -27,9 +31,9 @@ export default function CareProvider() {
           }
 
             {currentPage === 'profile-screen' && (
-                <Profile/>
-
+                <Profile setCurrentPage={setCurrentPage}/>
           )}
+           
           </Box>
         </Box>
       </Box>
