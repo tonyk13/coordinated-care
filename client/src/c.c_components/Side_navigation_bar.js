@@ -7,6 +7,8 @@
 // import FolderSharedIcon from '@mui/icons-material/FolderShared';
 // import CommentIcon from '@mui/icons-material/Comment';
 // import ForumIcon from '@mui/icons-material/Forum';
+import RoomIcon from "@mui/icons-material/BedroomChild";
+import EquipmentIcon from "@mui/icons-material/Vaccines";
 
 // const drawerWidth = 240;
 
@@ -70,21 +72,16 @@ import MedicationIcon from "@mui/icons-material/Medication";
 const drawerWidth = 240;
 
 export default function SideNavigationBar({ setCurrentPage }) {
-	const [openSubMenu, setOpenSubMenu] = useState(false);
-
 	const menuItems = [
 		{ text: "Home", icon: <HomeIcon /> },
 		{ text: "Faculty/Staff", icon: <GroupsIcon />, hasSubMenu: true },
+		{ text: "Patients", icon: <GroupsIcon /> },
 		{ text: "Documents", icon: <FolderSharedIcon /> },
 		{ text: "Discussion Board", icon: <ForumIcon /> },
-		{ text: "User Feedback", icon: <CommentIcon /> },
-	];
 
-	const subMenuItems = [
-		{ text: "Staff", icon: <PeopleIcon /> },
-		{ text: "Procedures", icon: <MedicationIcon /> },
-		{ text: "Equipment", icon: <ScienceIcon /> },
-		{ text: "Rooms", icon: <MeetingRoomIcon /> },
+		{ text: "Rooms", icon: <RoomIcon /> },
+		{ text: "Equipment", icon: <EquipmentIcon /> },
+		{ text: "User Feedback", icon: <CommentIcon /> },
 	];
 
 	const handleClick = (item) => {

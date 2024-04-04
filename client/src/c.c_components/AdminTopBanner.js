@@ -3,7 +3,7 @@ import { Box, IconButton, Tooltip, Avatar, Menu, MenuItem, Typography } from '@m
 import heartlogo from '../c.c_components/img/Heart_Rate.png'
 import '../stylesheets/App.css'
 
-const settings = ['Profile', 'Settings', 'Send Feedback', 'Logout'];
+const settings = ['Profile', 'Settings', 'Logout'];
 
 
 export default function Topbanner({setCurrentPage}) {
@@ -69,4 +69,3 @@ export default function Topbanner({setCurrentPage}) {
     </>
   );
 }
-

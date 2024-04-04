@@ -72,3 +72,31 @@ html, body {
   .banner-app-name{
     color: white;
   }
+
+
+.request_account_text {
+    padding-left: 40%;
+    display: inline-block;
+    color: white;
+    font-size: 20px;
+    font-family: Inter;
+}
+
+.request_account_form_container {
+    font-family: Inter;
+    position: fixed;
+    padding-top: 2%;
+    left: 18%;
+}
+
+.request_account_form_container .MuiTextField-root {
+    background-color: white;
+    margin-bottom: 40px;
+}
+.request_account_submit_button {
+    margin-top: 2% !important;
+    margin-left: 39% !important;
+    background-color: white !important;
+    padding-left: 90px !important;
+    padding-right: 90px !important;
+}

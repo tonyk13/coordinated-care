@@ -1,33 +1,33 @@
 import React, { useState } from 'react';
-import { Button, TextField, Grid, Typography, Box, Container } from '@mui/material';
+import { TextField, Button, Typography, Box, Container, Grid } from '@mui/material';
 
-export default function Profile( {setCurrentPage} ) {
+// WILL SEND FORM DATA TO CONSOLE FOR NOW
+export default function Request_account({ setCurrentPage }) {
     const [formData, setFormData] = useState({
-        firstName: 'John',
-        middleName: 'Pat',
-        lastName: 'Doe',
-        userName: 'johndoe232',
-        dob: '02-03-1980',
-        phoneNumber: '123-456-7890',
+        firstName: '',
+        middleName: '',
+        lastName: '',
+        dob: '',
+        phoneNumber: ''
     });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-
-    // Same function for now for save cancel, just console logs clicked
-    const saveEdits = () => {
-        // setCurrentPage('home')
-        console.log("save edits")
-    };
+    function takemetomainpage() {
+        setCurrentPage("login");
+        console.log(formData); // Log form data
+    }
 
     return (
-        <div>
-            <Container>
+        <div className='login_screen'>
+            <div className='login_app_name'>Coordinated Care</div><br/>
+            <div className='request_account_text'>Request Account</div><br/>
+            <Container className="request_account_form_container">
                 <Box>
-                    <Grid container spacing={6} mt="10px">
-                        <Grid item xs={16}>
+                    <Grid container spacing={4}>
+                        <Grid item xs={6}>
                             <TextField
                                 fullWidth
                                 type="text"
@@ -37,7 +37,7 @@ export default function Profile( {setCurrentPage} ) {
                                 onChange={handleChange}
                             />
                         </Grid>
-                        <Grid item xs={16}>
+                        <Grid item xs={6}>
                             <TextField
                                 fullWidth
                                 type="text"
@@ -47,7 +47,7 @@ export default function Profile( {setCurrentPage} ) {
                                 onChange={handleChange}
                             />
                         </Grid>
-                        <Grid item xs={16}>
+                        <Grid item xs={6}>
                             <TextField
                                 fullWidth
                                 type="text"
@@ -57,17 +57,7 @@ export default function Profile( {setCurrentPage} ) {
                                 onChange={handleChange}
                             />
                         </Grid>
-                        <Grid item xs={16}>
-                            <TextField
-                                fullWidth
-                                type="text"
-                                name="userName"
-                                label="Username"
-                                value={formData.userName}
-                                onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={16}>
+                        <Grid item xs={6}>
                             <TextField
                                 fullWidth
                                 type="text"
@@ -77,7 +67,7 @@ export default function Profile( {setCurrentPage} ) {
                                 onChange={handleChange}
                             />
                         </Grid>
-                        <Grid item xs={16}>
+                        <Grid item xs={6}>
                             <TextField
                                 fullWidth
                                 type="text"
@@ -89,12 +79,12 @@ export default function Profile( {setCurrentPage} ) {
                         </Grid>
                     </Grid>
                 </Box>
+                <Box>
+                    <Button className='request_account_submit_button' onClick={takemetomainpage}>
+                        Submit
+                    </Button>
+                </Box>
             </Container>
-            <Box mt={2} display="flex" justifyContent="center">
-                <Button variant="contained" color="primary" style={{ width: '100px' }} onClick={saveEdits}>Save</Button>
-                <Box mx={10} />
-                <Button variant="contained" style={{ backgroundColor: 'red', color: 'white', width: '100px' }} onClick={saveEdits}>Cancel</Button>
-            </Box>
         </div>
     );
 }

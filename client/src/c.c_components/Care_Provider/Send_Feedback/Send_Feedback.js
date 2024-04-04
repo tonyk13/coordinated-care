@@ -1,23 +1,63 @@
-import React from "react";
-import { Box, Button } from "@mui/material";
-import Topbanner from "../../Top_banner";
-import Side_navigation_bar from "../../Side_navigation_bar";
+import React, { useState } from "react";
+import { Button, TextField, Grid, Typography, Box, Container } from "@mui/material";
 
-export default function SendFeedback({ setCurrentPage }) {
-	const handleClick = () => {
-		console.log("Navigating to: Edit Equipment");
-		setCurrentPage("editEquipment");
+export default function Send_Feedback({ setCurrentPage }) {
+	const [formData, setFormData] = useState({
+		summary: "",
+		details: "",
+	});
+
+	const handleChange = (e) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
+
+	// Same function for now for save cancel, just console logs clicked
+	const saveEdits = () => {
+		// setCurrentPage('home')
+		console.log("save edits");
 	};
 
 	return (
-		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-			<Topbanner />
-			<Box sx={{ display: "flex", flexGrow: 1 }}>
-				<Side_navigation_bar setCurrentPage={setCurrentPage} />
-				<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-					<Button onClick={() => handleClick()}>"Edit an equipment"</Button>
+		<div>
+			<Container>
+				<Box>
+					<Grid container spacing={6} mt="10px">
+						<Grid item xs={16}>
+							<TextField
+								fullWidth
+								multiline
+								rows={1}
+								type="text"
+								name="summary"
+								label="Summary (50 Word Limit)"
+								value={formData.summary}
+								onChange={handleChange}
+							/>
+						</Grid>
+						<Grid item xs={16}>
+							<TextField
+								fullWidth
+								multiline
+								rows={19} // 19 Rows for summary makes it consistent with profile form
+								type="text"
+								name="details"
+								label="Details"
+								value={formData.details}
+								onChange={handleChange}
+							/>
+						</Grid>
+					</Grid>
 				</Box>
+			</Container>
+			<Box mt={2} display="flex" justifyContent="center">
+				<Button variant="contained" color="primary" style={{ width: "100px" }} onClick={saveEdits}>
+					Send
+				</Button>
+				<Box mx={10} />
+				<Button variant="contained" style={{ backgroundColor: "red", color: "white", width: "100px" }} onClick={saveEdits}>
+					Cancel
+				</Button>
 			</Box>
-		</Box>
+		</div>
 	);
 }
