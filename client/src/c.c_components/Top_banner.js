@@ -3,17 +3,20 @@ import { Box, IconButton, Tooltip, Avatar, Menu, MenuItem, Typography } from '@m
 import heartlogo from '../c.c_components/img/Heart_Rate.png'
 import '../stylesheets/App.css'
 
-const settings = ['Profile', 'Account', 'Logout'];
+const settings = ['Profile', 'Settings', 'Send Feedback', 'Logout'];
 
-export default function Topbanner() {
+export default function Topbanner({setCurrentPage}) {
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => {
     setAnchorElUser(null);
+    if(setting==='Settings'){
+        setCurrentPage('Settings Page');
+    }
   };
 
   return (
@@ -45,7 +48,7 @@ export default function Topbanner() {
         onClose={handleCloseUserMenu}
       >
         {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
+          <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
             <Typography textAlign="center">{setting}</Typography>
           </MenuItem>
         ))}
