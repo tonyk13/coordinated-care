@@ -4,6 +4,8 @@ import Side_navigation_bar from '../Side_navigation_bar'
 import Discussion_Board from '../Discussion_Board/Discussion_Board'
 import Profile from './/Profile/Profile'
 import Send_Feedback from './/Send_Feedback/Send_Feedback'
+import Rooms from './/Rooms/Rooms'
+import Equipment from './/Equipment/Equipment'
 import { Box, Toolbar } from '@mui/material';
 import Settings from './Profile/Settings/Settings'
 
@@ -32,6 +34,14 @@ export default function CareProvider() {
 
             {currentPage === 'profile-screen' && (
                 <Profile setCurrentPage={setCurrentPage}/>
+          )}
+
+          {currentPage === 'Rooms' && (
+                <Rooms setCurrentPage={setCurrentPage}/>
+          )}
+
+          {currentPage === 'Equipment' && (
+                <Equipment setCurrentPage={setCurrentPage}/>
           )}
            
           </Box>
