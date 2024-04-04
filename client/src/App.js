@@ -3,10 +3,12 @@ import { React, useState, useEffect } from "react";
 
 import WelcomePage from "./components/WelcomePage/WelcomePage.js";
 import Care_provider from "./c.c_components/Care_Provider/Care_provider.js";
-import Login from "./c.c_components/Login/Login.js"
+import Login from "./c.c_components/Login/Login.js";
+import Request_account from "./c.c_components/Request_Account/Request_account.js";
 
 import axios from "axios";
 import Cookie from "js-cookie";
+
 
 function App() {
 	const [currentPage, setCurrentPage] = useState("login");
@@ -107,11 +109,12 @@ function App() {
 	const renderCurrentPage = () => {
 		//setSearchTrigger("");
 		switch (currentPage) {
-
             case "care-provider":
                 return <Care_provider setCurrentPage={setCurrentPage} />;
             case "login":
                 return <Login setCurrentPage={setCurrentPage} />;
+			case "request-account":
+				return <Request_account setCurrentPage={setCurrentPage} />;
             default:
                 return <div>Page not found</div>;
         }

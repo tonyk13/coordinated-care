@@ -5,7 +5,9 @@ import '../stylesheets/App.css'
 
 const settings = ['Profile', 'Settings', 'Send Feedback', 'Logout'];
 
+
 export default function Topbanner({setCurrentPage}) {
+
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
@@ -17,7 +19,13 @@ export default function Topbanner({setCurrentPage}) {
     if(setting==='Settings'){
         setCurrentPage('Settings Page');
     }
+    if(setting==='Profile'){
+      setCurrentPage('profile-screen')
+      
+    }
+
   };
+
 
   return (
     <>
@@ -48,7 +56,10 @@ export default function Topbanner({setCurrentPage}) {
         onClose={handleCloseUserMenu}
       >
         {settings.map((setting) => (
+
           <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
+
+
             <Typography textAlign="center">{setting}</Typography>
           </MenuItem>
         ))}
