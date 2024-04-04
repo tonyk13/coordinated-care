@@ -93,10 +93,10 @@ export default function SideNavigationBar({ setCurrentPage }) {
 		} else {
 			// Navigate to the appropriate page
 			console.log("Navigating to:", item.text);
-			if (item.text === "Staff") setCurrentPage("staff");
-			if (item.text === "Procedures") setCurrentPage("procedures");
-			if (item.text === "Equipment") setCurrentPage("equipment");
-			if (item.text === "Rooms") setCurrentPage("rooms");
+			if (item.text === "Staff") setCurrentPage("Staff");
+			if (item.text === "Procedures") setCurrentPage("Procedures");
+			if (item.text === "Equipment") setCurrentPage("Equipment");
+			if (item.text === "Rooms") setCurrentPage("Rooms");
 			if (item.text === "Documents") setCurrentPage("Documents");
 			if (item.text === "Discussion Board") setCurrentPage("Discussion Board");
 			if (item.text === "User Feedback") setCurrentPage("User Feedback");

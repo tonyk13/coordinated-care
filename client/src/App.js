@@ -108,9 +108,9 @@ function App() {
 				return <Care_provider setCurrentPage={setCurrentPage} />;
 			case "login":
 				return <Login setCurrentPage={setCurrentPage} />;
-			case "equipment":
+			case "Equipment":
 				return <Equipment setCurrentPage={setCurrentPage} />;
-			case "editEquipment":
+			case "EditEquipment":
 				return <EditEquipment setCurrentPage={setCurrentPage} />;
 			case "Discussion Board":
 				return <DiscussionBoard setCurrentPage={setCurrentPage} />;

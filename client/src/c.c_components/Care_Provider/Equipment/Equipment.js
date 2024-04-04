@@ -4,7 +4,7 @@ import { Box, Button } from "@mui/material";
 export default function Equipment({ setCurrentPage }) {
 	const handleClick = () => {
 		console.log("Navigating to: Edit Equipment");
-		setCurrentPage("editEquipment");
+		setCurrentPage("EditEquipment");
 	};
 
 	return (

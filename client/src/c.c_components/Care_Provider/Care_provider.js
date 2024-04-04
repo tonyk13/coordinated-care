@@ -5,6 +5,7 @@ import Discussion_Board from "../Discussion_Board/Discussion_Board";
 import Equipment from "./Equipment/Equipment";
 import EditEquipment from "./Equipment/EditEquipment";
 import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
+import Staff from "../Administrator/Faculty&Staff";
 import { Box } from "@mui/material";
 
 import "../../stylesheets/App.css";
@@ -19,9 +20,10 @@ export default function CareProvider() {
 				<Side_navigation_bar setCurrentPage={setCurrentPage} />
 				<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 					{currentPage === "Discussion Board" && <Discussion_Board setCurrentPage={setCurrentPage} />}
-					{currentPage === "createDiscussionPost" && <CreateDiscussionPost setCurrentPage={setCurrentPage} />}
-					{currentPage === "equipment" && <Equipment setCurrentPage={setCurrentPage} />}
-					{currentPage === "editEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
+					{currentPage === "CreateDiscussionPost" && <CreateDiscussionPost setCurrentPage={setCurrentPage} />}
+					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
+					{currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
+					{currentPage === "Staff" && <Staff setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>
 		</Box>

@@ -55,7 +55,7 @@ export default function DiscussionBoard({ setCurrentPage }) {
 		<Box sx={{ width: "100%", maxWidth: 800, mx: "auto", my: 4 }}>
 			<Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
 				<Typography variant="h4">Discussion Board</Typography>
-				<Button variant="contained" onClick={() => setCurrentPage("createDiscussionPost")}>
+				<Button variant="contained" onClick={() => setCurrentPage("CreateDiscussionPost")}>
 					Add Post
 				</Button>
 			</Box>
