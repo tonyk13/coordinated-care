@@ -7,7 +7,7 @@ import { Button, Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 
-export default function Faculty_Staff() {
+export default function Faculty_Staff( {setCurrentPage} ) {
     const [searchTerm, setSearchTerm] = React.useState('');
       
     const handleSearchChange = (event) => {
@@ -48,7 +48,9 @@ export default function Faculty_Staff() {
         { id: 932323, lastName: 'Roxie', firstName: 'Harvey', phoneNumber: 6323232323, role: 'Doctor' },
       ];
 
-      
+    const setAddNewFacultyScreen = () => {
+      setCurrentPage('Add New Faculty');
+    };
 
     return (
         <>
@@ -67,7 +69,7 @@ export default function Faculty_Staff() {
                 ),
               }}
             />
-            <Button variant="contained" sx={{ ml: 6 }}>Add New Faculty/Staff</Button>
+            <Button variant="contained" sx={{ ml: 6 }} onClick={setAddNewFacultyScreen}>Add New Faculty/Staff</Button>
             </Box>
             <div style={{ height: 400, width: '100%' }}>
             <DataGrid

@@ -3,7 +3,8 @@ import AdminTopbanner from '../AdminTopBanner'
 import { Box, Toolbar } from '@mui/material';
 import AdminSideNavigationBar from '../AdminSideNavigationBar'
 import Discussion_Board from '../Discussion_Board/Discussion_Board';
-import Faculty_Staff from './Faculty_Staff'
+import Faculty_Staff from './Faculty_Staff';
+import Add_new_faculty from './Add_new_faculty';
 
 
 import "../../stylesheets/App.css"
@@ -26,7 +27,11 @@ export default function Admin() {
                 <Discussion_Board/>
           )}
           {currentPage === 'Faculty/Staff' && (
-                <Faculty_Staff/>
+                <Faculty_Staff setCurrentPage={setCurrentPage}/>
+          )}
+
+          {currentPage === 'Add New Faculty' && (
+                <Add_new_faculty setCurrentPage={setCurrentPage}/>
           )}
 
 
