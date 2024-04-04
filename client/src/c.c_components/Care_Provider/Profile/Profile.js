@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Button, TextField, Grid, Typography, Box, Container, Calendar, Avatar } from '@mui/material';
+import { Button, TextField, Grid, Typography, Box, Container } from '@mui/material';
 
-// WILL SEND FORM DATA TO CONSOLE FOR NOW
-export default function Profile() {
+export default function Profile( {setCurrentPage} ) {
     const [formData, setFormData] = useState({
         firstName: 'John',
         middleName: 'Pat',
@@ -14,6 +13,13 @@ export default function Profile() {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+
+    // Same function for now for save cancel, just console logs clicked
+    const saveEdits = () => {
+        // setCurrentPage('home')
+        console.log("save edits")
     };
 
     return (
@@ -84,6 +90,11 @@ export default function Profile() {
                     </Grid>
                 </Box>
             </Container>
+            <Box mt={2} display="flex" justifyContent="center">
+                <Button variant="contained" color="primary" style={{ width: '100px' }} onClick={saveEdits}>Save</Button>
+                <Box mx={10} />
+                <Button variant="contained" style={{ backgroundColor: 'red', color: 'white', width: '100px' }} onClick={saveEdits}>Cancel</Button>
+            </Box>
         </div>
     );
 }
