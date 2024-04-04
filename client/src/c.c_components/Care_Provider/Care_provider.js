@@ -9,9 +9,12 @@ import Equipment from ".//Equipment/Equipment";
 // import Equipment from "./Equipment/Equipment";
 import EditEquipment from "./Equipment/EditEquipment";
 import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
-import Staff from "../Administrator/Faculty&Staff";
+import Staff from "../Administrator/Faculty_Staff";
 import { Box } from "@mui/material";
 import Settings from "./Profile/Settings/Settings";
+import Patients from "../Care_Provider/Patients/Information";
+import Billing from "../Care_Provider/Patients/Billing";
+import OrderLabTest from "../Care_Provider/Patients/Order_LabTest";
 
 import "../../stylesheets/App.css";
 
@@ -30,14 +33,13 @@ export default function CareProvider() {
 					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "Staff" && <Staff setCurrentPage={setCurrentPage} />}
-
 					{currentPage === "Settings Page" && <Settings />}
-
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
-
 					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
-
 					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
+					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
+					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
+					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>
 		</Box>

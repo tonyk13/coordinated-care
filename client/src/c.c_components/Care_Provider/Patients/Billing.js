@@ -21,9 +21,9 @@ export default function Billing() {
 
 	return (
 		<Container>
-			<Typography variant="h4" gutterBottom>
+			{/* <Typography variant="h4" gutterBottom>
 				{billingData.insuranceProvider}
-			</Typography>
+			</Typography> */}
 			<Typography variant="subtitle1" gutterBottom>
 				Billing Information:
 			</Typography>

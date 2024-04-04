@@ -72,6 +72,8 @@ import MedicationIcon from "@mui/icons-material/Medication";
 const drawerWidth = 240;
 
 export default function SideNavigationBar({ setCurrentPage }) {
+	const [openSubMenu, setOpenSubMenu] = useState(false);
+
 	const menuItems = [
 		{ text: "Home", icon: <HomeIcon /> },
 		{ text: "Faculty/Staff", icon: <GroupsIcon />, hasSubMenu: true },
@@ -82,6 +84,13 @@ export default function SideNavigationBar({ setCurrentPage }) {
 		{ text: "Rooms", icon: <RoomIcon /> },
 		{ text: "Equipment", icon: <EquipmentIcon /> },
 		{ text: "User Feedback", icon: <CommentIcon /> },
+	];
+
+	const subMenuItems = [
+		{ text: "Staff", icon: <PeopleIcon /> },
+		{ text: "Procedures", icon: <MedicationIcon /> },
+		{ text: "Equipment", icon: <ScienceIcon /> },
+		{ text: "Rooms", icon: <MeetingRoomIcon /> },
 	];
 
 	const handleClick = (item) => {
@@ -97,6 +106,7 @@ export default function SideNavigationBar({ setCurrentPage }) {
 			if (item.text === "Documents") setCurrentPage("Documents");
 			if (item.text === "Discussion Board") setCurrentPage("Discussion Board");
 			if (item.text === "User Feedback") setCurrentPage("User Feedback");
+			if (item.text === "Patients") setCurrentPage("Patients");
 		}
 	};
 
