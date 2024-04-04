@@ -11,6 +11,9 @@ import "../../stylesheets/App.css"
 export default function CareProvider() {
     const [currentPage, setCurrentPage] = useState('');
 
+
+
+    //  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
         <Topbanner setCurrentPage={setCurrentPage} />
@@ -24,9 +27,7 @@ export default function CareProvider() {
             {currentPage === 'profile-screen' && (
                 <Profile setCurrentPage={setCurrentPage}/>
           )}
-            {currentPage === 'User Feedback' && (
-                <Send_Feedback setCurrentPage={setCurrentPage}/>
-          )}
+           
           </Box>
         </Box>
       </Box>
