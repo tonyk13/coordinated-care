@@ -1,38 +1,47 @@
-import React, {useState} from 'react'
-import AdminTopbanner from '../AdminTopBanner'
-import { Box, Toolbar } from '@mui/material';
-import AdminSideNavigationBar from '../AdminSideNavigationBar'
-import Discussion_Board from '../Discussion_Board/Discussion_Board';
-import Faculty_Staff from './Faculty_Staff'
+import React, { useState } from "react";
+import AdminTopbanner from "../AdminTopBanner";
+import { Box, Toolbar } from "@mui/material";
+import AdminSideNavigationBar from "../AdminSideNavigationBar";
+import Discussion_Board from "../Discussion_Board/Discussion_Board";
+// import Faculty_Staff from "./Faculty_Staff";
+import Equipment from "../Care_Provider/Equipment/Equipment";
+import EditEquipment from "../Care_Provider/Equipment/EditEquipment";
+import Staff from "../Administrator/Faculty_Staff";
+import Settings from "../Care_Provider/Profile/Settings/Settings";
+import Profile from "../Care_Provider/Profile/Profile";
+import Rooms from "../Care_Provider/Rooms/Rooms";
+import Patients from "../Care_Provider/Patients/Information";
+import Billing from "../Care_Provider/Patients/Billing";
+import OrderLabTest from "../Care_Provider/Patients/Order_LabTest";
+import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
 
-
-import "../../stylesheets/App.css"
-
+import "../../stylesheets/App.css";
 
 export default function Admin() {
-    const [currentPage, setCurrentPage] = useState('');
+	const [currentPage, setCurrentPage] = useState("");
 
+	return (
+		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+			<AdminTopbanner setCurrentPage={setCurrentPage} />
+			<Box sx={{ display: "flex", flexGrow: 1 }}>
+				<AdminSideNavigationBar setCurrentPage={setCurrentPage} />
+				<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+					{/* {currentPage === "Discussion Board" && <Discussion_Board />} */}
+					{/* {currentPage === "Staff" && <Staff />} */}
 
-
-  return (
-
-   <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-        <AdminTopbanner setCurrentPage={setCurrentPage} />
-        <Box sx={{ display: 'flex', flexGrow: 1 }}>
-
-          <AdminSideNavigationBar setCurrentPage={setCurrentPage} />
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          {currentPage === 'Discussion Board' && (
-                <Discussion_Board/>
-          )}
-          {currentPage === 'Faculty/Staff' && (
-                <Faculty_Staff/>
-          )}
-
-
-          </Box>
-        </Box>
-
-   </Box>
-);
+					{currentPage === "Discussion Board" && <Discussion_Board setCurrentPage={setCurrentPage} />}
+					{currentPage === "CreateDiscussionPost" && <CreateDiscussionPost setCurrentPage={setCurrentPage} />}
+					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
+					{currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
+					{currentPage === "Staff" && <Staff setCurrentPage={setCurrentPage} />}
+					{currentPage === "Settings Page" && <Settings />}
+					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
+					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
+					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
+					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
+					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
+				</Box>
+			</Box>
+		</Box>
+	);
 }

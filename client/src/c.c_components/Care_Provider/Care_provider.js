@@ -6,7 +6,6 @@ import Profile from ".//Profile/Profile";
 import Send_Feedback from ".//Send_Feedback/Send_Feedback";
 import Rooms from ".//Rooms/Rooms";
 import Equipment from ".//Equipment/Equipment";
-// import Equipment from "./Equipment/Equipment";
 import EditEquipment from "./Equipment/EditEquipment";
 import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
 import Staff from "../Administrator/Faculty_Staff";
@@ -36,7 +35,6 @@ export default function CareProvider() {
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
 					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
-					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
