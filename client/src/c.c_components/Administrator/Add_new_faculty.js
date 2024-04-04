@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextField, Grid, Box, Container } from '@mui/material';
+import { Button, TextField, Grid, Typography, Box, Container } from '@mui/material';
 
 export default function Add_new_faculty({ setCurrentPage }) {
     const [formData, setFormData] = useState({
@@ -23,6 +23,7 @@ export default function Add_new_faculty({ setCurrentPage }) {
     return (
         <div>
             <Container>
+                <Typography variant="h4">Add New Faculty</Typography>
                 <Box>
                     <Grid container spacing={6} mt="10px">
                         <Grid item xs={16}>
