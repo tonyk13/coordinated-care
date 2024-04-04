@@ -10,13 +10,13 @@ import ForumIcon from '@mui/icons-material/Forum';
 
 const drawerWidth = 240;
 
-export default function SideNavigationBar({setCurrentPage}) {
+export default function AdminSideNavigationBar({setCurrentPage}) {
     const menuItems = [
         { text: 'Home', icon: <HomeIcon /> },
-        { text: 'Patients', icon: <GroupsIcon /> },
+        { text: 'Faculty/Staff', icon: <GroupsIcon /> },
         { text: 'Documents', icon: <FolderSharedIcon /> },
         { text: 'Discussion Board', icon: <ForumIcon /> },
-
+        { text: ' View User Feedback', icon: <CommentIcon /> },
     ];
 
     return (
