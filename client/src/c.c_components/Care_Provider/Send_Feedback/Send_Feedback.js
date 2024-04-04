@@ -20,6 +20,7 @@ export default function Send_Feedback( {setCurrentPage} ) {
     return (
         <div>
             <Container>
+            <Typography variant="h4">Send Feedback</Typography>
                 <Box>
                     <Grid container spacing={6} mt="10px">
                         <Grid item xs={16}>

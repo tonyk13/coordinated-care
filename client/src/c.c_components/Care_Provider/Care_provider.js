@@ -32,7 +32,7 @@ export default function CareProvider() {
             <Settings/>)
           }
 
-            {currentPage === 'profile-screen' && (
+          {currentPage === 'profile-screen' && (
                 <Profile setCurrentPage={setCurrentPage}/>
           )}
 
