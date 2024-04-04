@@ -7,22 +7,16 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import CommentIcon from '@mui/icons-material/Comment';
 import ForumIcon from '@mui/icons-material/Forum';
-import RoomIcon from '@mui/icons-material/BedroomChild';
-import EquipmentIcon from '@mui/icons-material/Vaccines';
 
 const drawerWidth = 240;
 
-export default function SideNavigationBar({setCurrentPage}) {
+export default function AdminSideNavigationBar({setCurrentPage}) {
     const menuItems = [
         { text: 'Home', icon: <HomeIcon /> },
-        { text: 'Patients', icon: <GroupsIcon /> },
+        { text: 'Faculty/Staff', icon: <GroupsIcon /> },
         { text: 'Documents', icon: <FolderSharedIcon /> },
         { text: 'Discussion Board', icon: <ForumIcon /> },
-
-
-        { text: 'Rooms', icon: <RoomIcon /> },
-        { text: 'Equipment', icon: <EquipmentIcon /> }
-
+        { text: ' View User Feedback', icon: <CommentIcon /> },
     ];
 
     return (
