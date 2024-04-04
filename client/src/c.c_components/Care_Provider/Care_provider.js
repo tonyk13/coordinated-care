@@ -4,6 +4,7 @@ import Side_navigation_bar from '../Side_navigation_bar'
 import Discussion_Board from '../Discussion_Board/Discussion_Board'
 import Profile from './/Profile/Profile'
 import { Box, Toolbar } from '@mui/material';
+import Settings from './Profile/Settings/Settings'
 
 import "../../stylesheets/App.css"
 
@@ -20,8 +21,13 @@ export default function CareProvider() {
             {currentPage === 'Discussion Board' && (
                 <Discussion_Board/>
           )}
+
+          {currentPage === 'Settings Page' && (
+            <Settings/>
+
             {currentPage === 'profile-screen' && (
                 <Profile/>
+
           )}
           </Box>
         </Box>
