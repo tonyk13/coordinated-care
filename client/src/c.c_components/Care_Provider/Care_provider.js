@@ -20,6 +20,7 @@ import Edit_Rooms from "./Rooms/Edit_Rooms";
 import Processes from "./Processes-Procedures/Processes";
 import ViewProcess from "./Processes-Procedures/ViewProcess";
 import EditProcess from "./Processes-Procedures/EditProcess";
+import MyProcedures from "./Processes-Procedures/MyProcedures";
 
 import "../../stylesheets/App.css";
 
@@ -51,6 +52,7 @@ export default function CareProvider() {
 					{currentPage === "Processes" && <Processes setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
 					{currentPage === "ViewProcess" && <ViewProcess patient={patient} setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditProcess" && <EditProcess patient={patient} setCurrentPage={setCurrentPage} />}
+					{currentPage === "Procedures" && <MyProcedures />}
 				</Box>
 			</Box>
 		</Box>

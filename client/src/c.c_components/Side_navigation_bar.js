@@ -1,7 +1,7 @@
 import RoomIcon from "@mui/icons-material/BedroomChild";
 import EquipmentIcon from "@mui/icons-material/Vaccines";
 import React from "react";
-import { Box, CssBaseline, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Collapse } from "@mui/material";
+import { AppBar, Box, CssBaseline, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Collapse } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ForumIcon from "@mui/icons-material/Forum";
@@ -33,6 +33,7 @@ export default function SideNavigationBar({ setCurrentPage }) {
 	return (
 		<>
 			<CssBaseline />
+			<AppBar position="fixed"></AppBar>
 			<Box sx={{ display: "flex", pt: 0 }}>
 				<Box
 					sx={{
@@ -44,14 +45,12 @@ export default function SideNavigationBar({ setCurrentPage }) {
 				>
 					<List>
 						{menuItems.map((item, index) => (
-							<React.Fragment key={item.text}>
-								<ListItem disablePadding>
-									<ListItemButton onClick={() => handleClick(item)}>
-										<ListItemIcon>{item.icon}</ListItemIcon>
-										<ListItemText primary={item.text} />
-									</ListItemButton>
-								</ListItem>
-							</React.Fragment>
+							<ListItem key={item.text}>
+								<ListItemButton onClick={() => handleClick(item)}>
+									<ListItemIcon>{item.icon}</ListItemIcon>
+									<ListItemText primary={item.text} />
+								</ListItemButton>
+							</ListItem>
 						))}
 					</List>
 				</Box>

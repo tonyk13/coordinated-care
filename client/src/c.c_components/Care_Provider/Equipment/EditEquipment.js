@@ -49,8 +49,8 @@ export default function EditEquipment({ setCurrentPage }) {
 						<Button onClick={handleSubmit(onSubmit)} variant={"contained"} sx={{ padding: "6px 50px" }}>
 							Submit
 						</Button>
-						<Button onClick={() => reset()} variant={"outlined"} sx={{ padding: "6px 50px" }}>
-							Reset
+						<Button onClick={() => setCurrentPage("Equipment")} variant={"outlined"} sx={{ padding: "6px 50px" }}>
+							Cancel
 						</Button>
 						<Button color="error" variant={"contained"} sx={{ padding: "6px 50px" }}>
 							Delete

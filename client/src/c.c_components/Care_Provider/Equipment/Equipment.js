@@ -135,6 +135,10 @@ export default function Equipment({ setCurrentPage }) {
 		console.log("save edits");
 	};
 
+	const requestEquipment = () => {
+		setCurrentPage("EditEquipment");
+	};
+
 	return (
 		<div>
 			<Box display="flex" alignItems="center">
@@ -146,7 +150,7 @@ export default function Equipment({ setCurrentPage }) {
 			<Box mt="10px" display="flex" alignItems="center">
 				<TextField label="Search" variant="outlined" style={{ width: "1000px" }} />
 				<Box ml={30}>
-					<Button variant="contained" style={{ backgroundColor: "green", width: "100px" }} onClick={saveEdits}>
+					<Button variant="contained" style={{ backgroundColor: "green", width: "100px" }} onClick={requestEquipment}>
 						Request
 					</Button>
 				</Box>
