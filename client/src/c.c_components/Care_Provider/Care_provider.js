@@ -11,8 +11,10 @@ import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
 import Staff from "../Administrator/Faculty_Staff";
 import { Box } from "@mui/material";
 import Settings from "./Profile/Settings/Settings";
-import Patients from "../Care_Provider/Patients/Information";
+import Patients from "../Care_Provider/Patients/AllPatients";
+import PatientInformation from "../Care_Provider/Patients/Information";
 import Billing from "../Care_Provider/Patients/Billing";
+import EditBilling from "../Care_Provider/Patients/EditBilling";
 import OrderLabTest from "../Care_Provider/Patients/Order_LabTest";
 
 import "../../stylesheets/App.css";
@@ -36,7 +38,9 @@ export default function CareProvider() {
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
 					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
 					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
+					{currentPage === "PatientInformation" && <PatientInformation setCurrentPage={setCurrentPage} />}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
+					{currentPage === "EditBilling" && <EditBilling setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>

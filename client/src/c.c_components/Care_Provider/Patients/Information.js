@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import { Box, Paper, Typography, Button, Divider, Tab, Tabs } from "@mui/material";
 import Billing from "./Billing";
+import EditBilling from "./EditBilling";
 
-export default function Information() {
+export default function Information({ setCurrentPage }) {
 	const [selectedTab, setSelectedTab] = useState(0);
+	const [isEditing, setIsEditing] = useState(false); // State to toggle between viewing and editing
 
 	const handleTabChange = (event, newValue) => {
 		setSelectedTab(newValue);
+		setIsEditing(false);
+	};
+
+	const handleEditClick = () => {
+		setIsEditing(true);
 	};
 
 	return (
-		<Box sx={{ p: 2 }}>
+		<Box>
 			<Paper elevation={1} sx={{ p: 2 }}>
 				<Box
 					sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: 1, borderColor: "divider" }}
@@ -78,7 +85,10 @@ export default function Information() {
 						</Box>
 					</Box>
 				)}
-				{selectedTab === 4 && <Billing />}
+				{selectedTab === 4 && !isEditing && <Billing setCurrentPage={handleEditClick} />}
+				{selectedTab === 4 && isEditing && (
+					<EditBilling setCurrentPage={() => setIsEditing(false)} isEditing={isEditing} setIsEditing={setIsEditing} />
+				)}
 			</Paper>
 		</Box>
 	);
