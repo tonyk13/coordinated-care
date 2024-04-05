@@ -29,10 +29,10 @@ export default function Login({ setCurrentPage }) {
 			</Button>
 			<br />
 			<button className="temp" onClick={takemetomainpage}>
-				Continue as guest(temp)
+				Continue as CARE PROVIDER (temporary)
 			</button>
 			<button className="temp" onClick={takemetoadminpage}>
-				Continue as admin(temp)
+				Continue as ADMIN (temporary)
 			</button>
 			<div className="credits">Proudly presented by Team Dodger Blue</div>
 		</div>
