@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import AdminTopbanner from "../AdminTopBanner";
 import { Box, Toolbar } from "@mui/material";
@@ -22,8 +23,9 @@ import "../../stylesheets/App.css";
 import SpecificFaculty from "./SpecificFaculty";
 
 export default function Admin() {
-	const [currentPage, setCurrentPage] = useState("");
+    const [currentPage, setCurrentPage] = useState("");
     const [nameClicked, setnameClicked] = useState("");
+
 
 
 	return (
@@ -50,9 +52,9 @@ export default function Admin() {
 					{currentPage === "View User Feedback" && <UserFeedback />}
                     {currentPage === "SpecificFaculty" && <SpecificFaculty nameClicked={nameClicked} />}
                     {currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage}/>}
-
 				</Box>
 			</Box>
 		</Box>
 	);
+
 }
