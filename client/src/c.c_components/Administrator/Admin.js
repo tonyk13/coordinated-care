@@ -28,33 +28,32 @@ export default function Admin() {
 
 
 
-	return (
-		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-			<AdminTopbanner setCurrentPage={setCurrentPage} />
-			<Box sx={{ display: "flex", flexGrow: 1 }}>
-				<AdminSideNavigationBar setCurrentPage={setCurrentPage} />
-				<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-					{/* {currentPage === "Discussion Board" && <Discussion_Board />} */}
-					{/* {currentPage === "Staff" && <Staff />} */}
+      return (
+            <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+                  <AdminTopbanner setCurrentPage={setCurrentPage} />
+                  <Box sx={{ display: "flex", flexGrow: 1 }}>
+                        <AdminSideNavigationBar setCurrentPage={setCurrentPage} />
+                        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                              {/* {currentPage === "Discussion Board" && <Discussion_Board />} */}
+                              {/* {currentPage === "Staff" && <Staff />} */}
 
-					{currentPage === "Discussion Board" && <Discussion_Board setCurrentPage={setCurrentPage} />}
-					{currentPage === "CreateDiscussionPost" && <CreateDiscussionPost setCurrentPage={setCurrentPage} />}
-					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
-					{currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
-					{currentPage === "Staff" && <Staff setCurrentPage={setCurrentPage} nameClicked= {nameClicked} setnameClicked={setnameClicked} />}
-					{currentPage === "Settings Page" && <Settings />}
-					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
-					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
-					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
-					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
-					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
-					{currentPage === "Add New Faculty" && <Add_new_faculty setCurrentPage={setCurrentPage} />}
-					{currentPage === "View User Feedback" && <UserFeedback />}
-                    {currentPage === "SpecificFaculty" && <SpecificFaculty nameClicked={nameClicked} />}
-                    {currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage}/>}
-				</Box>
-			</Box>
-		</Box>
-	);
-
+                              {currentPage === "Discussion Board" && <Discussion_Board setCurrentPage={setCurrentPage} />}
+                              {currentPage === "CreateDiscussionPost" && <CreateDiscussionPost setCurrentPage={setCurrentPage} />}
+                              {currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
+                              {currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
+                              {currentPage === "Staff" && <Staff setCurrentPage={setCurrentPage} nameClicked= {nameClicked} setnameClicked={setnameClicked} />}
+                              {currentPage === "Settings Page" && <Settings />}
+                              {currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
+                              {currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
+                              {currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
+                              {currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
+                              {currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
+                              {currentPage === "Add New Faculty" && <Add_new_faculty setCurrentPage={setCurrentPage} />}
+                              {currentPage === "View User Feedback" && <UserFeedback />}
+                        {currentPage === "SpecificFaculty" && <SpecificFaculty nameClicked={nameClicked} />}
+                        {currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage}/>}
+                        </Box>
+                  </Box>
+            </Box>
+      );
 }
