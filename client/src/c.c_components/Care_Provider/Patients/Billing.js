@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 
-export default function Billing() {
+export default function Billing({ setCurrentPage }) {
 	const billingData = {
 		insuranceProvider: "Blue Cross",
 		memberID: "23232332",
@@ -17,6 +17,10 @@ export default function Billing() {
 		],
 	};
 
+	const handleEditClick = () => {
+		setCurrentPage("EditBilling");
+	};
+
 	return (
 		<Container>
 			<Typography variant="subtitle1" gutterBottom sx={{ mt: 4 }}>
@@ -27,10 +31,13 @@ export default function Billing() {
 			<Typography variant="body1">Member ID: {billingData.memberID}</Typography>
 			<Typography variant="body1">Effective Since: {billingData.effectiveSince}</Typography>
 			<Typography variant="body1">Insurance Phone #: {billingData.insurancePhone}</Typography>
-			<Button variant="contained" color="primary" style={{ margin: "10px 0" }}>
+			<Button onClick={() => handleEditClick()} variant="contained" color="primary" style={{ margin: "10px 0" }}>
 				Edit Billing
 			</Button>
 
+			<Typography variant="subtitle1" gutterBottom sx={{ mt: 4 }}>
+				Billing History:
+			</Typography>
 			<TableContainer component={Paper} style={{ marginTop: "20px" }}>
 				<Table aria-label="billing history">
 					<TableHead>
