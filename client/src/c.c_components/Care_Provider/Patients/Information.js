@@ -3,6 +3,7 @@ import { Box, Paper, Typography, Button, Divider, Tab, Tabs } from "@mui/materia
 import Billing from "./Billing";
 import EditBilling from "./EditBilling";
 import Documents from "./Documents";
+import Procedures from "./Procedures";
 
 export default function Information({ setCurrentPage }) {
 	const [selectedTab, setSelectedTab] = useState(0);
@@ -86,6 +87,7 @@ export default function Information({ setCurrentPage }) {
 						</Box>
 					</Box>
 				)}
+				{selectedTab === 2 && <Procedures />}
 				{selectedTab === 3 && <Documents />}
 				{selectedTab === 4 && !isEditing && <Billing setCurrentPage={handleEditClick} />}
 				{selectedTab === 4 && isEditing && (
