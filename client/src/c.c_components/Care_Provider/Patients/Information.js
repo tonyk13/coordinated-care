@@ -37,7 +37,7 @@ export default function Information() {
 		setIsEditing(true);
 	};
   const toggleEdit = () => {
-    setIsEditingInfo(!isEditing);
+    setIsEditingInfo(!isEditingInfo);
   };
 
   const handleInputChange = (e) => {
@@ -87,7 +87,7 @@ export default function Information() {
 
         {selectedTab === 0 && (
           <Box sx={{ mt: 2 }}>
-            {setIsEditingInfo ? (
+            {isEditingInfo ? (
               <>
                 <TextField
                   fullWidth
