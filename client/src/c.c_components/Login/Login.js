@@ -15,7 +15,7 @@ export default function Login({ setCurrentPage }) {
 	}
 	return (
 		<div className="login_screen">
-			<div className="login_app_name">Coordinated Care</div>
+			<div className="login_app_name">Changed title on login page</div>
 			<br />
 			<div className="motto">
 				Revolutionizing the future of
