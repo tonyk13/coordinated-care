@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Paper, Typography, Button, Divider, Tab, Tabs } from "@mui/material";
 import Billing from "./Billing";
 import EditBilling from "./EditBilling";
+import Documents from "./Documents";
 
 export default function Information({ setCurrentPage }) {
 	const [selectedTab, setSelectedTab] = useState(0);
@@ -85,6 +86,7 @@ export default function Information({ setCurrentPage }) {
 						</Box>
 					</Box>
 				)}
+				{selectedTab === 3 && <Documents />}
 				{selectedTab === 4 && !isEditing && <Billing setCurrentPage={handleEditClick} />}
 				{selectedTab === 4 && isEditing && (
 					<EditBilling setCurrentPage={() => setIsEditing(false)} isEditing={isEditing} setIsEditing={setIsEditing} />
