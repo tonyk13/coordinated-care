@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import { Paper, Typography,FormControl,InputLabel,Select,MenuItem,Button } from '@mui/material';
 import "../../stylesheets/App.css"
 import Faculty_Information from './Faculty_Information';
+import Schedules from "../Staff/Schedules"
 
 
 function TabPanel(props) {
@@ -53,10 +54,10 @@ export default function SpecificFaculty({nameClicked}) {
         <h1 className='facultyname'>Dr. {nameClicked}</h1>
         <Tab value="1" label="Faculty Information" />
         <Tab value="2" label="LogIn Settings" />
+        <Tab value="3" label="Schedule" />
       </Tabs>
       <TabPanel value={value} index="1">
         <Faculty_Information nameClicked={nameClicked}/>
-        
       </TabPanel>
       <TabPanel value={value} index="2">
         <Paper sx={{ p: 2 }}>
@@ -78,12 +79,10 @@ export default function SpecificFaculty({nameClicked}) {
         </FormControl>
         <br/><br/>
         <Button variant="contained">Reset Password</Button>
-        
-
-
-        </Paper>
-
-       
+        </Paper>   
+      </TabPanel>
+      <TabPanel value={value} index="3">
+        <Schedules nameClicked={nameClicked} />
       </TabPanel>
     </Box>
   );
