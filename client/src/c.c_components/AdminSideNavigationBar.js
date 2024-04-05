@@ -1,22 +1,7 @@
 import React from "react";
-import {
-	Box,
-	CssBaseline,
-	AppBar,
-	Toolbar,
-	Typography,
-	List,
-	ListItem,
-	ListItemButton,
-	ListItemIcon,
-	ListItemText,
-	Divider,
-} from "@mui/material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import { Box, CssBaseline, AppBar, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupsIcon from "@mui/icons-material/Groups";
-import FolderSharedIcon from "@mui/icons-material/FolderShared";
 import CommentIcon from "@mui/icons-material/Comment";
 import ForumIcon from "@mui/icons-material/Forum";
 import RoomIcon from "@mui/icons-material/BedroomChild";
