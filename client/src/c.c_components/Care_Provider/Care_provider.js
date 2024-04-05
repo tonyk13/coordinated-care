@@ -14,6 +14,7 @@ import Settings from "./Profile/Settings/Settings";
 import Patients from "../Care_Provider/Patients/Information";
 import Billing from "../Care_Provider/Patients/Billing";
 import OrderLabTest from "../Care_Provider/Patients/Order_LabTest";
+import Edit_Rooms from "./Rooms/Edit_Rooms";
 
 import "../../stylesheets/App.css";
 
@@ -38,6 +39,7 @@ export default function CareProvider() {
 					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
+                    {currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage}/>}
 				</Box>
 			</Box>
 		</Box>
