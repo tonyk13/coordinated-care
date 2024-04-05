@@ -4,6 +4,7 @@ import Billing from "./Billing";
 import EditBilling from "./EditBilling";
 import Documents from "./Documents";
 import Procedures from "./Procedures";
+import Appointments from "./Appointments";
 
 export default function Information({ setCurrentPage }) {
 	const [selectedTab, setSelectedTab] = useState(0);
@@ -87,6 +88,7 @@ export default function Information({ setCurrentPage }) {
 						</Box>
 					</Box>
 				)}
+				{selectedTab === 1 && <Appointments />}
 				{selectedTab === 2 && <Procedures />}
 				{selectedTab === 3 && <Documents />}
 				{selectedTab === 4 && !isEditing && <Billing setCurrentPage={handleEditClick} />}
