@@ -130,8 +130,7 @@ export default function Processes({ setCurrentPage, patient, setPatient }) {
 			<Typography variant="h6" gutterBottom component="div">
 				All Processes
 			</Typography>
-			<Button variant="contained" onClick={handleNewProcessClick}>
-				{" "}
+			<Button variant="contained" onClick={handleNewProcessClick} sx={{ mb: 2 }}>
 				Add new Process
 			</Button>
 			<Box sx={{ mb: 2 }}>
