@@ -8,7 +8,7 @@ import Rooms from ".//Rooms/Rooms";
 import Equipment from ".//Equipment/Equipment";
 import EditEquipment from "./Equipment/EditEquipment";
 import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
-import Staff from "../Administrator/Faculty_Staff";
+import Staff from "../Administrator/Staff";
 import { Box } from "@mui/material";
 import Settings from "./Profile/Settings/Settings";
 import Patients from "../Care_Provider/Patients/Information";
