@@ -116,6 +116,10 @@ export default function Processes({ setCurrentPage, patient, setPatient }) {
 		setCurrentPage("ViewProcess");
 	};
 
+	const handleNewProcessClick = (event) => {
+		setCurrentPage("Create_new_process");
+	};
+
 	const count = Math.ceil(rows.length / rowsPerPage);
 
 	const currentPageRows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage);
@@ -125,6 +129,10 @@ export default function Processes({ setCurrentPage, patient, setPatient }) {
 			<Typography variant="h6" gutterBottom component="div">
 				All Processes
 			</Typography>
+			<Button variant="contained" onClick={handleNewProcessClick}>
+				{" "}
+				Add new Process
+			</Button>
 			<Box sx={{ mb: 2 }}>
 				<TextField
 					id="search"
