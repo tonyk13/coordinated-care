@@ -1,85 +1,184 @@
 import React, { useState } from "react";
-import { Box, Paper, Typography, Button, Divider, Tab, Tabs } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Typography,
+  Button,
+  Divider,
+  TextField,
+  Tab,
+  Tabs,
+} from "@mui/material";
 import Billing from "./Billing";
 
 export default function Information() {
-	const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "Scott, Alan",
+    dob: "July 4, 1980",
+    phone: "+1 (555) 123-4567",
+    email: "alan@email.org",
+    address: "123 Healthway Drive, Meditown, State, 45678",
+    emergencyContact: "Jane Doe",
+    emergencyPhone: "+1 (555) 987-6543",
+    chronicConditions: "Diabetes",
+  });
 
-	const handleTabChange = (event, newValue) => {
-		setSelectedTab(newValue);
-	};
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
 
-	return (
-		<Box sx={{ p: 2 }}>
-			<Paper elevation={1} sx={{ p: 2 }}>
-				<Box
-					sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: 1, borderColor: "divider" }}
-				>
-					<Typography variant="h4" sx={{ color: "#5162F7", fontWeight: "bold", mr: "2vw" }}>
-						Scott, Alan
-					</Typography>
+  const toggleEdit = () => {
+    setIsEditing(!isEditing);
+  };
 
-					<Box sx={{ flexGrow: 1 }}>
-						<Tabs
-							value={selectedTab}
-							onChange={handleTabChange}
-							aria-label="Patient information tabs"
-							TabIndicatorProps={{ style: { backgroundColor: "#e35922" } }}
-							sx={{
-								".MuiTabs-indicator": { backgroundColor: "#e35922" },
-								".Mui-selected": { color: "#e35922" },
-							}}
-						>
-							<Tab label="Patient Information" />
-							<Tab label="Appointments" />
-							<Tab label="Procedures" />
-							<Tab label="Patient Documents" />
-							<Tab label="Billing" />
-						</Tabs>
-					</Box>
-				</Box>
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-				{selectedTab === 0 && (
-					<Box>
-						<Typography variant="h5" sx={{ mt: 2, mb: 1, fontWeight: "bold" }}>
-							Personal Information
-						</Typography>
-						<Typography variant="body1">Name: Scott, Alan</Typography>
-						<Typography variant="body1">Date of Birth: July 4, 1980</Typography>
+  const saveChanges = () => {
+    setIsEditing(false);
 
-						<Divider sx={{ my: 1 }} />
+  };
 
-						<Typography variant="body1">Contact Information:</Typography>
-						<Typography variant="body1">Phone: +1 (555) 123-4567</Typography>
-						<Typography variant="body1">Email: alan@email.org</Typography>
+  return (
+    <Box sx={{ p: 2 }}>
+      <Paper elevation={1} sx={{ p: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: 1,
+            borderColor: "divider",
+          }}
+        >
+          <Typography
+            variant="h4"
+            sx={{ color: "#5162F7", fontWeight: "bold", mr: "2vw" }}
+          >
+            {formData.name}
+          </Typography>
 
-						<Divider sx={{ my: 1 }} />
+          <Tabs
+            value={selectedTab}
+            onChange={handleTabChange}
+            aria-label="Patient information tabs"
+          >
+            <Tab label="Patient Information" />
+            <Tab label="Appointments" />
+            <Tab label="Procedures" />
+            <Tab label="Patient Documents" />
+            <Tab label="Billing" />
+          </Tabs>
+        </Box>
 
-						<Typography variant="body1">Address: 123 Healthway Drive, Meditown, State, 45678</Typography>
+        {selectedTab === 0 && (
+          <Box sx={{ mt: 2 }}>
+            {isEditing ? (
+              <>
+                <TextField
+                  fullWidth
+                  label="Name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  margin="normal"
+                />
+                <TextField
+                  fullWidth
+                  label="Date of Birth"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleInputChange}
+                  margin="normal"
+                />
+                <TextField
+                  fullWidth
+                  label="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  margin="normal"
+                />
+                <TextField
+                  fullWidth
+                  label="chronic Conditions"
+                  name="chronicConditions"
+                  value={formData.chronicConditions}
+                  onChange={handleInputChange}
+                  margin="normal"
+                />
 
-						<Divider sx={{ my: 1 }} />
+                
 
-						<Typography variant="body1">Emergency Contact:</Typography>
-						<Typography variant="body1">Name: Jane Doe</Typography>
-						<Typography variant="body1">Relationship: Spouse</Typography>
-						<Typography variant="body1">Phone: +1 (555) 987-6543</Typography>
 
-						<Divider sx={{ my: 1 }} />
 
-						<Typography variant="h6" sx={{ mt: 2, mb: 1, fontWeight: "bold" }}>
-							Chronic Conditions
-						</Typography>
-						<Typography variant="body1">Diabetes</Typography>
 
-						<Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
-							<Button variant="contained" color="primary">
-								Edit Patient Information
-							</Button>
-						</Box>
-					</Box>
-				)}
-				{selectedTab === 4 && <Billing />}
-			</Paper>
-		</Box>
-	);
+
+                <Box sx={{ mt: 2 }}>
+                  <Button
+                    sx={{ mr: 1 }}
+                    variant="outlined"
+                    onClick={toggleEdit}
+                  >
+                    Cancel
+                  </Button>
+                  <Button variant="contained" onClick={saveChanges}>
+                    Save
+                  </Button>
+                </Box>
+              </>
+            ) : (
+              <>
+                <Typography variant="h5" sx={{ mt: 2, mb: 1, fontWeight: "bold" }}>
+                            Personal Information
+                        </Typography>
+                        <Typography variant="body1">Name: Scott, Alan</Typography>
+                        <Typography variant="body1">Date of Birth: July 4, 1980</Typography>
+
+                        <Divider sx={{ my: 1 }} />
+
+                        <Typography variant="body1">Contact Information:</Typography>
+                        <Typography variant="body1">Phone: +1 (555) 123-4567</Typography>
+                        <Typography variant="body1">Email: alan@email.org</Typography>
+
+                        <Divider sx={{ my: 1 }} />
+
+                        <Typography variant="body1">Address: 123 Healthway Drive, Meditown, State, 45678</Typography>
+
+                        <Divider sx={{ my: 1 }} />
+
+                        <Typography variant="body1">Emergency Contact:</Typography>
+                        <Typography variant="body1">Name: Jane Doe</Typography>
+                        <Typography variant="body1">Relationship: Spouse</Typography>
+                        <Typography variant="body1">Phone: +1 (555) 987-6543</Typography>
+
+                        <Divider sx={{ my: 1 }} />
+
+                        <Typography variant="h6" sx={{ mt: 2, mb: 1, fontWeight: "bold" }}>
+                            Chronic Conditions
+                        </Typography>
+                        <Typography variant="body1">Diabetes</Typography>
+
+                        <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
+                            <Button variant="contained" color="primary" onClick={toggleEdit}>
+                                Edit Patient Information
+                            </Button>
+                        </Box>
+
+              </>
+            )}
+          </Box>
+        )}
+     
+        {selectedTab === 4 && <Billing />}
+      </Paper>
+    </Box>
+  );
 }

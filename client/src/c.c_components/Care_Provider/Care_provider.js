@@ -21,9 +21,10 @@ import Create_new_process from "./Processes-Procedures/Create_new_process"
 import Create_new_procedure from "./Processes-Procedures/Create_new_procedure"
 
 import "../../stylesheets/App.css";
+import Dashboard from "./Dashboard";
 
 export default function CareProvider() {
-	const [currentPage, setCurrentPage] = useState("");
+	const [currentPage, setCurrentPage] = useState("Dashboard");
 
 	//  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved
 	return (
@@ -32,6 +33,7 @@ export default function CareProvider() {
 			<Box sx={{ display: "flex", flexGrow: 1 }}>
 				<Side_navigation_bar setCurrentPage={setCurrentPage} />
 				<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                    {currentPage === "Dashboard" && <Dashboard setCurrentPage={setCurrentPage} />}
 					{currentPage === "Discussion Board" && <Discussion_Board setCurrentPage={setCurrentPage} />}
 					{currentPage === "CreateDiscussionPost" && <CreateDiscussionPost setCurrentPage={setCurrentPage} />}
 					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
@@ -48,6 +50,7 @@ export default function CareProvider() {
                     {currentPage === "Procedures" && <Procedures setCurrentPage={setCurrentPage}/>}
                     {currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage}/>}
                     {currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage}/>}
+
 
 
             
