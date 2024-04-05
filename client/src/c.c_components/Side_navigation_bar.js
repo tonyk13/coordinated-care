@@ -22,6 +22,7 @@ export default function SideNavigationBar({ setCurrentPage }) {
 
 	const handleClick = (item) => {
 		console.log("Navigating to:", item.text);
+        if (item.text === "Home") setCurrentPage("Dashboard");
 		if (item.text === "Staff") setCurrentPage("Staff");
         if (item.text === "Processes") setCurrentPage("Processes");
 		if (item.text === "Procedures") setCurrentPage("Procedures");
