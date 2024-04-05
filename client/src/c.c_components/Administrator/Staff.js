@@ -7,14 +7,44 @@ import { Button, Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 
-export default function Faculty_Staff( {setCurrentPage, setCurrentFacultyInformation} ) {
+export default function Staff( {setCurrentPage, nameClicked,setnameClicked} ) {
     const [searchTerm, setSearchTerm] = React.useState('');
       
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
+    const handleNameClick = (name) => {
+        setCurrentPage("SpecificFaculty");
+        setnameClicked(name);
+        console.log(name);
+    };
+
+
+
+
     const columns = [
         { field: 'id', headerName: 'E.id', width: 70 },
+        {
+            field: 'fullName',
+            headerName: 'Full name',
+            description: 'Click to view more details.',
+            sortable: false,
+            width: 160,
+            valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
+            renderCell: (cellValues) => {
+                return (
+                  <div
+                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                    onClick={() => {
+                      const fullName = `${cellValues.row.firstName || ''} ${cellValues.row.lastName || ''}`;
+                      handleNameClick(fullName);
+                    }}
+                  >
+                    {`${cellValues.row.firstName || ''} ${cellValues.row.lastName || ''}`}
+                  </div>
+                );
+              },
+        },
         { field: 'firstName', headerName: 'First name', width: 130 },
         { field: 'lastName', headerName: 'Last name', width: 130 },
         {
@@ -26,29 +56,7 @@ export default function Faculty_Staff( {setCurrentPage, setCurrentFacultyInforma
           field: 'role',
           headerName: 'Role',
         },
-        {
-          field: 'fullName',
-          headerName: 'Full name',
-          description: 'This column has a value getter and is not sortable.',
-          sortable: false,
-          width: 160,
-          valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
-          renderCell: (params) => (
-            <span
-                style={{
-                    textDecoration: 'underline',
-                    color: 'dodgerblue',
-                    cursor: 'pointer',
-                }}
-                onClick={() => {
-                  setCurrentPage('Faculty Information');
-                  setCurrentFacultyInformation(params.row);
-                }}
-            >
-                {params.value}
-            </span>
-        ),
-        },
+
       ];
       
       const rows = [

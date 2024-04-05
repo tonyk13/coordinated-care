@@ -135,6 +135,9 @@ export default function Rooms( {setCurrentPage} ) {
         // setCurrentPage('home')
         console.log("save edits")
     };
+    const handleRoomEdit = () =>{
+        setCurrentPage('Edit_Rooms')
+    };
 
     
     return (
@@ -149,7 +152,7 @@ export default function Rooms( {setCurrentPage} ) {
                     <Button variant="contained" style={{ backgroundColor: 'green', width: '100px' }} onClick={saveEdits}>Request</Button>
                 </Box>
                 <Box ml={10}>
-                    <Button variant="contained" color="primary" style={{ width: '100px' }} onClick={saveEdits}>Save</Button>
+                    <Button variant="contained" color="primary" style={{ width: '100px' }} onClick={handleRoomEdit}>Edit</Button>
                 </Box>
                 <Box ml={10}>
                     <Button variant="contained" style={{ backgroundColor: 'red', color: 'white', width: '100px' }} onClick={saveEdits}>Cancel</Button>

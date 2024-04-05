@@ -1,15 +1,16 @@
 import { React, useState, useEffect } from "react";
 
-
 import WelcomePage from "./components/WelcomePage/WelcomePage.js";
 import Care_provider from "./c.c_components/Care_Provider/Care_provider.js";
 import Login from "./c.c_components/Login/Login.js";
 import Request_account from "./c.c_components/Request_Account/Request_account.js";
-import Admin from "./c.c_components/Administrator/Admin.js"
+import Admin from "./c.c_components/Administrator/Admin.js";
 
 import axios from "axios";
 import Cookie from "js-cookie";
-
+import Equipment from "./c.c_components/Care_Provider/Equipment/Equipment.js";
+import EditEquipment from "./c.c_components/Care_Provider/Equipment/EditEquipment.js";
+import DiscussionBoard from "./c.c_components/Discussion_Board/Discussion_Board.js";
 
 function App() {
 	const [currentPage, setCurrentPage] = useState("login");
@@ -71,17 +72,12 @@ function App() {
 	}, [databaseUpdateTrigger]);
 	*/
 
-
 	const handleLogout = async () => {
 		if (!isGuest) {
 			try {
-				const response = await axios.post(
-					"https://coordinated-care-cce88007d728.herokuapp.com/api/logout",
-					null,
-					{
-						withCredentials: true,
-					}
-				);
+				const response = await axios.post("https://coordinated-care-cce88007d728.herokuapp.com/api/logout", null, {
+					withCredentials: true,
+				});
 				console.log(response.data);
 				if (response.data.success) {
 					Cookie.remove("auth");
@@ -111,16 +107,22 @@ function App() {
 		//setSearchTrigger("");
 		switch (currentPage) {
 			case "admin":
-				return <Admin/>;
-            case "care-provider":
-                return <Care_provider setCurrentPage={setCurrentPage} />;
-            case "login":
-                return <Login setCurrentPage={setCurrentPage} />;
+				return <Admin />;
+			case "care-provider":
+				return <Care_provider setCurrentPage={setCurrentPage} />;
+			case "login":
+				return <Login setCurrentPage={setCurrentPage} />;
 			case "request-account":
 				return <Request_account setCurrentPage={setCurrentPage} />;
-            default:
-                return <div>Page not found</div>;
-        }
+			case "Equipment":
+				return <Equipment setCurrentPage={setCurrentPage} />;
+			case "EditEquipment":
+				return <EditEquipment setCurrentPage={setCurrentPage} />;
+			case "Discussion Board":
+				return <DiscussionBoard setCurrentPage={setCurrentPage} />;
+			default:
+				return <div>Page not found</div>;
+		}
 
 		/*
 		if (currentPage === "questionsPage") {
@@ -203,7 +205,7 @@ function App() {
 		*/
 	};
 
-/*
+	/*
 	return (
 		<div className="app">
 			{isOnline && (isLoggedIn || isGuest) ? (
@@ -227,12 +229,7 @@ function App() {
 		</div>
 	);
 	*/
-	return(
-		<div className="app">
-            {renderCurrentPage()}
-        </div>
-		
-	)
+	return <div className="app">{renderCurrentPage()}</div>;
 }
 
 export default App;
