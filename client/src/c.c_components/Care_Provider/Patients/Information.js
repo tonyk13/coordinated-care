@@ -10,10 +10,15 @@ import {
   Tabs,
 } from "@mui/material";
 import Billing from "./Billing";
+import EditBilling from "./EditBilling";
+import Documents from "./Documents";
+import Procedures from "./Procedures";
+
 
 export default function Information() {
   const [selectedTab, setSelectedTab] = useState(0);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // State to toggle between viewing and editing
+  const [isEditingInfo, setIsEditingInfo] = useState(false);
   const [formData, setFormData] = useState({
     name: "Scott, Alan",
     dob: "July 4, 1980",
@@ -28,9 +33,11 @@ export default function Information() {
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
-
+  const handleEditClick = () => {
+		setIsEditing(true);
+	};
   const toggleEdit = () => {
-    setIsEditing(!isEditing);
+    setIsEditingInfo(!isEditing);
   };
 
   const handleInputChange = (e) => {
@@ -80,7 +87,7 @@ export default function Information() {
 
         {selectedTab === 0 && (
           <Box sx={{ mt: 2 }}>
-            {isEditing ? (
+            {setIsEditingInfo ? (
               <>
                 <TextField
                   fullWidth
@@ -176,9 +183,15 @@ export default function Information() {
             )}
           </Box>
         )}
+        {selectedTab === 2 && <Procedures />}
+				{selectedTab === 3 && <Documents />}
+				{selectedTab === 4 && !isEditing && <Billing setCurrentPage={handleEditClick} />}
+				{selectedTab === 4 && isEditing && (
+					<EditBilling setCurrentPage={() => setIsEditing(false)} isEditing={isEditing} setIsEditing={setIsEditing} />
+				)}
      
-        {selectedTab === 4 && <Billing />}
       </Paper>
     </Box>
   );
+
 }

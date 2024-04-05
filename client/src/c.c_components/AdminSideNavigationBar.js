@@ -43,6 +43,7 @@ export default function AdminSideNavigationBar({ setCurrentPage }) {
 		if (item.text === "Rooms") setCurrentPage("Rooms");
 		if (item.text === "Discussion Board") setCurrentPage("Discussion Board");
 		if (item.text === "Patients") setCurrentPage("Patients");
+		if (item.text === "View User Feedback") setCurrentPage("View User Feedback");
 	};
 
 	return (
