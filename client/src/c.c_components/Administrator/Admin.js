@@ -6,6 +6,7 @@ import Discussion_Board from '../Discussion_Board/Discussion_Board';
 import Faculty_Staff from './Faculty_Staff';
 import Add_new_faculty from './Add_new_faculty';
 import UserFeedback from './UserFeedback/UserFeedback';
+import Faculty_Information from './Faculty_Information';
 
 
 
@@ -14,7 +15,7 @@ import "../../stylesheets/App.css"
 
 export default function Admin() {
     const [currentPage, setCurrentPage] = useState('');
-
+    const [currentFacultyInformation, setCurrentFacultyInformation] = useState([]);
 
 
   return (
@@ -29,7 +30,7 @@ export default function Admin() {
                 <Discussion_Board/>
           )}
           {currentPage === 'Faculty/Staff' && (
-                <Faculty_Staff setCurrentPage={setCurrentPage}/>
+                <Faculty_Staff setCurrentPage={setCurrentPage} setCurrentFacultyInformation={setCurrentFacultyInformation} />
           )}
 
           {currentPage === 'Add New Faculty' && (
@@ -39,6 +40,12 @@ export default function Admin() {
           {currentPage === 'View User Feedback' && (
                 <UserFeedback />
           )}
+
+            {currentPage === 'Faculty Information' && (
+                <Faculty_Information currentFacultyInformation={currentFacultyInformation} />
+          )}
+
+          
  
           </Box>
         </Box>

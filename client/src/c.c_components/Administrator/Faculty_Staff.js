@@ -7,7 +7,7 @@ import { Button, Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 
-export default function Faculty_Staff( {setCurrentPage} ) {
+export default function Faculty_Staff( {setCurrentPage, setCurrentFacultyInformation} ) {
     const [searchTerm, setSearchTerm] = React.useState('');
       
     const handleSearchChange = (event) => {
@@ -33,6 +33,21 @@ export default function Faculty_Staff( {setCurrentPage} ) {
           sortable: false,
           width: 160,
           valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
+          renderCell: (params) => (
+            <span
+                style={{
+                    textDecoration: 'underline',
+                    color: 'dodgerblue',
+                    cursor: 'pointer',
+                }}
+                onClick={() => {
+                  setCurrentPage('Faculty Information');
+                  setCurrentFacultyInformation(params.row);
+                }}
+            >
+                {params.value}
+            </span>
+        ),
         },
       ];
       
