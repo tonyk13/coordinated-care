@@ -100,3 +100,11 @@ html, body {
     padding-left: 90px !important;
     padding-right: 90px !important;
 }
+.facultyname{
+    color:dodgerblue;
+    padding-right: 10%;
+
+}
+.loginsettings{
+    font-size: large;
+}
