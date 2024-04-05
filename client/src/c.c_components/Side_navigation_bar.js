@@ -12,7 +12,7 @@ const drawerWidth = 240;
 export default function SideNavigationBar({ setCurrentPage }) {
 	const menuItems = [
 		{ text: "Home", icon: <HomeIcon /> },
-        { text: "Processes", icon: <MedicationIcon /> },
+		{ text: "Processes", icon: <MedicationIcon /> },
 		{ text: "Procedures", icon: <MedicationIcon /> },
 		{ text: "Patients", icon: <GroupsIcon /> },
 		{ text: "Rooms", icon: <RoomIcon /> },
@@ -22,9 +22,9 @@ export default function SideNavigationBar({ setCurrentPage }) {
 
 	const handleClick = (item) => {
 		console.log("Navigating to:", item.text);
-		if (item.text === "Home") setCurrentPage("Processes");
+		if (item.text === "Home") setCurrentPage("Dashboard");
 		if (item.text === "Staff") setCurrentPage("Staff");
-        if (item.text === "Processes") setCurrentPage("Processes");
+		if (item.text === "Processes") setCurrentPage("Processes");
 		if (item.text === "Procedures") setCurrentPage("Procedures");
 		if (item.text === "Equipment") setCurrentPage("Equipment");
 		if (item.text === "Rooms") setCurrentPage("Rooms");

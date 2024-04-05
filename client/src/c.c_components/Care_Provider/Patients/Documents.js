@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Button, TextField, Grid, Typography, Box, Link, Container, Pagination, Avatar } from "@mui/material";
-import EquipmentIcon from "@mui/icons-material/Vaccines";
 
 // Extra mui materials for Table (datatable is outdated)
 import { Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
-
-
 
 export default function Documents() {
 	const sample_document_data = [
@@ -25,12 +22,6 @@ export default function Documents() {
             access_level: "Public",
 		},	
 	];
-
-	// Same function for now for save cancel, just console logs clicked
-	const saveEdits = () => {
-		// setCurrentPage('home')
-		console.log("save edits");
-	};
 
 	return (
         <div>
