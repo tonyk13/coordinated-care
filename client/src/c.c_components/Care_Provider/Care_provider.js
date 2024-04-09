@@ -8,6 +8,7 @@ import Rooms from ".//Rooms/Rooms";
 import Equipment from ".//Equipment/Equipment";
 import EditEquipment from "./Equipment/EditEquipment";
 import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
+import Messages from "../Messages/Messages";
 import Staff from "../Administrator/Staff";
 import { Box } from "@mui/material";
 import Settings from "./Profile/Settings/Settings";
@@ -48,6 +49,7 @@ export default function CareProvider() {
 					{currentPage === "Staff" && <Staff setCurrentPage={setCurrentPage} />}
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
+					{currentPage === "send-feedback" && <Send_Feedback setCurrentPage={setCurrentPage} />}
 					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
 					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
 					{currentPage === "PatientInformation" && <PatientInformation setCurrentPage={setCurrentPage} />}
@@ -63,6 +65,7 @@ export default function CareProvider() {
 					{/* {currentPage === "Procedures" && <Procedures setCurrentPage={setCurrentPage}/>} */}
 					{currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage} />}
 					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} />}
+					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>
 		</Box>
