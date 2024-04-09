@@ -6,6 +6,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import ForumIcon from "@mui/icons-material/Forum";
 import RoomIcon from "@mui/icons-material/BedroomChild";
 import EquipmentIcon from "@mui/icons-material/Vaccines";
+import MessagesIcon from "@mui/icons-material/Email"
 
 const drawerWidth = 240;
 
@@ -18,6 +19,7 @@ export default function AdminSideNavigationBar({ setCurrentPage }) {
 		{ text: "Equipment", icon: <EquipmentIcon /> },
 		{ text: "Discussion Board", icon: <ForumIcon /> },
 		{ text: "View User Feedback", icon: <CommentIcon /> },
+		{ text: "Messages", icon: <MessagesIcon /> },
 	];
 
 	const handleClick = (item) => {
@@ -30,6 +32,7 @@ export default function AdminSideNavigationBar({ setCurrentPage }) {
 		if (item.text === "Discussion Board") setCurrentPage("Discussion Board");
 		if (item.text === "Patients") setCurrentPage("Patients");
 		if (item.text === "View User Feedback") setCurrentPage("View User Feedback");
+		if (item.text === "Messages") setCurrentPage("Messages");
 	};
 
 	return (
