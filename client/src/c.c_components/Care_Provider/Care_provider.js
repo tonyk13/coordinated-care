@@ -48,6 +48,7 @@ export default function CareProvider() {
 					{currentPage === "Staff" && <Staff setCurrentPage={setCurrentPage} />}
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
+					{currentPage === "send-feedback" && <Send_Feedback setCurrentPage={setCurrentPage} />}
 					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
 					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
 					{currentPage === "PatientInformation" && <PatientInformation setCurrentPage={setCurrentPage} />}
