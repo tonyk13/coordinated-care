@@ -42,8 +42,8 @@ const ProcessSchema = new mongoose.Schema({
 		required: true,
 	},
 	room: {
-		// should be a reference to a room object
-		type: String,
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Room",
 		required: true,
 	},
 	lastUpdated: {
@@ -52,8 +52,8 @@ const ProcessSchema = new mongoose.Schema({
 	},
 	sections: [SectionSchema],
 	physician: {
-		// should be a reference to a physician object
-		type: String,
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Employee",
 		required: true,
 	},
 	admissionDate: {
@@ -65,9 +65,9 @@ const ProcessSchema = new mongoose.Schema({
 		required: true,
 	},
 	equipment: {
-		// should be a reference to an equipment object
-		type: String,
-		required: false,
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Equipment",
+		required: true,
 	},
 	status: {
 		type: String,
