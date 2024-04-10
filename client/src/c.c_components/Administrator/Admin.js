@@ -15,6 +15,7 @@ import PatientInformation from "../Care_Provider/Patients/Information";
 import Billing from "../Care_Provider/Patients/Billing";
 import OrderLabTest from "../Care_Provider/Patients/Order_LabTest";
 import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
+import Messages from "../Messages/Messages";
 import Add_new_faculty from "./Add_new_faculty";
 import UserFeedback from "./UserFeedback/UserFeedback";
 import Edit_Rooms from "../Care_Provider/Rooms/Edit_Rooms";
@@ -66,6 +67,8 @@ export default function Admin() {
 
 					{currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage} />}
 					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} />}
+
+					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>
 		</Box>

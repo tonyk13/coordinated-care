@@ -6,6 +6,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ForumIcon from "@mui/icons-material/Forum";
 import MedicationIcon from "@mui/icons-material/Medication";
+import MessageIcon from "@mui/icons-material/Email";
 
 const drawerWidth = 240;
 
@@ -18,6 +19,7 @@ export default function SideNavigationBar({ setCurrentPage }) {
 		{ text: "Rooms", icon: <RoomIcon /> },
 		{ text: "Equipment", icon: <EquipmentIcon /> },
 		{ text: "Discussion Board", icon: <ForumIcon /> },
+		{ text: "Messages", icon: <MessageIcon /> },
 	];
 
 	const handleClick = (item) => {
@@ -30,6 +32,7 @@ export default function SideNavigationBar({ setCurrentPage }) {
 		if (item.text === "Rooms") setCurrentPage("Rooms");
 		if (item.text === "Discussion Board") setCurrentPage("Discussion Board");
 		if (item.text === "Patients") setCurrentPage("Patients");
+		if (item.text === "Messages") setCurrentPage("Messages");
 	};
 
 	return (
