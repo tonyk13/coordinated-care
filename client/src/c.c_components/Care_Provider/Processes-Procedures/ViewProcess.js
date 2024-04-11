@@ -28,7 +28,7 @@ const ChecklistSection = ({ title, items, physician }) => (
 	</Box>
 );
 
-const ViewProcess = ({ setCurrentPage, patient }) => {
+const ViewProcess = ({ setCurrentPage, patient: selectedProcess }) => {
 	const onEdit = () => {
 		setCurrentPage("EditProcess");
 	};
@@ -39,25 +39,27 @@ const ViewProcess = ({ setCurrentPage, patient }) => {
 				Process View
 			</Typography>
 			<Paper elevation={3} sx={{ p: 2 }}>
-				<Typography variant="h5">{patient.name}</Typography>
-				<Typography variant="subtitle1">{`Date of Birth: ${patient.dateOfBirth}`}</Typography>
-				<Typography variant="subtitle1">{`Treatment: ${patient.treatment}`}</Typography>
-				<Typography variant="subtitle1">{`Room: ${patient.room}`}</Typography>
-				<Typography variant="subtitle1">{`Last Updated: ${patient.lastUpdated}`}</Typography>
+				<Typography variant="h5">{selectedProcess.patientName}</Typography>
+				<Typography variant="subtitle1">{`Date of Birth: ${selectedProcess.dateOfBirth}`}</Typography>
+				<Typography variant="subtitle1">{`Treatment: ${selectedProcess.treatment}`}</Typography>
+				<Typography variant="subtitle1">{`Room: ${selectedProcess.roomNumber}`}</Typography>
+				<Typography variant="subtitle1">{`Last Updated: ${selectedProcess.lastUpdated}`}</Typography>
 				<Button variant="contained" color="primary" onClick={onEdit}>
 					Edit
 				</Button>
 			</Paper>
+			{/* These ChecklistSections should be conditionally rendered by going through the selectedProcess's "sections" 
+				array (and their respective "tasks" subarrays) */}
 			<ChecklistSection title="Pre-Operative Checkup" items={checklists.preOpCheckup} />
 			<ChecklistSection title="Pre-Operative Services" items={checklists.preOpServices} />
 			<ChecklistSection title="Day Prior to Treatment" items={checklists.dayPriorToTreatment} />
-			<ChecklistSection title="Intra-Operative" items={checklists.intraOperative} physician={patient.physician} />
+			<ChecklistSection title="Intra-Operative" items={checklists.intraOperative} physician={selectedProcess.employeeName} />
 			<ChecklistSection title="Post Anesthesia Care Unit / Post Discharge" items={checklists.postOpCare} />
 			<Divider sx={{ my: 2 }} />
 			<Box>
-				<Typography variant="subtitle1">{`Admission Date: ${patient.admissionDate}`}</Typography>
-				<Typography variant="subtitle1">{`Expected Discharge: ${patient.expectedDischarge}`}</Typography>
-				<Typography variant="subtitle1">{`Equipment: ${patient.equipment}`}</Typography>
+				<Typography variant="subtitle1">{`Admission Date: ${selectedProcess.admissionDate}`}</Typography>
+				<Typography variant="subtitle1">{`Expected Discharge: ${selectedProcess.expectedDischarge}`}</Typography>
+				<Typography variant="subtitle1">{`Equipment: ${selectedProcess.equipment}`}</Typography>
 			</Box>
 		</Container>
 	);

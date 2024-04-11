@@ -1,10 +1,20 @@
 const processModel = require("../models/process");
 const moment = require("moment");
 const patientModel = require("../models/patient");
+const employeeModel = require("../models/employee");
+const roomModel = require("../models/room");
+const equipmentModel = require("../models/equipment");
 
 exports.all_processes = async (req, res, next) => {
 	try {
-		const processes = await processModel.find().populate("patient", "name").exec();
+		const processes = await processModel
+			.find()
+			.populate("patient", "name")
+			.populate("physician", "firstName middleName lastName")
+			.populate("room", "roomNumber")
+			.populate("equipment", "equipmentName")
+			.exec();
+
 		// console.log(processes);
 
 		const formattedProcesses = processes.map((process) => {
@@ -12,15 +22,33 @@ exports.all_processes = async (req, res, next) => {
 				// console.log(`Process with ID ${process._id} has no patient.`);
 				return process;
 			}
+
+			const fullName = [process.physician.firstName, process.physician.middleName, process.physician.lastName]
+				.filter(Boolean)
+				.join(" ");
+
+			// console.log(fullName);
+
+			const roomNumber = process.room ? process.room.roomNumber : "No room";
+
+			const equipmentName = process.equipment ? process.equipment.equipmentName : "No equipment";
+
+			// console.log(equipment);
+
 			return {
 				...process.toObject({ virtuals: true }),
 				patientName: process.patient.name,
+				employeeName: fullName,
+				roomNumber: roomNumber,
+				equipment: equipmentName,
 				dateOfBirth: moment(process.dateOfBirth).format("MM/DD/YYYY"),
 				lastUpdated: moment(process.lastUpdated).format("MM/DD/YYYY"),
 				admissionDate: moment(process.admissionDate).format("MM/DD/YYYY"),
 				expectedDischarge: moment(process.expectedDischarge).format("MM/DD/YYYY"),
 			};
 		});
+
+		// console.log(formattedProcesses);
 
 		res.json(formattedProcesses);
 	} catch (error) {
