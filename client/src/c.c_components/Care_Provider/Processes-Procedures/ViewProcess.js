@@ -40,7 +40,7 @@ const ViewProcess = ({ setCurrentPage, patient }) => {
 			</Typography>
 			<Paper elevation={3} sx={{ p: 2 }}>
 				<Typography variant="h5">{patient.name}</Typography>
-				<Typography variant="subtitle1">{`Date of Birth: ${patient.dob}`}</Typography>
+				<Typography variant="subtitle1">{`Date of Birth: ${patient.dateOfBirth}`}</Typography>
 				<Typography variant="subtitle1">{`Treatment: ${patient.treatment}`}</Typography>
 				<Typography variant="subtitle1">{`Room: ${patient.room}`}</Typography>
 				<Typography variant="subtitle1">{`Last Updated: ${patient.lastUpdated}`}</Typography>

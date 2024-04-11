@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+// Contains references to: Employee, Room
+
 const AppointmentSchema = new mongoose.Schema({
 	dateTime: {
 		type: Date,
@@ -25,6 +27,8 @@ const AppointmentSchema = new mongoose.Schema({
 		required: true,
 	},
 });
+
+// Contains references to: Employee, Room
 
 const ProcedureSchema = new mongoose.Schema({
 	dateTime: {
@@ -92,6 +96,8 @@ const EmergencyContactSchema = new mongoose.Schema({
 	relationship: String,
 	phoneNumber: String,
 });
+
+// Contains references to: Employee
 
 const PatientSchema = new mongoose.Schema({
 	name: {

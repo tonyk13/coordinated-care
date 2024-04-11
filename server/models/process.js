@@ -27,6 +27,8 @@ const SectionSchema = new mongoose.Schema({
 	tasks: [TaskSchema],
 });
 
+// Contains references to: Patient, Room, Employee, Equipment
+
 const ProcessSchema = new mongoose.Schema({
 	patient: {
 		type: mongoose.Schema.Types.ObjectId,
