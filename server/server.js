@@ -2,11 +2,15 @@
 // The server should run on localhost port 8000.
 // This is where you should start writing server-side code for this application.
 require('dotenv').config();
+console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
+console.log('CORS_ORIGIN:', process.env.CORS_ORIGIN);
+
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
 const port = process.env.PORT || 8000;
+console.log("RUNNING ON PORT: ", port);
 
 const answersRoutes = require("./routes/answersRoutes");
 const tagsRoutes = require("./routes/tagsRoutes");
@@ -87,7 +91,7 @@ process.on("SIGINT", () => {
 });
 
 // Start server
-const server = app.listen(process.env.PORT , () => {
+const server = app.listen(port , () => {
 	console.log(`Server running on port ${port}`);
 });
 

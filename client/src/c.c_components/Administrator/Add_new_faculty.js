@@ -1,23 +1,56 @@
 import React, { useState } from "react";
-import { Button, TextField, Grid, Typography, Box, Container } from "@mui/material";
+import { Button, TextField, Grid, Typography, Box, Container , Select,InputLabel, MenuItem , Snackbar } from "@mui/material";
+import axios from 'axios';
 
-export default function Add_new_faculty({ setCurrentPage }) {
+
+
+export default function Add_new_faculty({ setCurrentPage , snackbarOpen,handleCloseSnackbar, setSnackbarOpen   }) {
 	const [formData, setFormData] = useState({
-		fullName: "",
+		firstName: "",
+		lastName: "",
+		dateOfBirth: "",
 		phoneNumber: "",
 		address: "",
-		emailAddress: "",
+		email: "",
+		role: "",
 		professionalQualifications: "",
 	});
+	
+
+	
 
 	const handleChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
+	const allFieldsFilled = () => {
+        return Object.values(formData).every(value => value.trim() !== "");
+    };
 
 	// Same function for now for save cancel, just console logs clicked
 	const saveEdits = () => {
-		setCurrentPage("Faculty/Staff");
-		console.log("save edits");
+		
+		if (allFieldsFilled()) {
+            console.log("Form data:", formData);
+			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+			const apiUrl = `${baseURL}/api/createaccount`;
+			
+
+			axios.post(apiUrl, formData)
+            	.then(response => {
+                	console.log(response.data); 
+                	setSnackbarOpen(true); 
+                	setCurrentPage("Staff"); 
+            	})
+            	.catch(error => {
+                	console.error("There was an error creating the account:", error);
+        
+            });
+			
+
+
+        } else {
+            alert("Please fill in all the fields.");
+        }
 	};
 
 	return (
@@ -31,12 +64,35 @@ export default function Add_new_faculty({ setCurrentPage }) {
 								fullWidth
 								rows={1}
 								type="text"
-								name="fullName"
-								label="Full Name"
-								value={formData.fullName}
+								name="firstName"
+								label="First Name"
+								value={formData.firstName}
 								onChange={handleChange}
 							/>
 						</Grid>
+						<Grid item xs={16}>
+							<TextField
+								fullWidth
+								rows={1}
+								type="text"
+								name="lastName"
+								label="Last Name"
+								value={formData.lastName}
+								onChange={handleChange}
+							/>
+						</Grid>
+						<Grid item xs={16}>
+						  <InputLabel id="dateOfBirth">Date of birth:</InputLabel>
+							<TextField
+								fullWidth
+								rows={1}
+								type="date"
+								name="dateOfBirth"
+								value={formData.dateOfBirth}
+								onChange={handleChange}
+							/>
+						</Grid>
+
 						<Grid item xs={16}>
 							<TextField
 								fullWidth
@@ -64,11 +120,29 @@ export default function Add_new_faculty({ setCurrentPage }) {
 								fullWidth
 								rows={1}
 								type="email"
-								name="emailAddress"
+								name="email"
 								label="Email Address"
-								value={formData.emailAddress}
+								value={formData.email}
 								onChange={handleChange}
 							/>
+						</Grid>
+						<Grid item xs={16}>
+						<InputLabel id="role">Role</InputLabel>
+    						<Select fullWidth
+      							labelId="role"
+      							id="role"
+      							value={formData.role}
+      							label="Role"
+      							onChange={handleChange}
+      							name="role"
+    							>
+      							<MenuItem value="Admin">Admin</MenuItem>
+      							<MenuItem value="Nurse">Nurse</MenuItem>
+								<MenuItem value="Doctor">Doctor</MenuItem>
+								<MenuItem value="Hospital Faculty">Hospital Faculty</MenuItem>
+
+
+    						</Select>
 						</Grid>
 						<Grid item xs={16}>
 							<TextField
@@ -98,6 +172,12 @@ export default function Add_new_faculty({ setCurrentPage }) {
 					Cancel
 				</Button>
 			</Box>
+			<Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                message="Form submitted successfully"
+            />
 		</div>
 	);
 }
