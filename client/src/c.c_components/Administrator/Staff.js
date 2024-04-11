@@ -3,11 +3,11 @@ import React from 'react'
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
-import { Button, Box } from '@mui/material';
+import { Button, Box, Snackbar } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 
-export default function Staff( {setCurrentPage, nameClicked,setnameClicked} ) {
+export default function Staff( {setCurrentPage, nameClicked,setnameClicked , snackbarOpen, handleCloseSnackbar } ) {
     const [searchTerm, setSearchTerm] = React.useState('');
       
     const handleSearchChange = (event) => {
@@ -107,6 +107,13 @@ export default function Staff( {setCurrentPage, nameClicked,setnameClicked} ) {
               checkboxSelection
             />
           </div>
+          <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                message= "New Faculty Added! Email sent !"
+          />
+
           </>
           );
 }

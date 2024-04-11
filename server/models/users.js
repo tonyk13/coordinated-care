@@ -5,27 +5,58 @@ var Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
 var userSchema = new Schema({
-    email: {
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
+    phoneNumber: {
         type: String,
         required: true,
         unique: true,
     },
+    address: {
+        type: String,
+        required: true,
+    },
+    professionalQualifications: {
+        type: String,
+        required: true,
+    },
+    emailAddress: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    role: {
+        type: String ,
+        required: true,
+        enum: ['Admin', 'Care Provider'],
+    },
+    
+    /*
     username: {
         type: String,
         required: true,
     },
+    */
     passwordHash: {
         type: String,
-        required: true,
+        //required: true,
     },
     createdAt: {
         type: Date,
         default: new Date(),
     },
+    /*
     reputation: {
         type: Number,
         default: 0,
     },
+    
     questions: [
         {
             type: Schema.Types.ObjectId,
@@ -50,6 +81,7 @@ var userSchema = new Schema({
             ref: "commentModel",
         },
     ],
+    
     isAdmin: {
         type: Boolean,
         default: false,
@@ -90,12 +122,14 @@ var userSchema = new Schema({
             ref: "commentModel",
         },
     ],
+    */
 });
 
 // userSchema.virtual("url").get(function () {
 //     return `posts/answer/_id`;
 // });
 
+/*
 userSchema.path("questions").default([]);
 userSchema.path("answers").default([]);
 userSchema.path("comments").default([]);
@@ -106,5 +140,6 @@ userSchema.pre("save", async function (next) {
     }
     next();
 });
+*/
 
 module.exports = mongoose.model("userModel", userSchema);

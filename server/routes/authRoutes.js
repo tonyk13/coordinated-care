@@ -19,11 +19,15 @@ const {
     getUserIsAdmin,
     getAllUsers,
     deleteUser,
+    ResetPassword,
 } = require("../controllers/authController");
 const { userVerification } = require("../authMiddleware");
 
 // POST request for create account.
 router.post("/createaccount", CreateAccount);
+
+//POST request for resetting password
+router.post("/reset-password", ResetPassword);
 
 // POST request for login.
 router.post("/login", Login);
