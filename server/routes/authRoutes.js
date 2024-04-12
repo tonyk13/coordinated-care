@@ -19,11 +19,25 @@ const {
     getUserIsAdmin,
     getAllUsers,
     deleteUser,
+    ResetPassword,
+    getAllEmployees,
+    getEmployee
 } = require("../controllers/authController");
 const { userVerification } = require("../authMiddleware");
 
 // POST request for create account.
 router.post("/createaccount", CreateAccount);
+
+//POST request for resetting password
+router.post("/reset-password", ResetPassword);
+
+router.get("/getAllUsers/:_id", getAllUsers);
+
+router.get("/getAllEmployees/", getAllEmployees);
+
+router.get("/employees/:IdClicked", getEmployee);
+
+
 
 // POST request for login.
 router.post("/login", Login);

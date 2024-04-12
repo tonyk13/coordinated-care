@@ -16,7 +16,7 @@ const EmployeeSchema = new mongoose.Schema({
 		required: true,
 	},
 	dateOfBirth: {
-		type: Date,
+		type: String,
 		required: true,
 	},
 	phoneNumber: {
@@ -25,7 +25,7 @@ const EmployeeSchema = new mongoose.Schema({
 	},
 	username: {
 		type: String,
-		required: true,
+		required: false,
 	},
 	email: {
 		type: String,
@@ -33,22 +33,22 @@ const EmployeeSchema = new mongoose.Schema({
 	},
 	passwordHash: {
 		type: String,
-		required: true,
+		required: false,
 	},
 	privacySettings: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "PrivacySettings",
-		required: true,
+		required: false,
 	},
 	notificationSettings: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "NotificationSettings",
-		required: true,
+		required: false,
 	},
 	role: {
 		type: String,
 		required: true,
-		enum: ["Nurse", "Doctor", "Hospital Faculty"],
+		enum: ["Nurse", "Doctor", "Hospital Faculty", "Admin"],
 	},
 	messages: {
 		type: [mongoose.Schema.Types.ObjectId],
@@ -62,7 +62,7 @@ const EmployeeSchema = new mongoose.Schema({
 	emergencyContact: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "EmergencyContact",
-		required: true,
+		required: false,
 	},
 	professionalCredentials: {
 		type: [String],
@@ -82,6 +82,12 @@ const EmployeeSchema = new mongoose.Schema({
 	schedule: {
 		type: [String],
 		required: false,
+	},
+	professionalQualifications: {
+		type: String,
+	},
+	resetPasswordToken: {
+		type: String,
 	},
 });
 

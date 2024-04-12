@@ -24,6 +24,7 @@ import ViewProcess from "../Care_Provider/Processes-Procedures/ViewProcess";
 import EditProcess from "../Care_Provider/Processes-Procedures/EditProcess";
 import Create_new_process from "../Care_Provider/Processes-Procedures/Create_new_process";
 import Create_new_procedure from "../Care_Provider/Processes-Procedures/Create_new_procedure";
+import AccountRequests from "./AccountRequests";
 
 import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure";
 
@@ -33,9 +34,16 @@ import "../../stylesheets/App.css";
 import SpecificFaculty from "./SpecificFaculty";
 
 export default function Admin() {
-	const [currentPage, setCurrentPage] = useState("");
-	const [nameClicked, setnameClicked] = useState("");
+	const [currentPage, setCurrentPage] = useState("Processes");
+	const [IdClicked, setIdClicked] = useState("");
 	const [patient, setPatient] = useState(null);
+	const [snackbarOpen, setSnackbarOpen] = useState(false);
+	const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -51,7 +59,7 @@ export default function Admin() {
 					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "Staff" && (
-						<Staff setCurrentPage={setCurrentPage} nameClicked={nameClicked} setnameClicked={setnameClicked} />
+						<Staff setCurrentPage={setCurrentPage}  IdClicked={IdClicked} setIdClicked={setIdClicked} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar}  />
 					)}
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
@@ -60,9 +68,9 @@ export default function Admin() {
 					{currentPage === "PatientInformation" && <PatientInformation setCurrentPage={setCurrentPage} />}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
-					{currentPage === "Add New Faculty" && <Add_new_faculty setCurrentPage={setCurrentPage} />}
+					{currentPage === "Add New Faculty" && <Add_new_faculty setCurrentPage={setCurrentPage} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar}/>}
 					{currentPage === "View User Feedback" && <UserFeedback />}
-					{currentPage === "SpecificFaculty" && <SpecificFaculty nameClicked={nameClicked} />}
+					{currentPage === "SpecificFaculty" && <SpecificFaculty IdClicked={IdClicked} />}
 					{currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage} />}
 
 					{currentPage === "Processes" && <Processes setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
@@ -77,6 +85,8 @@ export default function Admin() {
 					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
 
 					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
+
+					{currentPage === "Account Requests" && <AccountRequests setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>
 		</Box>
