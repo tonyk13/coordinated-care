@@ -20,6 +20,10 @@ const authRoutes = require("./routes/authRoutes");
 const commentsRoutes = require("./routes/commentsRoutes");
 
 const processesRoutes = require("./routes/processesRoutes");
+const patientsRoutes = require("./routes/patientsRoutes");
+const employeesRoutes = require("./routes/employeesRoutes");
+const roomsRoutes = require("./routes/roomsRoutes");
+const equipmentRoutes = require("./routes/equipmentRoutes");
 
 const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser");
@@ -69,6 +73,10 @@ app.use("/api", commentsRoutes);
 
 // ***All new routes go here***
 app.use("/api", processesRoutes);
+app.use("/api", patientsRoutes);
+app.use("/api", employeesRoutes);
+app.use("/api", roomsRoutes);
+app.use("/api", equipmentRoutes);
 
 // Serve static files from the React app build directory
 const path = require("path");
