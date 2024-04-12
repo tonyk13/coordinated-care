@@ -2,7 +2,7 @@ import React from "react";
 import RoomIcon from "@mui/icons-material/BedroomChild";
 import { Button, TextField, Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
-export default function Edit_Rooms() {
+export default function Edit_Rooms({ setCurrentPage }) {
 	const [room, setRoom] = React.useState("");
 	const [name, setName] = React.useState("Input");
 
@@ -106,8 +106,8 @@ export default function Edit_Rooms() {
 			<br />
 			<br />
 			<Button variant="contained">Save</Button>
-			<Button variant="contained" color="error" sx={{ ml: 5 }}>
-				cancel
+			<Button variant="contained" color="error" sx={{ ml: 5 }} onClick={() => setCurrentPage("Rooms")}>
+				Cancel
 			</Button>
 		</>
 	);

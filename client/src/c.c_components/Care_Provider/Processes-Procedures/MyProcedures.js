@@ -18,7 +18,7 @@ const MyProcedures = ({ setCurrentPage }) => {
 				My Assigned Procedures
 			</Typography>
 			<Button variant="contained" onClick={handleNewProcedureClick} sx={{ ml: 2 }}>
-				Add new Procedure
+				Create New Procedure
 			</Button>
 			<Table aria-label="simple table">
 				<TableHead>
