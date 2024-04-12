@@ -21,7 +21,8 @@ const {
     deleteUser,
     ResetPassword,
     getAllEmployees,
-    getEmployee
+    getEmployee,
+    SendResetPasswordEmail
 } = require("../controllers/authController");
 const { userVerification } = require("../authMiddleware");
 
@@ -30,6 +31,9 @@ router.post("/createaccount", CreateAccount);
 
 //POST request for resetting password
 router.post("/reset-password", ResetPassword);
+
+
+router.post("/send-reset-email", SendResetPasswordEmail);
 
 router.get("/getAllUsers/:_id", getAllUsers);
 

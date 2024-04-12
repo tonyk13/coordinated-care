@@ -140,8 +140,30 @@ module.exports.CreateAccount = async (req, res, next) => {
 		console.error(error);
 	}
 };
+module.exports.SendResetPasswordEmail = async (req, res, next) =>{
+	try{
+		const {id} = req.body;
+		const employee = await Employee.findOne({
+			_id: id,
+		});
+		if (!employee) {
+			return res.status(400).send('employee with requested id not found. ');
+		}
+
+		try{
+			await sendPasswordResetEmail(employee.email, employee.resetPasswordToken);
+		}catch(err){
+			console.error('Error sending email:', err);
+			}
 
 
+
+	}catch(err){
+		console.log(err);
+	}
+
+};
+//handles overwriting existing password
 module.exports.ResetPassword = async (req, res, next) => {
 	try {
 		const {
@@ -155,7 +177,7 @@ module.exports.ResetPassword = async (req, res, next) => {
 			return res.status(400).send('employee with requested token not found. ');
 		}
 		employee.passwordHash = password;
-		employee.resetPasswordToken = undefined;
+		//employee.resetPasswordToken = undefined;
 
 		await employee.save();
 

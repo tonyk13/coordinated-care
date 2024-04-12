@@ -3,7 +3,7 @@ import axios from 'axios';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { Paper, Typography,FormControl,InputLabel,Select,MenuItem,Button } from '@mui/material';
+import { Paper, Typography,FormControl,InputLabel,Select,MenuItem,Button, Snackbar } from '@mui/material';
 import "../../stylesheets/App.css"
 import Faculty_Information from './Faculty_Information';
 import Schedules from "../Staff/Schedules"
@@ -31,6 +31,7 @@ function TabPanel(props) {
 
 export default function SpecificFaculty({IdClicked}) {
   const [value, setValue] = React.useState('1');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [facultyInfo, setFacultyInfo] = useState({
     firstName: '',
     lastName: '',
@@ -38,6 +39,12 @@ export default function SpecificFaculty({IdClicked}) {
     email: '',
     role: '',
   });
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+    setSnackbarOpen(false);
+};
   useEffect(() => {
     const fetchFacultyDetails = async () => {
       try {
@@ -67,6 +74,21 @@ export default function SpecificFaculty({IdClicked}) {
 
   const handleDropDownChange = (event) => {
     setRole(event.target.value);
+  };
+  const handleResetPassword = () => {
+    const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+			const apiUrl = `${baseURL}/api/send-reset-email`;
+			console.log(IdClicked);
+
+			axios.post(apiUrl, { id: IdClicked } )
+            	.then(response => {
+                	console.log(response);
+            	})
+            	.catch(error => {
+                	console.error("There was an error resetting password:", error);
+        
+            });
+            setSnackbarOpen(true); 
   };
   
 
@@ -107,12 +129,18 @@ export default function SpecificFaculty({IdClicked}) {
             </Select>
         </FormControl>
         <br/><br/>
-        <Button variant="contained">Reset Password</Button>
+        <Button variant="contained" onClick={handleResetPassword}>Reset Password</Button>
         </Paper>   
       </TabPanel>
       <TabPanel value={value} index="3">
         <Schedules nameClicked={facultyInfo.name} />
       </TabPanel>
+      <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                message= "Password Reset! Email sent !"
+          />
     </Box>
   );
 }
