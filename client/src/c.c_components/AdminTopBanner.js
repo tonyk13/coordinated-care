@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Box, IconButton, Tooltip, Avatar, Menu, MenuItem, Typography } from '@mui/material';
 import heartlogo from '../c.c_components/img/Heart_Rate.png'
 import '../stylesheets/App.css'
+import LogoutButton from './Login/LogoutButton';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const settings = ['Profile', 'Settings', 'Logout'];
 
@@ -9,6 +11,8 @@ const settings = ['Profile', 'Settings', 'Logout'];
 export default function Topbanner({setCurrentPage}) {
 
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const { logout } = useAuth0();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -20,8 +24,10 @@ export default function Topbanner({setCurrentPage}) {
         setCurrentPage('Settings Page');
     }
     if(setting==='Profile'){
-      setCurrentPage('profile-screen')
-      
+      setCurrentPage('profile-screen') 
+    }
+    if (setting === 'Logout') {
+      setShowLogoutModal(true);
     }
 
   };
@@ -66,6 +72,7 @@ export default function Topbanner({setCurrentPage}) {
       </Menu>
     </Box>
     </div>
+    {showLogoutModal && <LogoutButton setShowLogoutModal={setShowLogoutModal} />}
     </>
   );
 }
