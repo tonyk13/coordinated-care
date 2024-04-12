@@ -31,7 +31,7 @@ import SpecificFaculty from "./SpecificFaculty";
 
 export default function Admin() {
 	const [currentPage, setCurrentPage] = useState("Processes");
-	const [nameClicked, setnameClicked] = useState("");
+	const [IdClicked, setIdClicked] = useState("");
 	const [patient, setPatient] = useState(null);
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const handleCloseSnackbar = (event, reason) => {
@@ -55,7 +55,7 @@ export default function Admin() {
 					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "Staff" && (
-						<Staff setCurrentPage={setCurrentPage} nameClicked={nameClicked} setnameClicked={setnameClicked} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar}  />
+						<Staff setCurrentPage={setCurrentPage}  IdClicked={IdClicked} setIdClicked={setIdClicked} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar}  />
 					)}
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
@@ -66,7 +66,7 @@ export default function Admin() {
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
 					{currentPage === "Add New Faculty" && <Add_new_faculty setCurrentPage={setCurrentPage} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar}/>}
 					{currentPage === "View User Feedback" && <UserFeedback />}
-					{currentPage === "SpecificFaculty" && <SpecificFaculty nameClicked={nameClicked} />}
+					{currentPage === "SpecificFaculty" && <SpecificFaculty IdClicked={IdClicked} />}
 					{currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage} />}
 
 					{currentPage === "Processes" && <Processes setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
