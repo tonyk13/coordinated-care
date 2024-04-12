@@ -40,6 +40,7 @@ export default function EditEquipment({ setCurrentPage }) {
 							Edit Equipment
 						</Typography>
 					</Box>
+
 					<FormInputDate name="dateValue" control={control} label="Date Input*" />
 					<FormInputDropdown name="equipment" control={control} label="Equipment*" />
 					<FormInputText required name="textValue" control={control} label="Quantity*" />

@@ -32,7 +32,13 @@ const MyProcedures = ({ setCurrentPage }) => {
 					{procedures.map((procedure) => (
 						<TableRow key={procedure.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 							<TableCell component="th" scope="row">
-								{procedure.name}
+								<span
+									onClick={() => setCurrentPage("EditProcedure")}
+									style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
+									role="button"
+								>
+									{procedure.name}
+								</span>
 							</TableCell>
 							<TableCell>{procedure.patient}</TableCell>
 							<TableCell>{procedure.date}</TableCell>
