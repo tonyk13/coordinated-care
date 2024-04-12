@@ -140,8 +140,30 @@ module.exports.CreateAccount = async (req, res, next) => {
 		console.error(error);
 	}
 };
+module.exports.SendResetPasswordEmail = async (req, res, next) =>{
+	try{
+		const {id} = req.body;
+		const employee = await Employee.findOne({
+			_id: id,
+		});
+		if (!employee) {
+			return res.status(400).send('employee with requested id not found. ');
+		}
+
+		try{
+			await sendPasswordResetEmail(employee.email, employee.resetPasswordToken);
+		}catch(err){
+			console.error('Error sending email:', err);
+			}
 
 
+
+	}catch(err){
+		console.log(err);
+	}
+
+};
+//handles overwriting existing password
 module.exports.ResetPassword = async (req, res, next) => {
 	try {
 		const {
@@ -155,7 +177,7 @@ module.exports.ResetPassword = async (req, res, next) => {
 			return res.status(400).send('employee with requested token not found. ');
 		}
 		employee.passwordHash = password;
-		employee.resetPasswordToken = undefined;
+		//employee.resetPasswordToken = undefined;
 
 		await employee.save();
 
@@ -207,6 +229,27 @@ module.exports.getEmployee = async (req, res) => {
 		});
 	}
 };
+
+module.exports.updateEmployeeRole = async (req, res) => {
+	const { id } = req.params;
+    const { role } = req.body;
+
+    try {
+        const employee = await Employee.findById(id);
+        if (!employee) {
+            return res.status(404).json({ success: false, message: "Employee not found" });
+        }
+
+        employee.role = role;
+        await employee.save();
+
+        res.status(200).json({ success: true, message: 'Role updated successfully', data: employee });
+    } catch (error) {
+        console.error('Error updating employee role:', error);
+        res.status(500).json({ success: false, message: 'Failed to update role' });
+    }
+};
+
 
 
 module.exports.Login = async (req, res, next) => {
