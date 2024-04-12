@@ -27,6 +27,10 @@ import Processes from "./Processes-Procedures/Processes";
 import Create_new_process from "./Processes-Procedures/Create_new_process";
 import Create_new_procedure from "./Processes-Procedures/Create_new_procedure";
 
+import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure";
+
+import EditAppointment from "../Care_Provider/Patients/EditAppointment";
+
 import "../../stylesheets/App.css";
 import Dashboard from "./Dashboard";
 
@@ -65,7 +69,9 @@ export default function CareProvider() {
 					{/* {currentPage === "Procedures" && <Procedures setCurrentPage={setCurrentPage}/>} */}
 					{currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage} />}
 					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} />}
+					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} />}
 					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
+					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>
 		</Box>

@@ -26,6 +26,10 @@ import Create_new_process from "../Care_Provider/Processes-Procedures/Create_new
 import Create_new_procedure from "../Care_Provider/Processes-Procedures/Create_new_procedure";
 import AccountRequests from "./AccountRequests";
 
+import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure";
+
+import EditAppointment from "../Care_Provider/Patients/EditAppointment";
+
 import "../../stylesheets/App.css";
 import SpecificFaculty from "./SpecificFaculty";
 
@@ -75,6 +79,10 @@ export default function Admin() {
 
 					{currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage} />}
 					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} />}
+
+					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} />}
+
+					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
 
 					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
 

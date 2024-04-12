@@ -83,13 +83,12 @@ const EmployeeSchema = new mongoose.Schema({
 		type: [String],
 		required: false,
 	},
-	professionalQualifications:{
-		type: String
+	professionalQualifications: {
+		type: String,
 	},
-	resetPasswordToken:{
-		type: String
+	resetPasswordToken: {
+		type: String,
 	},
-
 });
 
 const Employee = mongoose.model("Employee", EmployeeSchema);
