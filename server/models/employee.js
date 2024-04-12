@@ -48,7 +48,7 @@ const EmployeeSchema = new mongoose.Schema({
 	role: {
 		type: String,
 		required: true,
-		enum: ["Nurse", "Doctor", "Hospital Faculty", "Admin"],
+		enum: ["Nurse", "Doctor", "Hospital Faculty", "Admin", "Care Provider"],
 	},
 	messages: {
 		type: [mongoose.Schema.Types.ObjectId],
