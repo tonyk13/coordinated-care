@@ -4,7 +4,7 @@ describe('Processes Screen', () => {
       cy.visit('https://coordinated-care-cce88007d728.herokuapp.com')
     })
     it('should render table when processes is clicked', () => {
-      cy.contains('.MuiListItemText-primary', 'processes').click();
+      cy.contains('.Processes').click();
       cy.get('#questionsButton').should('be.visible');
       
       it('should verify Searchbar element is visible', () => {
