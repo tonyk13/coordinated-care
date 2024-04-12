@@ -13,13 +13,14 @@ exports.all_processes = async (req, res, next) => {
 			.populate("physician", "firstName middleName lastName")
 			.populate("room", "roomNumber")
 			.populate("equipment", "equipmentName")
+			.populate({
+				path: "sections.tasks.assignedTo",
+				select: "role firstName middleName lastName",
+			})
 			.exec();
-
-		// console.log(processes);
 
 		const formattedProcesses = processes.map((process) => {
 			if (!process.patient) {
-				// console.log(`Process with ID ${process._id} has no patient.`);
 				return process;
 			}
 
@@ -27,13 +28,35 @@ exports.all_processes = async (req, res, next) => {
 				.filter(Boolean)
 				.join(" ");
 
-			// console.log(fullName);
-
 			const roomNumber = process.room ? process.room.roomNumber : "No room";
 
 			const equipmentName = process.equipment ? process.equipment.equipmentName : "No equipment";
 
-			// console.log(equipment);
+			const sections = process.sections.map((section) => ({
+				...section.toObject(),
+				tasks: section.tasks.map((task) => {
+					if (task.assignedTo) {
+						console.log("Assigned To:", {
+							fullName: [task.assignedTo.firstName, task.assignedTo.middleName, task.assignedTo.lastName]
+								.filter(Boolean)
+								.join(" "),
+							role: task.assignedTo.role,
+						});
+					}
+
+					return {
+						...task.toObject(),
+						assignedTo: task.assignedTo
+							? {
+									fullName: [task.assignedTo.firstName, task.assignedTo.middleName, task.assignedTo.lastName]
+										.filter(Boolean)
+										.join(" "),
+									role: task.assignedTo.role,
+							  }
+							: null,
+					};
+				}),
+			}));
 
 			return {
 				...process.toObject({ virtuals: true }),
@@ -45,10 +68,9 @@ exports.all_processes = async (req, res, next) => {
 				lastUpdated: moment(process.lastUpdated).format("MM/DD/YYYY"),
 				admissionDate: moment(process.admissionDate).format("MM/DD/YYYY"),
 				expectedDischarge: moment(process.expectedDischarge).format("MM/DD/YYYY"),
+				sections: sections,
 			};
 		});
-
-		// console.log(formattedProcesses);
 
 		res.json(formattedProcesses);
 	} catch (error) {
@@ -71,22 +93,96 @@ exports.create_process = async (req, res, next) => {
 
 exports.get_process = async (req, res) => {
 	try {
-		const process = await processModel.findById(req.params._id).exec();
+		const process = await processModel
+			.findById(req.params._id)
+			.populate("patient", "name")
+			.populate("physician", "firstName middleName lastName")
+			.populate("room", "roomNumber")
+			.populate("equipment", "equipmentName")
+			.populate({
+				path: "sections.tasks.assignedTo",
+				select: "role firstName middleName lastName",
+			})
+			.exec();
 
 		if (!process) {
 			return res.status(404).json({ error: "Process not found" });
 		}
 
-		return res.json(process);
+		const formattedProcess = process.map((process) => {
+			if (!process.patient) {
+				return process;
+			}
+
+			const fullName = [process.physician.firstName, process.physician.middleName, process.physician.lastName]
+				.filter(Boolean)
+				.join(" ");
+
+			const roomNumber = process.room ? process.room.roomNumber : "No room";
+
+			const equipmentName = process.equipment ? process.equipment.equipmentName : "No equipment";
+
+			const sections = process.sections.map((section) => ({
+				...section.toObject(),
+				tasks: section.tasks.map((task) => {
+					if (task.assignedTo) {
+						console.log("Assigned To:", {
+							fullName: [task.assignedTo.firstName, task.assignedTo.middleName, task.assignedTo.lastName]
+								.filter(Boolean)
+								.join(" "),
+							role: task.assignedTo.role,
+						});
+					}
+
+					return {
+						...task.toObject(),
+						assignedTo: task.assignedTo
+							? {
+									fullName: [task.assignedTo.firstName, task.assignedTo.middleName, task.assignedTo.lastName]
+										.filter(Boolean)
+										.join(" "),
+									role: task.assignedTo.role,
+							  }
+							: null,
+					};
+				}),
+			}));
+
+			return {
+				...process.toObject({ virtuals: true }),
+				patientName: process.patient.name,
+				employeeName: fullName,
+				roomNumber: roomNumber,
+				equipment: equipmentName,
+				dateOfBirth: moment(process.dateOfBirth).format("MM/DD/YYYY"),
+				lastUpdated: moment(process.lastUpdated).format("MM/DD/YYYY"),
+				admissionDate: moment(process.admissionDate).format("MM/DD/YYYY"),
+				expectedDischarge: moment(process.expectedDischarge).format("MM/DD/YYYY"),
+				sections: sections,
+			};
+		});
+
+		return res.json(formattedProcess);
 	} catch (error) {
 		res.status(500).json({ error: "Internal server error" });
 	}
 };
 
-// This one might take a minute
 exports.update_process = async (req, res) => {
+	const { sections } = req.body;
+
 	try {
+		const process = await processModel.findById(req.params._id);
+		if (!process) {
+			return res.status(404).json({ message: "Process not found" });
+		}
+
+		process.sections = sections;
+
+		await process.save();
+		res.json({ message: "Process updated successfully", process });
 	} catch (error) {
-		res.status(500).json({ error: "Internal server error" });
+		console.error("Failed to update process:", error);
+		res.status(500).json({ error: "Internal server error", details: error.message });
 	}
 };

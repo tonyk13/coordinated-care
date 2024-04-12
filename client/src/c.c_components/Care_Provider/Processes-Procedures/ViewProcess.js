@@ -1,29 +1,33 @@
 import React from "react";
 import { Box, Button, List, ListItem, ListItemText, ListItemIcon, Typography, Divider, Paper, Container, Checkbox } from "@mui/material";
 
-const checklists = {
-	preOpCheckup: ["Blood Test", "X-Ray", "ECG"],
-	preOpServices: ["Anesthesia Assessment", "Surgical Assessment"],
-	dayPriorToTreatment: ["No food or drink after midnight", "Shower using antiseptic soap"],
-	intraOperative: ["Prepare surgical equipment", "Verify surgical site"],
-	postOpCare: ["Monitor vital signs", "Pain management"],
-};
-
-const ChecklistSection = ({ title, items, physician }) => (
+const ChecklistSection = ({ title, items }) => (
 	<Box>
-		<Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
+		<Typography variant="h6" sx={{ mt: 2 }}>
 			{title}
 		</Typography>
 		<List dense>
-			{items.map((item, index) => (
-				<ListItem key={index}>
-					<ListItemIcon>
-						<Checkbox edge="start" disabled inputProps={{ "aria-labelledby": `checkbox-list-label-${index}` }} />
-					</ListItemIcon>
-					<ListItemText id={`checkbox-list-label-${index}`} primary={item} />
-					{physician && <Typography variant="caption" sx={{ ml: 2 }}>{`${physician}`}</Typography>}
-				</ListItem>
-			))}
+			{items.map((item, index) => {
+				return (
+					<ListItem key={index}>
+						<ListItemIcon>
+							<Checkbox
+								edge="start"
+								checked={item.completed}
+								disabled
+								inputProps={{ "aria-labelledby": `checkbox-list-label-${index}` }}
+							/>
+						</ListItemIcon>
+						<ListItemText id={`checkbox-list-label-${index}`} primary={item.name} />
+						{item.assignedTo && (
+							<Typography variant="caption">{`Assigned to ${item.assignedTo.role} ${item.assignedTo.fullName}`}</Typography>
+						)}
+						{item.dueDate && (
+							<Typography variant="caption">{`Due by: ${new Date(item.dueDate).toLocaleDateString()}`}</Typography>
+						)}
+					</ListItem>
+				);
+			})}
 		</List>
 	</Box>
 );
@@ -33,28 +37,32 @@ const ViewProcess = ({ setCurrentPage, patient: selectedProcess }) => {
 		setCurrentPage("EditProcess");
 	};
 
+	const goBack = () => {
+		setCurrentPage("Processes");
+	};
+
 	return (
 		<Container>
-			<Typography variant="h6" gutterBottom component="div">
-				Process View
-			</Typography>
+			<Box display="flex" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
+				<Typography variant="h6">Process View</Typography>
+				<Button variant="outlined" onClick={goBack} sx={{ width: "100px" }}>
+					Go Back
+				</Button>
+			</Box>
 			<Paper elevation={3} sx={{ p: 2 }}>
 				<Typography variant="h5">{selectedProcess.patientName}</Typography>
 				<Typography variant="subtitle1">{`Date of Birth: ${selectedProcess.dateOfBirth}`}</Typography>
 				<Typography variant="subtitle1">{`Treatment: ${selectedProcess.treatment}`}</Typography>
+				<Typography variant="subtitle1">{`Status: ${selectedProcess.status}`}</Typography>
 				<Typography variant="subtitle1">{`Room: ${selectedProcess.roomNumber}`}</Typography>
 				<Typography variant="subtitle1">{`Last Updated: ${selectedProcess.lastUpdated}`}</Typography>
-				<Button variant="contained" color="primary" onClick={onEdit}>
+				<Button variant="contained" color="primary" onClick={onEdit} sx={{ mt: 1, width: "100px" }}>
 					Edit
 				</Button>
 			</Paper>
-			{/* These ChecklistSections should be conditionally rendered by going through the selectedProcess's "sections" 
-				array (and their respective "tasks" subarrays) */}
-			<ChecklistSection title="Pre-Operative Checkup" items={checklists.preOpCheckup} />
-			<ChecklistSection title="Pre-Operative Services" items={checklists.preOpServices} />
-			<ChecklistSection title="Day Prior to Treatment" items={checklists.dayPriorToTreatment} />
-			<ChecklistSection title="Intra-Operative" items={checklists.intraOperative} physician={selectedProcess.employeeName} />
-			<ChecklistSection title="Post Anesthesia Care Unit / Post Discharge" items={checklists.postOpCare} />
+			{selectedProcess.sections.map((section, index) => (
+				<ChecklistSection key={index} title={section.name} items={section.tasks} />
+			))}
 			<Divider sx={{ my: 2 }} />
 			<Box>
 				<Typography variant="subtitle1">{`Admission Date: ${selectedProcess.admissionDate}`}</Typography>
