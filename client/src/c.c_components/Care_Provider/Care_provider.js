@@ -8,6 +8,7 @@ import Rooms from ".//Rooms/Rooms";
 import Equipment from ".//Equipment/Equipment";
 import EditEquipment from "./Equipment/EditEquipment";
 import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
+import Messages from "../Messages/Messages";
 import Staff from "../Administrator/Staff";
 import { Box } from "@mui/material";
 import Settings from "./Profile/Settings/Settings";
@@ -25,6 +26,10 @@ import Processes from "./Processes-Procedures/Processes";
 // import Procedures from "./Processes-Procedures/Procedures";
 import Create_new_process from "./Processes-Procedures/Create_new_process";
 import Create_new_procedure from "./Processes-Procedures/Create_new_procedure";
+
+import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure";
+
+import EditAppointment from "../Care_Provider/Patients/EditAppointment";
 
 import "../../stylesheets/App.css";
 import Dashboard from "./Dashboard";
@@ -48,6 +53,7 @@ export default function CareProvider() {
 					{currentPage === "Staff" && <Staff setCurrentPage={setCurrentPage} />}
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
+					{currentPage === "send-feedback" && <Send_Feedback setCurrentPage={setCurrentPage} />}
 					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
 					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
 					{currentPage === "PatientInformation" && <PatientInformation setCurrentPage={setCurrentPage} />}
@@ -63,6 +69,9 @@ export default function CareProvider() {
 					{/* {currentPage === "Procedures" && <Procedures setCurrentPage={setCurrentPage}/>} */}
 					{currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage} />}
 					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} />}
+					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} />}
+					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
+					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>
 		</Box>

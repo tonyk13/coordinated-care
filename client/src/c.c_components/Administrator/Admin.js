@@ -15,6 +15,7 @@ import PatientInformation from "../Care_Provider/Patients/Information";
 import Billing from "../Care_Provider/Patients/Billing";
 import OrderLabTest from "../Care_Provider/Patients/Order_LabTest";
 import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
+import Messages from "../Messages/Messages";
 import Add_new_faculty from "./Add_new_faculty";
 import UserFeedback from "./UserFeedback/UserFeedback";
 import Edit_Rooms from "../Care_Provider/Rooms/Edit_Rooms";
@@ -23,14 +24,26 @@ import ViewProcess from "../Care_Provider/Processes-Procedures/ViewProcess";
 import EditProcess from "../Care_Provider/Processes-Procedures/EditProcess";
 import Create_new_process from "../Care_Provider/Processes-Procedures/Create_new_process";
 import Create_new_procedure from "../Care_Provider/Processes-Procedures/Create_new_procedure";
+import AccountRequests from "./AccountRequests";
+
+import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure";
+
+import EditAppointment from "../Care_Provider/Patients/EditAppointment";
 
 import "../../stylesheets/App.css";
 import SpecificFaculty from "./SpecificFaculty";
 
 export default function Admin() {
-	const [currentPage, setCurrentPage] = useState("");
-	const [nameClicked, setnameClicked] = useState("");
+	const [currentPage, setCurrentPage] = useState("Processes");
+	const [IdClicked, setIdClicked] = useState("");
 	const [patient, setPatient] = useState(null);
+	const [snackbarOpen, setSnackbarOpen] = useState(false);
+	const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -46,7 +59,7 @@ export default function Admin() {
 					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "Staff" && (
-						<Staff setCurrentPage={setCurrentPage} nameClicked={nameClicked} setnameClicked={setnameClicked} />
+						<Staff setCurrentPage={setCurrentPage}  IdClicked={IdClicked} setIdClicked={setIdClicked} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar}  />
 					)}
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
@@ -55,9 +68,9 @@ export default function Admin() {
 					{currentPage === "PatientInformation" && <PatientInformation setCurrentPage={setCurrentPage} />}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
-					{currentPage === "Add New Faculty" && <Add_new_faculty setCurrentPage={setCurrentPage} />}
+					{currentPage === "Add New Faculty" && <Add_new_faculty setCurrentPage={setCurrentPage} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar}/>}
 					{currentPage === "View User Feedback" && <UserFeedback />}
-					{currentPage === "SpecificFaculty" && <SpecificFaculty nameClicked={nameClicked} />}
+					{currentPage === "SpecificFaculty" && <SpecificFaculty IdClicked={IdClicked} />}
 					{currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage} />}
 
 					{currentPage === "Processes" && <Processes setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
@@ -66,6 +79,14 @@ export default function Admin() {
 
 					{currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage} />}
 					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} />}
+
+					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} />}
+
+					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
+
+					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
+
+					{currentPage === "Account Requests" && <AccountRequests setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>
 		</Box>

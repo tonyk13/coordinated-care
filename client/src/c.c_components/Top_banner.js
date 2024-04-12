@@ -23,6 +23,9 @@ export default function Topbanner({setCurrentPage}) {
       setCurrentPage('profile-screen')
       
     }
+    if(setting==='Send Feedback'){
+      setCurrentPage('send-feedback') 
+    }
 
   };
 

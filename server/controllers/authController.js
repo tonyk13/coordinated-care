@@ -5,21 +5,60 @@ const answersModel = require("../models/answers");
 const tagsModel = require("../models/tags");
 const commentsModel = require("../models/comments");
 const bcrypt = require("bcryptjs");
+const Employee = require('../models/employee');
+const crypto = require('crypto');
+
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+	  user: 'cse416.coordinatedcare@gmail.com',
+	  pass: "aarcvkknnvmhbhye"
+	},
+  });
+
+
+  const sendPasswordResetEmail = async (userEmail, token) => {
+	console.log('FRONTEND_URL:', process.env.FRONTEND_URL); //undefined???
+
+	const resetLink = `${process.env.FRONTEND_URL}/password-reset?token=${token}`;
+	
+	const mailOptions = {
+	  from: "cse416.coordinatedcare@gmail.com>",
+	  to: userEmail, 
+	  subject: "Password Reset",
+	  html: `<p>Please follow this link to reset your password:</p>
+			 <a href="${resetLink}">Reset Password</a>
+			`
+	};
+  
+	try {
+	  const info = await transporter.sendMail(mailOptions);
+	  console.log('Message sent: %s', info.messageId);
+	} catch (error) {
+	  console.error('Error sending password reset email:', error);
+	}
+  };
+
 
 module.exports.CreateAccount = async (req, res, next) => {
 	try {
 		const {
-			email,
+			firstName,
+			middleName,
+			lastName,
+			dateOfBirth,
+			phoneNumber,
 			username,
+			email,
 			passwordHash,
-			passwordHashVerification,
-			createdAt,
-			reputation,
-			questions,
-			answers,
-			comments,
+			role,
+			address,
+			professionalQualifications,
 		} = req.body;
 
+		/*
 		if (!email) {
 			return res.json({ message: "Email is required", success: false });
 		}
@@ -40,6 +79,8 @@ module.exports.CreateAccount = async (req, res, next) => {
 		if (existingUser) {
 			return res.json({ message: "User account with this email already exists" });
 		}
+		*/
+		/*
 		const user = await User.create({
 			email,
 			username,
@@ -50,17 +91,123 @@ module.exports.CreateAccount = async (req, res, next) => {
 			answers,
 			comments,
 		});
-		res.cookie("loggedInUser", user._id, {});
-		res.status(201).json({
-			message: "User signed in successfully",
-			success: true,
-			user,
+		*/
+		const employee = await Employee.create({
+			firstName,
+			middleName,
+			lastName,
+			dateOfBirth,
+			phoneNumber,
+			username,
+			email,
+			passwordHash,
+			role,
+			address,
+			professionalQualifications,
 		});
-		next();
+		const token = crypto.randomBytes(20).toString('hex');
+
+		try {
+			const employee = await Employee.findOne({ email: email });
+			if (!employee) {
+			  console.log('employee not found');
+			  return;
+			}
+			employee.resetPasswordToken = token;
+			await employee.save();
+			console.log('Reset password token set');
+			try{
+				await sendPasswordResetEmail(employee.email, token);
+
+			}catch(err){
+				console.error('Error sending email:', err);
+
+			}
+		  } catch (err) {
+			console.error('Error setting password reset token:', err);
+		  }
+		
+
+		//res.cookie("loggedInUser", user._id, {});
+		
+		res.status(201).json({
+			message: "User Created",
+			success: true,
+		});
+		
+		//next();
 	} catch (error) {
 		console.error(error);
 	}
 };
+
+
+module.exports.ResetPassword = async (req, res, next) => {
+	try {
+		const {
+			token,
+			password
+		} = req.body;
+		const employee = await Employee.findOne({
+			resetPasswordToken: token,
+		});
+		if (!employee) {
+			return res.status(400).send('employee with requested token not found. ');
+		}
+		employee.passwordHash = password;
+		employee.resetPasswordToken = undefined;
+
+		await employee.save();
+
+		//res.cookie("loggedInUser", user._id, {});
+		
+		res.status(201).json({
+			message: "Password Updated",
+			success: true,
+		});
+		
+		//next();
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+module.exports.getAllEmployees = async (req, res, next) => {
+	try {
+		const employees = await Employee.find({}); 
+        res.status(200).json({
+            success: true,
+            data: employees
+        });
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+module.exports.getEmployee = async (req, res) => {
+	try {
+		const { IdClicked } = req.params;  
+		const employee = await Employee.findOne({_id: IdClicked}); 
+		if (employee) {
+			res.status(200).json({
+				success: true,
+				data: employee
+			});
+		} else {
+			res.status(404).json({
+				success: false,
+				message: "Employee not found"
+			});
+		}
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
+			success: false,
+			message: "Server error"
+		});
+	}
+};
+
 
 module.exports.Login = async (req, res, next) => {
 	try {

@@ -11,6 +11,9 @@ import Cookie from "js-cookie";
 import Equipment from "./c.c_components/Care_Provider/Equipment/Equipment.js";
 import EditEquipment from "./c.c_components/Care_Provider/Equipment/EditEquipment.js";
 import DiscussionBoard from "./c.c_components/Discussion_Board/Discussion_Board.js";
+import PasswordReset from "./c.c_components/PasswordReset.js";
+
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
 	const [currentPage, setCurrentPage] = useState("login");
@@ -20,6 +23,7 @@ function App() {
 	const [isGuest, setIsGuest] = useState(false);
 	const [isOnline, setIsOnline] = useState(navigator.onLine);
 	const [searchTrigger, setSearchTrigger] = useState("");
+	const [token, setToken] = useState('');
 
 	useEffect(() => {
 		const handleOnline = () => {
@@ -29,6 +33,14 @@ function App() {
 		const handleOffline = () => {
 			setIsOnline(false);
 		};
+		const urlSearchParams = new URLSearchParams(window.location.search);
+		const params = Object.fromEntries(urlSearchParams.entries());
+	
+		if (params.token) {
+			setToken(params.token);
+			setCurrentPage('password-reset');
+			
+		}
 
 		window.addEventListener("online", handleOnline);
 		window.addEventListener("offline", handleOffline);
@@ -120,6 +132,8 @@ function App() {
 				return <EditEquipment setCurrentPage={setCurrentPage} />;
 			case "Discussion Board":
 				return <DiscussionBoard setCurrentPage={setCurrentPage} />;
+			case "password-reset":
+					return <PasswordReset setCurrentPage={setCurrentPage} token = {token} />;
 			default:
 				return <div>Page not found</div>;
 		}
@@ -229,7 +243,11 @@ function App() {
 		</div>
 	);
 	*/
-	return <div className="app">{renderCurrentPage()}</div>;
+	return(
+		<div className="app">
+ 			{renderCurrentPage()}
+		</div>
+	);
 }
 
 export default App;

@@ -1,12 +1,17 @@
 // Run this script to launch the server.
 // The server should run on localhost port 8000.
 // This is where you should start writing server-side code for this application.
-require('dotenv').config();
+require("dotenv").config();
+console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
+console.log("CORS_ORIGIN:", process.env.CORS_ORIGIN);
+
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
 const port = process.env.PORT || 8000;
+console.log("RUNNING ON PORT: ", port);
+console.log("RUNNING ON PORT: ", port);
 
 const answersRoutes = require("./routes/answersRoutes");
 const tagsRoutes = require("./routes/tagsRoutes");
@@ -14,20 +19,16 @@ const questionsRoutes = require("./routes/questionsRoutes");
 const authRoutes = require("./routes/authRoutes");
 const commentsRoutes = require("./routes/commentsRoutes");
 
+const processesRoutes = require("./routes/processesRoutes");
+
 const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser");
 
-
 app.use(
 	cors({
-		origin: process.env.CORS_ORIGIN,
+		origin: process.env.CORS_ORIGIN || "http://localhost:3000",
 		credentials: true,
-		allowedHeaders: [
-			"set-cookie",
-			"Content-Type",
-			"Access-Control-Allow-Origin",
-			"Access-Control-Allow-Credentials",
-		],
+		allowedHeaders: ["set-cookie", "Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"],
 	})
 );
 app.use(express.json());
@@ -59,19 +60,21 @@ db.once("open", () => {
 
 // Command to start server: "node server.js --secretKey your_actual_secret_key" -> add this to the readme
 
-// Serve static files from the React app build directory
-const path = require("path");
-app.use(express.static(path.join(__dirname, "..", "client", "build")));
-
-// Routes
+// (Old) routes
 app.use("/api", answersRoutes);
 app.use("/api", tagsRoutes);
 app.use("/api", questionsRoutes);
 app.use("/api", authRoutes);
 app.use("/api", commentsRoutes);
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
+// ***All new routes go here***
+app.use("/api", processesRoutes);
+
+// Serve static files from the React app build directory
+const path = require("path");
+app.use(express.static(path.join(__dirname, "..", "client", "build")));
+
+// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
 app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
 });
@@ -87,9 +90,8 @@ process.on("SIGINT", () => {
 });
 
 // Start server
-const server = app.listen(process.env.PORT , () => {
+const server = app.listen(port, () => {
 	console.log(`Server running on port ${port}`);
 });
 
-// For Jest Testing
-module.exports = app; 
+module.exports = app;

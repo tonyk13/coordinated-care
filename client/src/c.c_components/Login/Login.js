@@ -1,6 +1,8 @@
 import React from "react";
 import "../../stylesheets/App.css";
 import Button from "@mui/material/Button";
+import LoginButton from "./LoginButton"
+import LogoutButton from "./LogoutButton"
 
 export default function Login({ setCurrentPage }) {
 	function takemetomainpage() {
@@ -22,7 +24,9 @@ export default function Login({ setCurrentPage }) {
 				<br /> hospital process management
 				<br /> systems
 			</div>
-			<Button className="login_button">Login</Button>
+			<LoginButton />	
+			<br />
+			<LogoutButton />	
 			<br />
 			<Button className="request_account_button" onClick={takemetorequestaccountpage}>
 				Request Account
