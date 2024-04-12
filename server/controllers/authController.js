@@ -230,6 +230,27 @@ module.exports.getEmployee = async (req, res) => {
 	}
 };
 
+module.exports.updateEmployeeRole = async (req, res) => {
+	const { id } = req.params;
+    const { role } = req.body;
+
+    try {
+        const employee = await Employee.findById(id);
+        if (!employee) {
+            return res.status(404).json({ success: false, message: "Employee not found" });
+        }
+
+        employee.role = role;
+        await employee.save();
+
+        res.status(200).json({ success: true, message: 'Role updated successfully', data: employee });
+    } catch (error) {
+        console.error('Error updating employee role:', error);
+        res.status(500).json({ success: false, message: 'Failed to update role' });
+    }
+};
+
+
 
 module.exports.Login = async (req, res, next) => {
 	try {

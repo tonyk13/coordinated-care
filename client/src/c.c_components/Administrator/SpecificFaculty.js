@@ -32,6 +32,7 @@ function TabPanel(props) {
 export default function SpecificFaculty({IdClicked}) {
   const [value, setValue] = React.useState('1');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const [facultyInfo, setFacultyInfo] = useState({
     firstName: '',
     lastName: '',
@@ -73,8 +74,24 @@ export default function SpecificFaculty({IdClicked}) {
   const [Role, setRole] = React.useState('');
 
   const handleDropDownChange = (event) => {
-    setRole(event.target.value);
+    const newRole = event.target.value;
+    setFacultyInfo(prev => ({ ...prev, role: newRole }));
+    updateRole(newRole);
+
   };
+  const updateRole = async (newRole) => {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+    try {
+        await axios.put(`${apiUrl}/api/update-role/${IdClicked}`, { role: newRole });
+        setSnackbarMessage('Role updated successfully!');
+        setSnackbarOpen(true);
+    } catch (error) {
+        console.error("There was an error updating the role:", error);
+        setSnackbarMessage('Failed to update role.');
+        setSnackbarOpen(true);
+    }
+};
+
   const handleResetPassword = () => {
     const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 			const apiUrl = `${baseURL}/api/send-reset-email`;
@@ -88,6 +105,7 @@ export default function SpecificFaculty({IdClicked}) {
                 	console.error("There was an error resetting password:", error);
         
             });
+            setSnackbarMessage('Password reset email sent!');
             setSnackbarOpen(true); 
   };
   
@@ -139,7 +157,7 @@ export default function SpecificFaculty({IdClicked}) {
                 open={snackbarOpen}
                 autoHideDuration={6000}
                 onClose={handleCloseSnackbar}
-                message= "Password Reset! Email sent !"
+                message={snackbarMessage}
           />
     </Box>
   );
