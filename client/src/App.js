@@ -13,6 +13,8 @@ import EditEquipment from "./c.c_components/Care_Provider/Equipment/EditEquipmen
 import DiscussionBoard from "./c.c_components/Discussion_Board/Discussion_Board.js";
 import PasswordReset from "./c.c_components/PasswordReset.js";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 function App() {
 	const [currentPage, setCurrentPage] = useState("login");
 
@@ -241,7 +243,11 @@ function App() {
 		</div>
 	);
 	*/
-	return <div className="app">{renderCurrentPage()}</div>;
+	return(
+		<div className="app">
+ 			{renderCurrentPage()}
+		</div>
+	);
 }
 
 export default App;
