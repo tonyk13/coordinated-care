@@ -1,5 +1,5 @@
-import React from 'react'
-
+import React , { useEffect, useState }  from 'react'
+import axios from 'axios';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -29,8 +29,37 @@ function TabPanel(props) {
     );
   }
 
-export default function SpecificFaculty({nameClicked}) {
+export default function SpecificFaculty({IdClicked}) {
   const [value, setValue] = React.useState('1');
+  const [facultyInfo, setFacultyInfo] = useState({
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
+    role: '',
+  });
+  useEffect(() => {
+    const fetchFacultyDetails = async () => {
+      try {
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+        const response = await axios.get(`${apiUrl}/api/employees/${IdClicked}`);
+        setFacultyInfo({
+          firstName: response.data.data.firstName,
+          lastName: response.data.data.lastName,
+          username: response.data.data.username,
+          email: response.data.data.email,
+          role: response.data.data.role,
+        });
+      } catch (error) {
+        console.error('Failed to fetch faculty data:', error);
+      }
+    };
+    fetchFacultyDetails();
+  }, [IdClicked]);
+
+
+
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -51,17 +80,17 @@ export default function SpecificFaculty({nameClicked}) {
         indicatorColor="primary"
         centered
       >
-        <h1 className='facultyname'>Dr. {nameClicked}</h1>
+        <h1 className='facultyname'>Dr. {facultyInfo.lastName}</h1>
         <Tab value="1" label="Faculty Information" />
         <Tab value="2" label="LogIn Settings" />
         <Tab value="3" label="Schedule" />
       </Tabs>
       <TabPanel value={value} index="1">
-        <Faculty_Information nameClicked={nameClicked}/>
+        <Faculty_Information IdClicked={IdClicked}/>
       </TabPanel>
       <TabPanel value={value} index="2">
         <Paper sx={{ p: 2 }}>
-        <span className='loginsettings'>UserName : {nameClicked}<br/><br/>Email Address: janedoe@email.com</span><br/><br/>
+        <span className='loginsettings'>Email : {facultyInfo.email}<br/><br/></span><br/><br/>
         <span className='loginsettings'>Role Privileges: </span>
         
         <FormControl sx={{ width: '30%' }} >
@@ -69,7 +98,7 @@ export default function SpecificFaculty({nameClicked}) {
             <Select
                  labelId="demo-simple-select-label"
                  id="demo-simple-select"
-                 value={Role}
+                 value={facultyInfo.role}
                  label="Role"
                  onChange={handleDropDownChange}
             >
@@ -82,7 +111,7 @@ export default function SpecificFaculty({nameClicked}) {
         </Paper>   
       </TabPanel>
       <TabPanel value={value} index="3">
-        <Schedules nameClicked={nameClicked} />
+        <Schedules nameClicked={facultyInfo.name} />
       </TabPanel>
     </Box>
   );

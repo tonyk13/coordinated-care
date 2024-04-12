@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Button, TextField, Grid, Typography, Box, Avatar, Container } from '@mui/material';
+import axios from 'axios';
 
-export default function Faculty_Information(nameClicked) {
+export default function Faculty_Information({IdClicked}) {
+    const [facultyInfo, setFacultyInfo] = useState({
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        role: '',
+        address: '',
+      });
     // Hard Setting Data
+    /*
      const rows = [
         { id: 1322323, lastName: 'Snow', firstName: 'Jon', phoneNumber: 35423323, role: 'Doctor' },
         { id: 2323232, lastName: 'Lannister', firstName: 'Cersei', phoneNumber: 42323232, role: 'Medical Assistant' },
@@ -14,16 +24,49 @@ export default function Faculty_Information(nameClicked) {
         { id: 82323, lastName: 'Frances', firstName: 'Rossini', phoneNumber: 33232326, role: 'Doctor' },
         { id: 932323, lastName: 'Roxie', firstName: 'Harvey', phoneNumber: 6323232323, role: 'Doctor' },
     ];
+    */
+    useEffect(() => {
+        const fetchFacultyDetails = async () => {
+          try {
+            //console.log("faculty info: id",IdClicked);
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+            const response = await axios.get(`${apiUrl}/api/employees/${IdClicked}`);
+            console.log("faculty info", response.data.data);
+            setFacultyInfo({
+              firstName: response.data.data.firstName,
+              lastName: response.data.data.lastName,
+              username: response.data.data.username,
+              email: response.data.data.email,
+              role: response.data.data.role,
+              address: response.data.data.address
+            });
+            //console.log(facultyInfo.firstName); //prints
+          } catch (error) {
+            console.error('Failed to fetch faculty data:', error);
+          }
+        };
+        fetchFacultyDetails();
+      }, [IdClicked]);
 
-    const specificFacultyFirstName = nameClicked.nameClicked.split(' ')[0];
-    const specificFacultyData = rows.filter(row => row.firstName === specificFacultyFirstName)[0];
+    const specificFacultyFirstName = facultyInfo.firstName
+    //const specificFacultyData = rows.filter(row => row.firstName === specificFacultyFirstName)[0];
 
     const [formData, setFormData] = useState({
-        firstName: specificFacultyData.firstName,
-        lastName: specificFacultyData.lastName,
-        phoneNumber: specificFacultyData.phoneNumber,
-        role: specificFacultyData.role,
+        firstName: facultyInfo.firstName,
+        lastName: facultyInfo.lastName,
+        phoneNumber: facultyInfo.phoneNumber,
+        role: facultyInfo.role,
+        address: facultyInfo.address
     });
+    useEffect(() => {
+        setFormData({
+          firstName: facultyInfo.firstName,
+          lastName: facultyInfo.lastName,
+          phoneNumber: facultyInfo.phoneNumber,
+          role: facultyInfo.role,
+          address: facultyInfo.address
+        });
+      }, [facultyInfo]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -40,7 +83,7 @@ export default function Faculty_Information(nameClicked) {
             <Box>
                 <Grid container spacing={1} mt="10px">
                     <Grid item xs={16}>
-                        <Typography variant="subtitle1"><strong>First Name:</strong> {formData.firstName}</Typography>
+                        <Typography variant="subtitle1"><strong>First Name:</strong> {formData.firstName}</Typography> 
                     </Grid>
                     <Grid item xs={16}>
                         <Typography variant="subtitle1"><strong>Last Name:</strong> {formData.lastName}</Typography>
@@ -52,7 +95,7 @@ export default function Faculty_Information(nameClicked) {
                         <Typography variant="subtitle1"><strong>Role:</strong> {formData.role}</Typography>
                     </Grid>
                     <Grid item xs={16}>
-                        <Typography variant="subtitle1"><strong>Address:</strong>123 Healthway Drive, Meditown, State, 45678</Typography>
+                        <Typography variant="subtitle1"><strong>Address:</strong>{formData.address}</Typography>
                     </Grid>
                     <br />
                     <Grid item xs={16}>

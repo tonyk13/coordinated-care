@@ -172,6 +172,43 @@ module.exports.ResetPassword = async (req, res, next) => {
 	}
 };
 
+module.exports.getAllEmployees = async (req, res, next) => {
+	try {
+		const employees = await Employee.find({}); 
+        res.status(200).json({
+            success: true,
+            data: employees
+        });
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+module.exports.getEmployee = async (req, res) => {
+	try {
+		const { IdClicked } = req.params;  
+		const employee = await Employee.findOne({_id: IdClicked}); 
+		if (employee) {
+			res.status(200).json({
+				success: true,
+				data: employee
+			});
+		} else {
+			res.status(404).json({
+				success: false,
+				message: "Employee not found"
+			});
+		}
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
+			success: false,
+			message: "Server error"
+		});
+	}
+};
+
+
 module.exports.Login = async (req, res, next) => {
 	try {
 		const { email, password } = req.body;
