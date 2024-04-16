@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from "react";
 
-import WelcomePage from "./components/WelcomePage/WelcomePage.js";
 import Care_provider from "./c.c_components/Care_Provider/Care_provider.js";
 import Login from "./c.c_components/Login/Login.js";
 import Request_account from "./c.c_components/Request_Account/Request_account.js";
