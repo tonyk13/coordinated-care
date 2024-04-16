@@ -1,19 +1,19 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Coordinated Care",
+  "name": "Coordinated Care",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "heart_rate_64.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "heart_rate_192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "heart_rate_512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
