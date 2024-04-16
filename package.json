@@ -17,6 +17,7 @@
 	"dependencies": {
 		"@auth0/auth0-react": "^2.2.4",
 		"@google-cloud/local-auth": "^2.1.0",
+		"@mui/material": "^5.15.15",
 		"bcrypt": "^5.1.1",
 		"bcryptjs": "^2.4.3",
 		"cookie-parser": "^1.4.6",
