@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-describe('fetchProcesses', () => {
+describe('Get Procceses', () => {
   it('should fetch processes from the API', async () => {
     const mockProcesses = [{ id: 1, name: 'Process 1' }, { id: 2, name: 'Process 2' }];
     const axiosGetMock = jest.spyOn(axios, 'get').mockResolvedValue({ data: mockProcesses });
