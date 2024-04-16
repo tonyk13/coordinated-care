@@ -10,7 +10,6 @@ jobs:
       matrix:
         fail-fast: [ false ]
         node-version: [ 18.x ]
-        containers: [ 1, 2, 3, 4, 5, 6 ] # 6 Parallel Instances for now
         test-file: ["get_equipment_test.js", "get_patients_test.js", "get_physcians_test.js", "get_processes_test.js", "get_rooms_test.js", "get_users_test.js"]
 
     steps:
