@@ -31,7 +31,7 @@ jobs:
       - name: RUN SuperTest API Testing
         run: |
           cd server
-          npx jest ${{ matrix.test-file }}
+          npm test ${{ matrix.test-file }}
 
       # - name: SuperTest Test Report
       #   uses: actions/upload-artifact@v3
