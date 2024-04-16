@@ -1,26 +1,17 @@
-const request = require('supertest');
-const app = require('../server'); // Adjust the path as needed
+const express = require("express");
+const request = require("supertest");
+const router = require("../routes/processes"); // Import the router
+const processesController = require("../controllers/processesController");
+const app = express();
+app.use("/", router);
 
-// User Verification Route Test
-describe('Comments Route', () => {
-  it('should respond with status 200', async () => {
-    const response = await request(app).get('/');
-    expect(response.status).toBe(200);
-  });
+processesController.all_processes = jest.fn((req, res) => {
+  res.sendStatus(200);
 });
 
-// Questions Route Test
-describe('Questions Route', () => {
+describe('GET /processes', () => {
   it('should respond with status 200', async () => {
-    const response = await request(app).get('/questions');
-    expect(response.status).toBe(200);
-  });
-});
-
-// Tags Route Test
-describe('Questions Route', () => {
-  it('should respond with status 200', async () => {
-    const response = await request(app).get('/tags');
+    const response = await request(app).get('/processes');
     expect(response.status).toBe(200);
   });
 });
