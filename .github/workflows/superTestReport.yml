@@ -8,9 +8,8 @@ jobs:
 
     strategy:
       matrix:
-        fail-fast: [ false ]
         node-version: [ 18.x ]
-        test-file: ["get_equipment_test.js", "get_patients_test.js", "get_physcians_test.js", "get_processes_test.js", "get_rooms_test.js", "get_users_test.js"]
+        test-file: ["get_equipment_test.js", "get_patients_test.js", "get_physicians_test.js", "get_process_test.js", "get_rooms_test.js", "get_users_test.js"]
 
     steps:
       - uses: actions/checkout@v3
