@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 18.x ]
+        # node-version: [ 18.x ]
         test-file: ["get_equipment_test.js", "get_patients_test.js", "get_physicians_test.js", "get_process_test.js", "get_rooms_test.js", "get_users_test.js"]
 
     steps:
@@ -19,13 +19,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Main Directory set up
-        run: npm install
+      # - name: Main Directory set up
+      #   run: npm install
         
-      - name: Server set up and testing
-        run: |
-          cd server
-          npm install
+      # - name: Server set up and testing
+      #   run: |
+      #     cd server
+      #     npm install
 
       - name: RUN SuperTest API Testing
         run: |
