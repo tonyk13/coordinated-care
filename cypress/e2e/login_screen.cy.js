@@ -1,4 +1,4 @@
-import LoginButton from '/client/src/c.c_components/Login/LoginButton' ;
+import LoginButton from '../../client/src/c.c_components/Login/LoginButton.js';
 
 describe('Login Screen', () => {
     beforeEach(() => {
