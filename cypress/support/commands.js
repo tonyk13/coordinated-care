@@ -23,3 +23,17 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', () => {
+    cy.visit('https://coordinated-care-cce88007d728.herokuapp.com'); // will use env variables to avoid hardcoded data and security vulnerability
+
+
+    cy.get('.login_button').click(); 
+  
+
+    cy.origin('https://dev-crsl7fds3e2pp8gg.us.auth0.com', () => {
+        cy.get('input[name="username"]').type('cse416.coordinatedcare@gmail.com');
+        cy.get('input[name="password"]').type('cse416@coordinated');
+        cy.get('button[type="submit"]').click();
+    });
+  });

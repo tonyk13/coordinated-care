@@ -35,10 +35,10 @@ export default function Login({ setCurrentPage }) {
 			<br />
 			{isAuthenticated && (
 				<>
-					<button className="temp" onClick={takemetomainpage}>
+					<button className="temp" onClick={takemetomainpage} id = "continueAsCPtempButton">
 						Continue as CARE PROVIDER (temporary)
 					</button>
-					<button className="temp" onClick={takemetoadminpage}>
+					<button className="temp" onClick={takemetoadminpage} id = "continueAsAdmintempButton">
 						Continue as ADMIN (temporary)
 					</button>
 				</>
