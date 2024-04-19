@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../stylesheets/App.css";
 import Button from "@mui/material/Button";
 import LoginButton from "./LoginButton";
 import { useAuth0 } from '@auth0/auth0-react';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 export default function Login({ setCurrentPage }) {
 	function takemetomainpage() {
@@ -16,6 +18,22 @@ export default function Login({ setCurrentPage }) {
 		setCurrentPage("request-account");
 	}
 	const { isAuthenticated } = useAuth0();
+	const { user } = useAuth0();
+
+	useEffect(() => {
+        if (isAuthenticated && user) {
+            const userEmail = user.email;
+            axios.get(`/employees/${userEmail}`)
+                .then(response => {
+                    Cookies.set('employee_id', response.data.user_id);
+                })
+                .catch(error => {
+                    console.error('Error fetching employee ID:', error);
+                });
+        } else {
+            Cookies.remove('employee_id');
+        }
+    }, [isAuthenticated, user]);
 
 	return (
 		<div className="login_screen">
