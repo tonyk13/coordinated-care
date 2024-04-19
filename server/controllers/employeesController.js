@@ -18,3 +18,16 @@ exports.all_physician_names = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.get_employee_by_email = async (req, res, next) => {
+	const email = req.params.email;
+	try {
+		const employee = await employeeModel.findOne({ email: email });
+		if (!employee) {
+			return res.status(404).json({ error: 'Employee not found' });
+		}
+		res.json({ employee_id: employee._id });
+	} catch (error) {
+		next(error);
+	}
+};
