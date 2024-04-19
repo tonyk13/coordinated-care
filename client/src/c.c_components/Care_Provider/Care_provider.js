@@ -63,7 +63,9 @@ export default function CareProvider() {
 					{currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage} />}
 					{currentPage === "Processes" && <Processes setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
 					{currentPage === "ViewProcess" && <ViewProcess patient={patient} setCurrentPage={setCurrentPage} />}
-					{currentPage === "EditProcess" && <EditProcess patient={patient} setCurrentPage={setCurrentPage} />}
+					{currentPage === "EditProcess" && (
+						<EditProcess patient={patient} setPatient={setPatient} setCurrentPage={setCurrentPage} />
+					)}
 					{currentPage === "Procedures" && <MyProcedures setCurrentPage={setCurrentPage} />}
 					{/* {currentPage === "Processes" && <Processes setCurrentPage={setCurrentPage}/>} */}
 					{/* {currentPage === "Procedures" && <Procedures setCurrentPage={setCurrentPage}/>} */}

@@ -23,14 +23,8 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import axios from "axios";
 
-// const availableProcedures = ["Blood Test", "X-Ray", "MRI Scan", "CT Scan", "EKG"];
-
 // For now we're going to be manually inputting the "Treatment" field
 const treatments = ["Chemotherapy", "Physical Therapy", "Surgery"];
-
-const physicians = ["Dr. Smith", "Dr. Jones", "Dr. Brown"];
-const rooms = ["101A", "101B", "102A", "102B"];
-const equipmentList = ["Ultrasound", "X-Ray Machine", "MRI Machine"];
 
 const sections = [
 	"Pre-Operative Checkup",
@@ -40,15 +34,10 @@ const sections = [
 	"Post Anesthesia Care Unit / Post Discharge",
 ];
 
-const patients = [
-	{ id: 1, name: "John Doe" },
-	{ id: 2, name: "Jane Smith" },
-	{ id: 3, name: "Alice Johnson" },
-];
-
 export default function CreateNewProcess({ setCurrentPage }) {
 	const [processDetails, setProcessDetails] = useState({
 		patientId: "",
+		patientDateOfBirth: "",
 		treatment: "",
 		physician: "",
 		admissionDate: dayjs(),
@@ -61,6 +50,17 @@ export default function CreateNewProcess({ setCurrentPage }) {
 	});
 
 	const [patientNames, setPatientNames] = useState([]);
+	const [selectedPatientId, setSelectedPatientId] = useState("");
+
+	const [isOtherTreatment, setIsOtherTreatment] = useState(false);
+
+	const [physicians, setPhysicians] = useState([]);
+
+	const [roomNumbers, setRoomNumbers] = useState([]);
+
+	const [equipmentOptions, setEquipmentOptions] = useState([]);
+
+	const today = dayjs();
 
 	useEffect(() => {
 		const fetchPatientNames = async () => {
@@ -68,15 +68,7 @@ export default function CreateNewProcess({ setCurrentPage }) {
 				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 				const response = await axios.get(`${baseURL}/api/patients/all_patient_names`);
 
-				// if (!response.ok) {
-				// 	throw new Error(`HTTP error! status: ${response.status}`);
-				// }
-
-				// const data = await response.json();
-
 				setPatientNames(response.data);
-
-				console.log("Patient names: ", patientNames);
 			} catch (error) {
 				console.error("Fetching patient names failed: ", error);
 			}
@@ -85,19 +77,117 @@ export default function CreateNewProcess({ setCurrentPage }) {
 		fetchPatientNames();
 	}, []);
 
-	const handleChange = (prop) => (event) => {
-		setProcessDetails({ ...processDetails, [prop]: event.target.value });
+	useEffect(() => {
+		const fetchPhysicians = async () => {
+			try {
+				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+				const response = await axios.get(`${baseURL}/api/employees/all_physician_names`);
+
+				console.log(response.data);
+
+				setPhysicians(response.data);
+			} catch (error) {
+				console.error("Fetching physicians failed: ", error);
+			}
+		};
+
+		fetchPhysicians();
+	}, []);
+
+	useEffect(() => {
+		const fetchRoomNumbers = async () => {
+			try {
+				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+				const response = await axios.get(`${baseURL}/api/rooms/all_room_numbers`);
+				setRoomNumbers(response.data);
+			} catch (error) {
+				console.error("Fetching room numbers failed: ", error);
+			}
+		};
+
+		fetchRoomNumbers();
+	}, []);
+
+	useEffect(() => {
+		const fetchEquipment = async () => {
+			try {
+				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+				const response = await axios.get(`${baseURL}/api/equipment/all_equipment_names`);
+				setEquipmentOptions(response.data);
+			} catch (error) {
+				console.error("Fetching equipment failed: ", error);
+			}
+		};
+
+		fetchEquipment();
+	}, []);
+
+	const handleChangePatient = (event) => {
+		const patientId = event.target.value;
+
+		setProcessDetails((prevDetails) => ({
+			...prevDetails,
+			patientId: patientId,
+			patientDateOfBirth: patientNames.find((patient) => patient.id === patientId).dateOfBirth,
+		}));
+
+		setSelectedPatientId(patientId);
 	};
 
 	const handleDateChange = (prop, newValue) => {
 		setProcessDetails({ ...processDetails, [prop]: newValue });
 	};
 
+	const handleTreatmentChange = (event) => {
+		const newTreatment = event.target.value;
+		if (newTreatment === "Other") {
+			setIsOtherTreatment(true);
+			setProcessDetails((prevDetails) => ({
+				...prevDetails,
+				treatment: "",
+			}));
+		} else {
+			setIsOtherTreatment(false);
+			setProcessDetails((prevDetails) => ({
+				...prevDetails,
+				treatment: capitalizeFirstLetterOfEachWord(newTreatment),
+			}));
+		}
+	};
+
+	const capitalizeFirstLetterOfEachWord = (string) => {
+		return string.replace(/\b(\w)/g, (s) => s.toUpperCase());
+	};
+
+	const handleCustomTreatmentChange = (event) => {
+		const customTreatment = event.target.value;
+		const formattedTreatment = capitalizeFirstLetterOfEachWord(customTreatment);
+		setProcessDetails((prevDetails) => ({
+			...prevDetails,
+			treatment: formattedTreatment,
+		}));
+	};
+
+	const handlePhysicianChange = (event) => {
+		const physicianId = event.target.value;
+		setProcessDetails((prevDetails) => ({
+			...prevDetails,
+			physician: physicianId,
+		}));
+	};
+
+	const handleRoomChange = (event) => {
+		const newRoom = event.target.value;
+		setProcessDetails((prevDetails) => ({
+			...prevDetails,
+			room: newRoom,
+		}));
+	};
+
 	const handleEquipmentChange = (event) => {
-		const {
-			target: { value },
-		} = event;
-		setProcessDetails({ ...processDetails, equipment: typeof value === "string" ? value.split(",") : value });
+		const { value } = event.target;
+		const newEquipment = typeof value === "string" ? value.split(",") : value;
+		setProcessDetails({ ...processDetails, equipment: newEquipment });
 	};
 
 	const handleTaskChange = (sectionIndex, taskIndex, event) => {
@@ -132,9 +222,41 @@ export default function CreateNewProcess({ setCurrentPage }) {
 		setProcessDetails({ ...processDetails, sections: newSections });
 	};
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
-		console.log(processDetails);
+
+		const formattedSections = processDetails.sections.map((section) => ({
+			name: section.name,
+			tasks: section.tasks.filter((task) => task.trim() !== "").map((taskName) => ({ name: taskName })),
+		}));
+
+		const selectedEquipmentIds = processDetails.equipment.map((equipmentName) => {
+			const equipment = equipmentOptions.find((eq) => eq.name === equipmentName);
+			return equipment.id;
+		});
+
+		const formattedProcessDetails = {
+			patient: processDetails.patientId,
+			treatment: processDetails.treatment,
+			physician: processDetails.physician,
+			room: processDetails.room,
+			equipment: selectedEquipmentIds,
+			dateOfBirth: new Date(processDetails.patientDateOfBirth).toISOString(),
+			admissionDate: processDetails.admissionDate.toISOString(),
+			expectedDischarge: processDetails.expectedDischarge.toISOString(),
+			status: processDetails.status,
+			lastUpdated: new Date(processDetails.lastUpdated).toISOString(),
+			sections: formattedSections,
+		};
+
+		try {
+			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+			const response = await axios.post(`${baseURL}/api/processes`, formattedProcessDetails);
+			console.log("Process created: ", response.data);
+			setCurrentPage("Processes");
+		} catch (error) {
+			console.error("Failed to create process: ", error);
+		}
 	};
 
 	return (
@@ -151,13 +273,13 @@ export default function CreateNewProcess({ setCurrentPage }) {
 								<Select
 									labelId="patient-select-label"
 									id="patient-select"
-									value={processDetails.patientId}
-									onChange={handleChange("patientId")}
+									value={selectedPatientId}
+									onChange={handleChangePatient}
 									required
 								>
 									{patientNames.map((patient) => (
 										<MenuItem key={patient.id} value={patient.id}>
-											{patient}
+											{patient.name}
 										</MenuItem>
 									))}
 								</Select>
@@ -170,9 +292,9 @@ export default function CreateNewProcess({ setCurrentPage }) {
 								<Select
 									labelId="treatment-label"
 									id="treatment-select"
-									value={processDetails.treatment}
+									value={isOtherTreatment ? "Other" : processDetails.treatment}
 									label="Treatment"
-									onChange={handleChange("treatment")}
+									onChange={handleTreatmentChange}
 									required
 								>
 									{treatments.map((treatment) => (
@@ -183,6 +305,16 @@ export default function CreateNewProcess({ setCurrentPage }) {
 									<MenuItem value="Other">Add New...</MenuItem>
 								</Select>
 							</FormControl>
+							{isOtherTreatment && (
+								<TextField
+									fullWidth
+									label="Custom Treatment"
+									variant="outlined"
+									value={processDetails.treatment}
+									onChange={handleCustomTreatmentChange}
+									sx={{ mt: 2 }}
+								/>
+							)}
 						</Grid>
 
 						<Grid item xs={12}>
@@ -193,12 +325,12 @@ export default function CreateNewProcess({ setCurrentPage }) {
 									id="physician-select"
 									value={processDetails.physician}
 									label="Physician"
-									onChange={handleChange("physician")}
+									onChange={handlePhysicianChange}
 									required
 								>
 									{physicians.map((physician) => (
-										<MenuItem key={physician} value={physician}>
-											{physician}
+										<MenuItem key={physician.id} value={physician.id}>
+											{physician.name}
 										</MenuItem>
 									))}
 								</Select>
@@ -221,6 +353,7 @@ export default function CreateNewProcess({ setCurrentPage }) {
 								value={processDetails.expectedDischarge}
 								onChange={(newValue) => handleDateChange("expectedDischarge", newValue)}
 								renderInput={(params) => <TextField {...params} fullWidth />}
+								minDate={today}
 								required
 							/>
 						</Grid>
@@ -233,12 +366,12 @@ export default function CreateNewProcess({ setCurrentPage }) {
 									id="room-select"
 									value={processDetails.room}
 									label="Room"
-									onChange={handleChange("room")}
+									onChange={handleRoomChange}
 									required
 								>
-									{rooms.map((room) => (
-										<MenuItem key={room} value={room}>
-											{room}
+									{roomNumbers.map((room) => (
+										<MenuItem key={room.id} value={room.id}>
+											{room.roomNumber}
 										</MenuItem>
 									))}
 								</Select>
@@ -264,9 +397,9 @@ export default function CreateNewProcess({ setCurrentPage }) {
 									)}
 									required
 								>
-									{equipmentList.map((item) => (
-										<MenuItem key={item} value={item}>
-											{item}
+									{equipmentOptions.map((equipment) => (
+										<MenuItem key={equipment.id} value={equipment.name}>
+											{equipment.name}
 										</MenuItem>
 									))}
 								</Select>
@@ -328,7 +461,7 @@ export default function CreateNewProcess({ setCurrentPage }) {
 						))}
 
 						<Grid item xs={12}>
-							<Button variant="contained" type="submit" sx={{ mt: 2 }}>
+							<Button onClick={handleSubmit} variant="contained" type="submit" sx={{ mt: 2 }}>
 								Submit
 							</Button>
 							<Button onClick={() => setCurrentPage("Processes")} variant="outlined" sx={{ ml: 2, mt: 2 }}>

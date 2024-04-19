@@ -68,13 +68,13 @@ db.once("open", () => {
 app.use("/api", answersRoutes);
 app.use("/api", tagsRoutes);
 app.use("/api", questionsRoutes);
+app.use("/api", employeesRoutes);
 app.use("/api", authRoutes);
 app.use("/api", commentsRoutes);
 
 // ***All new routes go here***
 app.use("/api", processesRoutes);
 app.use("/api", patientsRoutes);
-app.use("/api", employeesRoutes);
 app.use("/api", roomsRoutes);
 app.use("/api", equipmentRoutes);
 
