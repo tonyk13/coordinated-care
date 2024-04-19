@@ -53,7 +53,7 @@ export default function AdminSideNavigationBar({ setCurrentPage }) {
 					<List>
 						{menuItems.map((item, index) => (
 							<ListItem key={item.text}>
-								<ListItemButton onClick={() => handleClick(item)}>
+								<ListItemButton className={item.text.replace(/[\s/]+/g, '-')} onClick={() => handleClick(item)}>
 									<ListItemIcon>{item.icon}</ListItemIcon>
 									<ListItemText primary={item.text} />
 								</ListItemButton>
