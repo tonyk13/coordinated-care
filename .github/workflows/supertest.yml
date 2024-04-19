@@ -1,0 +1,45 @@
+name: SuperTest API CI Report
+
+on: push
+
+jobs:
+  RUN-SuperTest-API-Test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # node-version: [ 18.x ]
+        test-file: ["get_equipment_test.js", "get_patients_test.js", "get_physicians_test.js", "get_process_test.js", "get_rooms_test.js", "get_users_test.js"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Main Directory set up
+        run: npm install
+        
+      - name: Server set up and testing
+        run: |
+          cd server
+          npm install
+
+      - name: RUN SuperTest API Testing
+        run: |
+          cd server
+          npm test ${{ matrix.test-file }}
+
+      - name: SuperTest Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: SuperTest-test-report
+          path: Report
+
+      - name: SuperTest Report to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: SuperTest-test-report
+          path: Report
