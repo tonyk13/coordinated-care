@@ -1,80 +1,90 @@
-import React, { useState } from 'react';
-import { Button, Avatar, Grid, Typography, Container, Box, Checkbox } from '@mui/material';
+import React, { useState,  useEffect } from 'react';
+import axios from 'axios';
+
+import { Grid, Typography, Container, Box, Checkbox } from '@mui/material';
 
 export default function UserFeedback() {
-    const feedbackData = [
-        {
-            status: 'Pending',
-            user: 'John Doe',
-            feedbacklist: [
-                {
-                    id: 1,
-                    details: "When trying to schedule appointments for the same patient within a short timeframe, the system sometimes doesn't update the availability calendar, causing double bookings",
-                    reviewed: false,
-                },
-                {
-                    id: 2,
-                    details: "Several staff members have reported being unable to log in with their credentials intermittently since the last update, especially during peak hours.",
-                    reviewed: false,
-                },
-            ]
-        },
-        {
-            status: 'Reviewed',
-            user: 'Alan Scott',
-            feedbacklist: [
-                {
-                    id: 3,
-                    details: "The recent update to the medication management module has been a game-changer, making it easier to track prescriptions and refill statuses. Thank you for the continuous improvements!",
-                    reviewed: true,
-                },
-                {
-                    id: 4,
-                    details: "Several staff members have reported being unable to log in with their credentials intermittently since the last update, especially during peak hours.",
-                    reviewed: true,
-                },
-            ]
-        },
-    ];
+    const [feedbackData, setFeedbackData] = useState({ pending: [], reviewed: [] });
+    const [error, setError] = useState('');
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+                const response = await axios.get(`${baseURL}/api/feedback/all`);
+                const pending = response.data.filter(item => !item.isReviewed);
+                const reviewed = response.data.filter(item => item.isReviewed);
+                setFeedbackData({ pending, reviewed });
+                
+            } catch (error) {
+                console.error('Error fetching feedback:', error);
+                setError('Failed to fetch data.');
+                
+            }
+        };
+        fetchData();
+    }, []);
 
-    // IMplement later
-    // const handleCheckboxChange = (feedbackId, subFeedbackId) => {
-    // };
+    const handleCheckboxChange = async (feedbackId, isReviewed) => {
+        try {
+            const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+            const response = await axios.patch(`${baseURL}/api/feedback/${feedbackId}/review`, { reviewed: !isReviewed });
+            if (response.status === 200) {
+                setFeedbackData(prev => {
+                    const pending = isReviewed ? [...prev.pending, {...response.data}] : prev.pending.filter(item => item._id !== feedbackId);
+                    const reviewed = isReviewed ? prev.reviewed.filter(item => item._id !== feedbackId) : [...prev.reviewed, {...response.data}];
+                    return { pending, reviewed };
+                });
+            }
+            
+        } catch (error) {
+            console.error('Error updating feedback status:', error);
+            setError('Failed to update status.');
+            
+        }
+    };
 
     return (
         <Container>
-            <Grid container spacing={3}>
-                {feedbackData.map((feedback, index) => (
-                    <Grid item xs={12} key={index}>
-                        <Box p={4} bgcolor="#f9f9f9" position="relative" borderRadius={6}>
-                            <Typography variant="h6" style={{ 
-                                position: 'absolute', 
-                                top: 0, 
-                                left: 0, 
-                                width: '10%',
-                                color: 'dodgerblue', 
-                                fontWeight: 'bold', 
-                                fontSize: '12px',
-                                border: '2px solid dodgerblue', 
-                                borderTopLeftRadius: 16, 
-                                padding: '10px' 
-                                }}>{feedback.status}
-                            </Typography>
-                            <br />
-                            <Typography variant="body1" fontWeight="bold">{feedback.user}</Typography>
-                            {feedback.feedbacklist.map(subFeedback => (
-                                <Box key={subFeedback.id} ml={2} display="flex" alignItems="center">
+            
+                <Grid container spacing={3}>
+                    
+                    <Grid item xs={12}>
+                        <Typography variant="h6" gutterBottom>
+                            Pending Feedback
+                        </Typography>
+                        <Box>
+                            {feedbackData.pending.length ? feedbackData.pending.map(feedback => (
+                                <Box key={feedback._id} p={2} borderRadius={6} mb={2}>
                                     <Checkbox
-                                        checked={subFeedback.reviewed}
+                                        checked={false}
+                                        onChange={() => handleCheckboxChange(feedback._id, false)}
                                     />
-                                    <Typography variant="body1" fontWeight="bold" fontSize="12px">{subFeedback.details}</Typography>
+                                    <Typography variant="body1" fontWeight="bold">{feedback.details}</Typography>
                                 </Box>
-                            ))}
+                            )) : <Typography>No pending feedback.</Typography>}
                         </Box>
                     </Grid>
-                ))}
-            </Grid>
+                
+                    <Grid item xs={12}>
+                        <Typography variant="h6" gutterBottom>
+                            Reviewed Feedback
+                        </Typography>
+                        <Box>
+                            {feedbackData.reviewed.length ? feedbackData.reviewed.map(feedback => (
+                                <Box key={feedback._id} p={2} borderRadius={6} mb={2}>
+                                    <Checkbox
+                                        checked={true}
+                                        onChange={() => handleCheckboxChange(feedback._id, true)}
+                                    />
+                                    <Typography variant="body1" fontWeight="bold">{feedback.details}</Typography>
+                                </Box>
+                            )) : <Typography>No reviewed feedback.</Typography>}
+                        </Box>
+                    </Grid>
+                </Grid>
+            
+            {error && <Typography color="error">{error}</Typography>}
         </Container>
     );
 }

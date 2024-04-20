@@ -54,7 +54,7 @@ const ProcedureSchema = new mongoose.Schema({
 const PatientDocumentSchema = new mongoose.Schema({
 	documentType: {
 		type: String,
-		required: true,
+		//required: true,
 	},
 	file: {
 		type: String,
@@ -66,7 +66,7 @@ const PatientDocumentSchema = new mongoose.Schema({
 	},
 	accessLevel: {
 		type: String,
-		required: true,
+		//required: true,
 		enum: ["Public", "Private", "Restricted"],
 	},
 });
@@ -86,7 +86,6 @@ const PatientBillSchema = new mongoose.Schema({
 	},
 	paymentMethod: {
 		type: String,
-		required: true,
 		enum: ["Cash", "Credit Card", "Debit Card", "Insurance", "Check", "Online", "Other"],
 	},
 });
@@ -146,11 +145,11 @@ const PatientSchema = new mongoose.Schema({
 	},
 	effectiveSince: {
 		type: Date,
-		required: true,
+		//required: true,
 	},
 	insurancePhoneNumber: {
 		type: String,
-		required: true,
+		//required: true,
 	},
 	patientBills: [PatientBillSchema],
 });
