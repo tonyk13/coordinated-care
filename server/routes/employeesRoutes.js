@@ -15,7 +15,7 @@ router.get("/employees/all_physician_names", employeesController.all_physician_n
 // router.get("/employees/:_id", employeesController.get_employee);
 
 // Get request for retrieving an employee id by email (used when setting cookie
-router.get("/employees/:email", employeesController.get_employee_by_email);
+router.get("/employees/get_employee_by_email", employeesController.get_employee_by_email);
 
 // // PUT request for updating an employee
 // router.put("/employees/:_id", employeesController.update_employee);

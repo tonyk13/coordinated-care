@@ -22,10 +22,12 @@ export default function Login({ setCurrentPage }) {
 
 	useEffect(() => {
         if (isAuthenticated && user) {
+			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
             const userEmail = user.email;
-            axios.get(`/employees/${userEmail}`)
+            axios.get(`${baseURL}/api/employees/get_employee_by_email`, { email: userEmail })
                 .then(response => {
-                    Cookies.set('employee_id', response.data.user_id);
+					console.log(response)
+                    Cookies.set('employee_id', response.data.employee_id);
                 })
                 .catch(error => {
                     console.error('Error fetching employee ID:', error);
