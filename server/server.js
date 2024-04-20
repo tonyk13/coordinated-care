@@ -24,6 +24,7 @@ const patientsRoutes = require("./routes/patientsRoutes");
 const employeesRoutes = require("./routes/employeesRoutes");
 const roomsRoutes = require("./routes/roomsRoutes");
 const equipmentRoutes = require("./routes/equipmentRoutes");
+const discussionsRoutes = require("./routes/discussionsRoutes");
 
 const feedbackRoutes = require("./routes/feedbackRoutes");
 
@@ -70,25 +71,28 @@ db.once("open", () => {
 app.use("/api", answersRoutes);
 app.use("/api", tagsRoutes);
 app.use("/api", questionsRoutes);
+app.use("/api", employeesRoutes);
 app.use("/api", authRoutes);
 app.use("/api", commentsRoutes);
 
 // ***All new routes go here***
 app.use("/api", processesRoutes);
 app.use("/api", patientsRoutes);
-app.use("/api", employeesRoutes);
 app.use("/api", roomsRoutes);
 app.use("/api", equipmentRoutes);
+
 app.use("/api", feedbackRoutes);
+app.use("/api", discussionsRoutes);
+
 
 // Serve static files from the React app build directory
 const path = require("path");
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
 // The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
-app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
-});
+// app.get("*", (req, res) => {
+// 	res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
+// });
 
 // When the server is terminated using CTRL + C, disconnect the database
 process.on("SIGINT", () => {

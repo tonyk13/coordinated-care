@@ -2,6 +2,58 @@ const mongoose = require("mongoose");
 
 // Contains references to: PrivacySettings, NotificationSettings, Message, EmergencyContact
 
+const NotificationSettingsSchema = new mongoose.Schema({
+    notificationMethods: {
+        type: String,
+        default: ''
+    },
+    appointmentAlerts: {
+        type: String,
+        default: ''
+    },
+    taskAssignmentAlerts: {
+        type: String,
+        default: ''
+    },
+    messageAlerts: {
+        type: String,
+        default: ''
+    },
+    discussionBoardAlerts: {
+        type: String,
+        default: ''
+    }
+});
+
+const PrivacySettingsSchema = new mongoose.Schema({
+    workScheduleVisibility: {
+        type: String,
+        default: ''
+    },
+    patientListVisibility: {
+        type: String,
+        default: ''
+    },
+    messagePermission: {
+        type: String,
+        default: ''
+    },
+    personalInfoVisibility: {
+        type: String,
+        default: ''
+    },
+    phoneNumberVisibility: {
+        type: String,
+        default: ''
+    },
+    shareInfoWithDevelopers: {
+        type: String,
+        default: ''
+    }
+});
+
+
+
 const EmployeeSchema = new mongoose.Schema({
 	firstName: {
 		type: String,
@@ -36,15 +88,13 @@ const EmployeeSchema = new mongoose.Schema({
 		required: false,
 	},
 	privacySettings: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "PrivacySettings",
-		required: false,
-	},
-	notificationSettings: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "NotificationSettings",
-		required: false,
-	},
+        type: PrivacySettingsSchema,
+        default: { workScheduleVisibility: '', patientListVisibility: '', messagePermission: '', personalInfoVisibility: '', phoneNumberVisibility: '', shareInfoWithDevelopers: '' }
+    },
+	notificationSettings:{
+        type: NotificationSettingsSchema,
+        default: { notificationMethods: '', appointmentAlerts: '', taskAssignmentAlerts: '', messageAlerts: '', discussionBoardAlerts: '' }
+    },
 	role: {
 		type: String,
 		required: true,

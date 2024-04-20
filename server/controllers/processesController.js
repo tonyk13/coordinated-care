@@ -186,3 +186,17 @@ exports.update_process = async (req, res) => {
 		res.status(500).json({ error: "Internal server error", details: error.message });
 	}
 };
+
+exports.create_process = async (req, res, next) => {
+	try {
+		const process = new processModel({
+			...req.body,
+		});
+
+		await process.save();
+
+		return res.status(201).json(process);
+	} catch (error) {
+		next(error);
+	}
+};

@@ -14,4 +14,7 @@ router.get("/processes/:_id", processesController.get_process);
 // PUT request for a process (updating a process)
 router.put("/processes/:_id", processesController.update_process);
 
+// POST request for creating a process
+router.post("/processes", processesController.create_process);
+
 module.exports = router;

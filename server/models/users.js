@@ -36,7 +36,7 @@ var userSchema = new Schema({
         required: true,
         enum: ['Admin', 'Care Provider'],
     },
-    
+
     /*
     username: {
         type: String,
@@ -133,7 +133,6 @@ var userSchema = new Schema({
 userSchema.path("questions").default([]);
 userSchema.path("answers").default([]);
 userSchema.path("comments").default([]);
-
 userSchema.pre("save", async function (next) {
     if (this.isModified("passwordHash")) {
         this.passwordHash = await bcrypt.hash(this.passwordHash, 12);
