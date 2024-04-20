@@ -66,3 +66,67 @@ exports.get_employee_by_email = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.get_privacy_settings = async (req, res, next) => {
+    const employeeId = req.params.id;
+    try {
+        const employee = await employeeModel.findById(employeeId);
+        if (!employee) {
+            return res.status(404).json({ error: 'Employee not found' });
+        }
+        const privacySettings = employee.privacySettings;
+        res.json({ privacySettings });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.update_privacy_settings = async (req, res, next) => {
+    const employee_id = req.params.id;
+	const { privacySettings } = req.body;
+    try {
+        const employee = await employeeModel.findByIdAndUpdate(employee_id, 
+            { privacySettings },
+        );
+        
+        if (!employee) {
+            return res.status(404).json({ error: "Employee Not Found" });
+        }
+        
+		res.json({ response: req.body });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.get_notification_settings = async (req, res, next) => {
+    const employeeId = req.params.id;
+    try {
+        const employee = await employeeModel.findById(employeeId);
+        if (!employee) {
+            return res.status(404).json({ error: 'Employee not found' });
+        }
+        const notificationSettings = employee.notificationSettings;
+        res.json({ notificationSettings });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.update_notification_settings = async (req, res, next) => {
+    const employee_id = req.params.id;
+	const { notificationSettings } = req.body;
+    try {
+        const employee = await employeeModel.findByIdAndUpdate(employee_id, 
+            { notificationSettings },
+        );
+        
+        if (!employee) {
+            return res.status(404).json({ error: "Employee Not Found" });
+        }
+        
+		res.json({ response: req.body });
+    } catch (error) {
+        next(error);
+    }
+};
