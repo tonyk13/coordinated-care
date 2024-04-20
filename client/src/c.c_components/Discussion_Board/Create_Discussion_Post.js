@@ -20,7 +20,7 @@ export default function CreateDiscussionPost({ setCurrentPage }) {
 
 	const onSubmit = async (data) => {
 		try {
-			const baseURL = process.env.REACT_APP_BASE_URL || "http://localhost:8000";
+			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 			const response = await axios.post(`${baseURL}/api/discussions`, {
 				title: data.title,
 				summary: data.summary,
