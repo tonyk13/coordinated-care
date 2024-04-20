@@ -53,6 +53,7 @@ export default function Privacy_Settings() {
               shareInfoWithDevelopers,
               workScheduleVisibility,
           });
+          setGetRequestMade(true);
           // console.log(selections)
         })
         .catch(error => {
