@@ -24,6 +24,7 @@ const patientsRoutes = require("./routes/patientsRoutes");
 const employeesRoutes = require("./routes/employeesRoutes");
 const roomsRoutes = require("./routes/roomsRoutes");
 const equipmentRoutes = require("./routes/equipmentRoutes");
+const discussionsRoutes = require("./routes/discussionsRoutes");
 
 const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser");
@@ -77,6 +78,7 @@ app.use("/api", processesRoutes);
 app.use("/api", patientsRoutes);
 app.use("/api", roomsRoutes);
 app.use("/api", equipmentRoutes);
+app.use("/api", discussionsRoutes);
 
 // Serve static files from the React app build directory
 const path = require("path");
