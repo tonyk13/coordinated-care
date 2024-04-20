@@ -24,7 +24,7 @@ export default function Login({ setCurrentPage }) {
         if (isAuthenticated && user) {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
             const userEmail = user.email;
-            axios.get(`${baseURL}/api/employees/get_employee_by_email`, { email: userEmail })
+            axios.post(`${baseURL}/api/employees/get_employee_by_email`, { email: userEmail })
                 .then(response => {
 					console.log(response)
                     Cookies.set('employee_id', response.data.employee_id);

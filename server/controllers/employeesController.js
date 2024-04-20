@@ -24,10 +24,10 @@ exports.get_employee_by_email = async (req, res, next) => {
     try {
         const employee = await employeeModel.findOne({ email: employee_email });
         if (!employee) {
-            return res.status(404).json({ error: 'Employee not found' });
+            return res.status(404).json({ error: "Employee Not Found" });
         }
         console.log(employee);
-        res.json({ employee_id: employee._id });
+        res.json({ employee_id: employee._id.toString() });
     } catch (error) {
         next(error);
     }
