@@ -1,15 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, TextField, Grid, Typography, Box, Container } from '@mui/material';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function Profile( {setCurrentPage} ) {
     const [formData, setFormData] = useState({
-        firstName: 'John',
-        middleName: 'Pat',
-        lastName: 'Doe',
-        userName: 'johndoe232',
-        dob: '02-03-1980',
-        phoneNumber: '123-456-7890',
+        firstName: ' ',
+        middleName: ' ',
+        lastName: ' ',
+        username: ' ',
+        phoneNumber: ' ',
+        dateOfBirth: ' ',
+        role: ' ',
     });
+
+    useEffect(() => {
+        const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+        const employee_id = Cookies.get("employee_id");
+        axios.get(`${baseURL}/api/employees/${employee_id}`)
+        .then(response => {
+            const { firstName, middleName, lastName, username, phoneNumber, dateOfBirth, role } = response.data.data;
+            setFormData({
+                firstName,
+                middleName,
+                lastName,
+                username,
+                phoneNumber,
+                dateOfBirth, 
+                role
+            });
+            })
+            .catch(error => {
+                console.error('Error fetching employee ID:', error);
+            });
+    }, []);
+
+
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,7 +45,28 @@ export default function Profile( {setCurrentPage} ) {
     // Same function for now for save cancel, just console logs clicked
     const saveEdits = () => {
         // setCurrentPage('home')
-        console.log("save edits")
+        const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+        const employee_id = Cookies.get("employee_id");
+        axios.put(`${baseURL}/api/employees/${employee_id}`, formData)
+            .catch(error => {
+                console.error('Error updating employee:', error);
+            });
+
+        if (formData.role === "Admin") {
+            setCurrentPage("Processes")
+        } else {
+            setCurrentPage('Dashboard');
+        }
+    };
+
+
+    // Change Admin redirection on cancel
+    const cancelEdits = () => {
+        if (formData.role === "Admin") {
+            setCurrentPage("Processes")
+        } else {
+            setCurrentPage('Dashboard');
+        }
     };
 
     return (
@@ -42,16 +89,6 @@ export default function Profile( {setCurrentPage} ) {
                             <TextField
                                 fullWidth
                                 type="text"
-                                name="dob"
-                                label="Date of Birth"
-                                value={formData.dob}
-                                onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={16}>
-                            <TextField
-                                fullWidth
-                                type="text"
                                 name="middleName"
                                 label="Middle Name (optional)"
                                 value={formData.middleName}
@@ -62,9 +99,19 @@ export default function Profile( {setCurrentPage} ) {
                             <TextField
                                 fullWidth
                                 type="text"
-                                name="userName"
+                                name="lastName"
+                                label="Last Name"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={16}>
+                            <TextField
+                                fullWidth
+                                type="text"
+                                name="username"
                                 label="Username"
-                                value={formData.userName}
+                                value={formData.username}
                                 onChange={handleChange}
                             />
                         </Grid>
@@ -82,9 +129,9 @@ export default function Profile( {setCurrentPage} ) {
                             <TextField
                                 fullWidth
                                 type="text"
-                                name="lastName"
-                                label="Last Name"
-                                value={formData.lastName}
+                                name="datOfBirth"
+                                label="Date Of Birth"
+                                value={formData.dateOfBirth}
                                 onChange={handleChange}
                             />
                         </Grid>
@@ -94,7 +141,7 @@ export default function Profile( {setCurrentPage} ) {
             <Box mt={2} display="flex" justifyContent="center">
                 <Button variant="contained" color="primary" style={{ width: '100px' }} onClick={saveEdits}>Save</Button>
                 <Box mx={10} />
-                <Button variant="contained" style={{ backgroundColor: 'red', color: 'white', width: '100px' }} onClick={saveEdits}>Cancel</Button>
+                <Button variant="contained" style={{ backgroundColor: 'red', color: 'white', width: '100px' }} onClick={cancelEdits}>Cancel</Button>
             </Box>
         </div>
     );
