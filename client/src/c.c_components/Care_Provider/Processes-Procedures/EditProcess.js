@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-const EditProcess = ({ setCurrentPage, patient: selectedProcess }) => {
+const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) => {
 	const [sections, setSections] = useState(selectedProcess.sections);
 
 	const handleToggle = (sectionIndex, taskIndex) => {
@@ -84,6 +84,8 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess }) => {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 			const response = await axios.put(`${baseURL}/api/processes/${selectedProcess._id}`, { sections: formattedSections });
 			console.log("Save response:", response);
+			selectedProcess.sections = formattedSections;
+			setPatient(selectedProcess);
 			setCurrentPage("ViewProcess");
 		} catch (error) {
 			console.error("Failed to save process updates:", error);
