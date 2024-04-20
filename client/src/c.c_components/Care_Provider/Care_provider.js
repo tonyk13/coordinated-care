@@ -35,7 +35,7 @@ import "../../stylesheets/App.css";
 import Dashboard from "./Dashboard";
 
 export default function CareProvider() {
-	const [currentPage, setCurrentPage] = useState("");
+	const [currentPage, setCurrentPage] = useState("Dashboard");
 	const [patient, setPatient] = useState(null);
 
 	//  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved

@@ -89,6 +89,10 @@ const EmployeeSchema = new mongoose.Schema({
 	resetPasswordToken: {
 		type: String,
 	},
+	auth0Id: { 
+		type: String, unique: true 
+	},
+
 });
 
 const Employee = mongoose.model("Employee", EmployeeSchema);

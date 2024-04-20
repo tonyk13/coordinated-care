@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { Button, TextField, Grid, Typography, Box, Container } from "@mui/material";
+import { Button, TextField, Grid, Typography, Box, Container, Snackbar } from "@mui/material";
+import { useAuth0 } from '@auth0/auth0-react';
+import axios from 'axios';
+
+
 
 export default function Send_Feedback({ setCurrentPage }) {
+	const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+	const { user, isAuthenticated } = useAuth0();
 	const [formData, setFormData] = useState({
 		summary: "",
 		details: "",
@@ -12,9 +19,31 @@ export default function Send_Feedback({ setCurrentPage }) {
 	};
 
 	// Same function for now for save cancel, just console logs clicked
-	const saveEdits = () => {
-		// setCurrentPage('home')
-		console.log("save edits");
+	const handleSubmit = async () => {
+		if (!isAuthenticated) {
+			console.log("User not authenticated");
+			return;
+		}
+	
+		try {
+			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+			const response = await axios.post(`${baseURL}/api/feedback`, {
+				askedBy: user.sub,
+				summary: formData.summary,
+				details: formData.details
+			});
+			console.log("Feedback sent:", response.data);
+			setSnackbarOpen(true);
+			setFormData({ summary: "", details: "" });
+			// setCurrentPage('Dashboard'); 
+		} catch (error) {
+			console.error('Error submitting feedback:', error);
+		}
+	};
+	
+	const handleCancel = () => {
+		setFormData({ summary: "", details: "" });
+		setCurrentPage('Dashboard'); 
 	};
 
 	return (
@@ -39,7 +68,7 @@ export default function Send_Feedback({ setCurrentPage }) {
 							<TextField
 								fullWidth
 								multiline
-								rows={19} // 19 Rows for summary makes it consistent with profile form
+								rows={19} 
 								type="text"
 								name="details"
 								label="Details"
@@ -51,14 +80,25 @@ export default function Send_Feedback({ setCurrentPage }) {
 				</Box>
 			</Container>
 			<Box mt={2} display="flex" justifyContent="center">
-				<Button variant="contained" color="primary" style={{ width: "100px" }} onClick={saveEdits}>
+				<Button variant="contained" color="primary" style={{ width: "100px" }} onClick={handleSubmit}>
 					Send
 				</Button>
 				<Box mx={10} />
-				<Button variant="contained" style={{ backgroundColor: "red", color: "white", width: "100px" }} onClick={saveEdits}>
+				<Button variant="contained" style={{ backgroundColor: "red", color: "white", width: "100px" }} onClick={handleCancel}>
 					Cancel
 				</Button>
 			</Box>
+			<Snackbar
+    			open={snackbarOpen}
+    			autoHideDuration={6000}
+    			onClose={() => setSnackbarOpen(false)}
+   				message="Feedback has been sent"
+    			action={
+        			<Button color="secondary" size="small" onClick={() => setSnackbarOpen(false)}>
+            			Close
+        			</Button>
+    			}
+			/>
 		</div>
 	);
 }
