@@ -26,7 +26,6 @@ export default function Login({ setCurrentPage }) {
             const userEmail = user.email;
             axios.post(`${baseURL}/api/employees/get_employee_by_email`, { email: userEmail })
                 .then(response => {
-					console.log(response)
                     Cookies.set('employee_id', response.data.employee_id);
                 })
                 .catch(error => {
