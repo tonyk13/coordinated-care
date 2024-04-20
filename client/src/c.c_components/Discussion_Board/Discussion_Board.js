@@ -31,9 +31,11 @@ export default function DiscussionBoard({ setCurrentPage }) {
 	return (
 		<Box sx={{ width: "100%", maxWidth: 800, mx: "auto", my: 4 }}>
 			<Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 2 }}>
-				<Typography variant="h4">Discussion Board</Typography>
+				<Typography className="discussionBoardHeader" variant="h4">
+					Discussion Board
+				</Typography>
 				{!selectedTopic && (
-					<Button variant="contained" onClick={() => setCurrentPage("CreateDiscussionPost")}>
+					<Button className="addPostButton" variant="contained" onClick={() => setCurrentPage("CreateDiscussionPost")}>
 						Add Post
 					</Button>
 				)}
@@ -41,10 +43,10 @@ export default function DiscussionBoard({ setCurrentPage }) {
 
 			{!selectedTopic && (
 				<Paper sx={{ p: 2 }}>
-					<Typography variant="h6" sx={{ mb: 2 }}>
+					<Typography className="postsHeader" variant="h6" sx={{ mb: 2 }}>
 						Posts
 					</Typography>
-					<List>
+					<List className="listOfDiscussionPosts">
 						{topics.map((topic, index) => (
 							<React.Fragment key={topic._id}>
 								{index > 0 && <Divider />}
