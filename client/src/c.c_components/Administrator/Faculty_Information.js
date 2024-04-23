@@ -31,14 +31,16 @@ export default function Faculty_Information({IdClicked}) {
             //console.log("faculty info: id",IdClicked);
             const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
             const response = await axios.get(`${apiUrl}/api/employees/${IdClicked}`);
-            console.log("faculty info", response.data.data);
+            const employeeData = response.data.employee; 
+            console.log("faculty info", employeeData);
+            //console.log("first name : ", employeeData.firstName)
             setFacultyInfo({
-              firstName: response.data.data.firstName,
-              lastName: response.data.data.lastName,
-              username: response.data.data.username,
-              email: response.data.data.email,
-              role: response.data.data.role,
-              address: response.data.data.address
+              firstName: employeeData.firstName,
+              lastName: employeeData.lastName,
+              username: employeeData.username,
+              email: employeeData.email,
+              role: employeeData.role,
+              address: employeeData.address
             });
             //console.log(facultyInfo.firstName); //prints
           } catch (error) {
@@ -58,6 +60,7 @@ export default function Faculty_Information({IdClicked}) {
         role: facultyInfo.role,
         address: facultyInfo.address
     });
+    
     useEffect(() => {
         setFormData({
           firstName: facultyInfo.firstName,

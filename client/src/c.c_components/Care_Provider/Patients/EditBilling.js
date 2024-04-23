@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import {
 	Container,
 	Typography,
@@ -12,30 +12,64 @@ import {
 	TableRow,
 	Paper,
 } from "@mui/material";
+import axios from 'axios';
 
-export default function EditableBilling({ setCurrentPage, isEditing, setIsEditing }) {
-	const [billingData, setBillingData] = useState({
-		insuranceProvider: "Blue Cross",
-		memberID: "23232332",
-		effectiveSince: "01/01/2021",
-		insurancePhone: "(888)939-3322",
-		billingHistory: [
-			{
-				description: "Annual Checkup",
-				cost: "$206.74",
-				datePaid: "10/21/2020",
-				paymentMethod: "Insurance",
-			},
-		],
-	});
+
+export default function EditableBilling({ setCurrentPage, isEditing, setIsEditing, patient }) {
+    const [billingData, setBillingData] = useState({
+        insuranceProvider: "",
+        memberID: "",
+        effectiveSince: "",
+        insurancePhoneNumber: "",
+        billingHistory: [],
+    });
+	useEffect(() => {
+        const fetchBillingData = async () => {
+            try {
+				const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+                const response = await axios.get(`${apiUrl}/api/patients/${patient._id}`); 
+	
+				setBillingData({
+					insuranceProvider: response.data.insuranceProvider,
+					memberID: response.data.memberID,
+					effectiveSince: response.data.effectiveSince,
+					insurancePhoneNumber: response.data.insurancePhoneNumber,
+					billingHistory: response.data.billingHistory || []  
+				});
+                
+            } catch (error) {
+                console.error("Error fetching billing data:", error);
+    
+            }
+        };
+
+        fetchBillingData();
+    }, []);
 
 	const handleEdit = () => {
 		setIsEditing(true);
 	};
 
-	const handleSave = () => {
-		console.log("Saved data:", billingData);
-		setIsEditing(false);
+	const handleSave = async () => {
+		console.log("Saving data:", billingData);
+	
+		try {
+			const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+			const updateUrl = `${apiUrl}/api/patients/update_billing/${patient._id}`;
+	
+			const response = await axios.put(updateUrl, {
+				insuranceProvider: billingData.insuranceProvider,
+				memberID: billingData.memberID,
+				effectiveSince: billingData.effectiveSince,
+				insurancePhoneNumber: billingData.insurancePhoneNumber,
+				billingHistory: billingData.billingHistory
+			});
+	
+			console.log("Update successful:", response.data);
+			setIsEditing(false); 
+		} catch (error) {
+			console.error("Error updating billing data:", error);
+		}
 	};
 
 	const handleCancel = () => {
@@ -72,6 +106,7 @@ export default function EditableBilling({ setCurrentPage, isEditing, setIsEditin
 				margin="normal"
 			/>
 			<TextField
+				type="date"
 				label="Effective Since"
 				name="effectiveSince"
 				value={billingData.effectiveSince}
@@ -82,8 +117,8 @@ export default function EditableBilling({ setCurrentPage, isEditing, setIsEditin
 			/>
 			<TextField
 				label="Insurance Phone #"
-				name="insurancePhone"
-				value={billingData.insurancePhone}
+				name="insurancePhoneNumber"
+				value={billingData.insurancePhoneNumber}
 				onChange={handleChange}
 				disabled={!isEditing}
 				fullWidth
@@ -119,7 +154,7 @@ export default function EditableBilling({ setCurrentPage, isEditing, setIsEditin
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{billingData.billingHistory.map((row, index) => (
+						{billingData.billingHistory && billingData.billingHistory.map((row, index) => (
 							<TableRow key={index}>
 								<TableCell>{row.description}</TableCell>
 								<TableCell>{row.cost}</TableCell>

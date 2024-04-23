@@ -99,7 +99,11 @@ const EmergencyContactSchema = new mongoose.Schema({
 // Contains references to: Employee
 
 const PatientSchema = new mongoose.Schema({
-	name: {
+	firstName: {
+		type: String,
+		required: true,
+	},
+	lastName: {
 		type: String,
 		required: true,
 	},
@@ -114,7 +118,7 @@ const PatientSchema = new mongoose.Schema({
 	physician: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Employee",
-		required: true,
+		//required: true,
 	},
 	email: {
 		type: String,
@@ -126,7 +130,7 @@ const PatientSchema = new mongoose.Schema({
 	},
 	emergencyContact: {
 		type: EmergencyContactSchema,
-		required: true,
+		//required: true,
 	},
 	chronicConditions: {
 		type: [String],
@@ -137,19 +141,19 @@ const PatientSchema = new mongoose.Schema({
 	patientDocuments: [PatientDocumentSchema],
 	insuranceProvider: {
 		type: String,
-		required: true,
+		
 	},
 	memberID: {
 		type: String,
-		required: true,
+		
 	},
 	effectiveSince: {
 		type: Date,
-		//required: true,
+		
 	},
 	insurancePhoneNumber: {
 		type: String,
-		//required: true,
+		
 	},
 	patientBills: [PatientBillSchema],
 });

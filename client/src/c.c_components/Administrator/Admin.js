@@ -25,6 +25,7 @@ import EditProcess from "../Care_Provider/Processes-Procedures/EditProcess";
 import Create_new_process from "../Care_Provider/Processes-Procedures/Create_new_process";
 import Create_new_procedure from "../Care_Provider/Processes-Procedures/Create_new_procedure";
 import AccountRequests from "./AccountRequests";
+import NewPatientForm from "./NewPatientForm";
 
 import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure";
 
@@ -64,8 +65,8 @@ export default function Admin() {
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
 					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
-					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
-					{currentPage === "PatientInformation" && <PatientInformation setCurrentPage={setCurrentPage} />}
+					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar} patient={patient} setPatient={setPatient}/>}
+					{currentPage === "PatientInformation" && <PatientInformation setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
 					{currentPage === "Add New Faculty" && <Add_new_faculty setCurrentPage={setCurrentPage} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar}/>}
@@ -87,6 +88,9 @@ export default function Admin() {
 					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
 
 					{currentPage === "Account Requests" && <AccountRequests setCurrentPage={setCurrentPage} />}
+
+					{currentPage === "newPatientForm" && <NewPatientForm setCurrentPage={setCurrentPage} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar} />}
+
 				</Box>
 			</Box>
 		</Box>
