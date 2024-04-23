@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Paper, Typography, Button, Divider, TextField, Tab, Tabs } from "@mui/material";
 import Billing from "./Billing";
 import EditBilling from "./EditBilling";
@@ -7,20 +7,34 @@ import Procedures from "./Procedures";
 import Appointments from "./Appointments";
 import Referrals from "./Referrals";
 
-export default function Information({ setCurrentPage }) {
+export default function Information({ setCurrentPage, patient, setPatient }) {
 	const [selectedTab, setSelectedTab] = useState(0);
-	const [isEditing, setIsEditing] = useState(false); // State to toggle between viewing and editing
+	const [isEditing, setIsEditing] = useState(false); 
 	const [isEditingInfo, setIsEditingInfo] = useState(false);
 	const [formData, setFormData] = useState({
-		name: "Scott, Alan",
-		dob: "July 4, 1980",
-		phone: "+1 (555) 123-4567",
-		email: "alan@email.org",
-		address: "123 Healthway Drive, Meditown, State, 45678",
-		emergencyContact: "Jane Doe",
-		emergencyPhone: "+1 (555) 987-6543",
-		chronicConditions: "Diabetes",
+		name: (patient.firstName +" "+ patient.lastName) || "",
+		dob: patient.dateOfBirth || "",
+		phone: patient.phone || "",
+		email: patient.email || "",
+		address: patient.address || "",
+		emergencyContact: patient.emergencyContact?.name || "",
+		emergencyPhone: patient.emergencyContact?.phoneNumber || "",
+		//chronicConditions: patient.chronicConditions?.join(', ') || "",  
 	});
+
+	useEffect(() => {
+		setFormData({
+			name: (patient.firstName +" "+ patient.lastName) || "",
+			dob: patient.dateOfBirth || "",
+			phone: patient.phone || "",
+			email: patient.email || "",
+			address: patient.address || "",
+			emergencyContact: patient.emergencyContact?.name || "",
+			emergencyPhone: patient.emergencyContact?.phoneNumber || "",
+			//chronicConditions: patient.chronicConditions?.join(', ') || "", 
+		});
+	}, [patient]);
+	
 
 	const handleTabChange = (event, newValue) => {
 		setSelectedTab(newValue);
@@ -42,6 +56,7 @@ export default function Information({ setCurrentPage }) {
 
 	const saveChanges = () => {
 		setIsEditing(false);
+		
 	};
 
 	return (
@@ -85,6 +100,7 @@ export default function Information({ setCurrentPage }) {
 								<TextField
 									fullWidth
 									label="Date of Birth"
+									type="date"
 									name="dob"
 									value={formData.dob}
 									onChange={handleInputChange}
@@ -121,25 +137,29 @@ export default function Information({ setCurrentPage }) {
 								<Typography variant="h5" sx={{ mt: 2, mb: 1, fontWeight: "bold" }}>
 									Personal Information
 								</Typography>
-								<Typography variant="body1">Name: Scott, Alan</Typography>
-								<Typography variant="body1">Date of Birth: July 4, 1980</Typography>
+								<Typography variant="body1">Name: {patient.firstName +" "+ patient.lastName}</Typography>
+								<Typography variant="body1">Date of Birth: {new Date(patient.dateOfBirth).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })}</Typography>
 
 								<Divider sx={{ my: 1 }} />
 
 								<Typography variant="body1">Contact Information:</Typography>
-								<Typography variant="body1">Phone: +1 (555) 123-4567</Typography>
-								<Typography variant="body1">Email: alan@email.org</Typography>
+								<Typography variant="body1">Phone Number: {patient.phoneNumber}</Typography>
+								<Typography variant="body1">Email: {patient.email}</Typography>
 
 								<Divider sx={{ my: 1 }} />
 
-								<Typography variant="body1">Address: 123 Healthway Drive, Meditown, State, 45678</Typography>
+								<Typography variant="body1">Address: {patient.address}</Typography>
 
 								<Divider sx={{ my: 1 }} />
 
 								<Typography variant="body1">Emergency Contact:</Typography>
-								<Typography variant="body1">Name: Jane Doe</Typography>
-								<Typography variant="body1">Relationship: Spouse</Typography>
-								<Typography variant="body1">Phone: +1 (555) 987-6543</Typography>
+								<Typography variant="body1">Name: {patient.emergencyContact.name}</Typography>
+								<Typography variant="body1">Relationship: {patient.emergencyContact.relationship}</Typography>
+								<Typography variant="body1">Phone: {patient.emergencyContact.phoneNumber}</Typography>
 
 								<Divider sx={{ my: 1 }} />
 
@@ -160,10 +180,10 @@ export default function Information({ setCurrentPage }) {
 				{selectedTab === 1 && <Appointments setCurrentPage={setCurrentPage} />}
 				{selectedTab === 2 && <Procedures />}
 				{selectedTab === 3 && <Documents />}
-				{selectedTab === 5 && !isEditing && <Billing setCurrentPage={handleEditClick} />}
+				{selectedTab === 5 && !isEditing && <Billing setCurrentPage={handleEditClick} patient = {patient} />}
 				{selectedTab === 4 && <Referrals />}
 				{selectedTab === 5 && isEditing && (
-					<EditBilling setCurrentPage={() => setIsEditing(false)} isEditing={isEditing} setIsEditing={setIsEditing} />
+					<EditBilling setCurrentPage={() => setIsEditing(false)} isEditing={isEditing} setIsEditing={setIsEditing} patient = {patient}/>
 				)}
 			</Paper>
 		</Box>

@@ -8,6 +8,8 @@ const employeesController = require("../controllers/employeesController");
 // GET request for list of all physician names
 router.get("/employees/all_physician_names", employeesController.all_physician_names);
 
+router.get("/employees/all_physician", employeesController.all_physician)
+
 // // POST request for creating an employee
 // router.post("/employees/", employeesController.create_employee);
 
@@ -16,6 +18,10 @@ router.get("/employees/:_id", employeesController.get_employee);
 
 // PUT request for updataing an employee
 router.put("/employees/:_id", employeesController.update_employee);
+
+
+
+
 
 
 // Get request for retrieving an employee id by email (used when setting cookie)

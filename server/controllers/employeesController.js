@@ -1,4 +1,16 @@
 const employeeModel = require("../models/employee");
+//all_physician
+exports.all_physician = async (req, res, next) => {
+	try {
+		const physicians = await employeeModel.find({ role: "Doctor" });
+		res.status(200).json(physicians);
+	} catch (error) {
+		next(error);
+	}
+};
+
+
+
 
 exports.all_physician_names = async (req, res, next) => {
 	try {
@@ -20,6 +32,8 @@ exports.all_physician_names = async (req, res, next) => {
 		next(error);
 	}
 };
+
+
 
 exports.get_employee = async (req, res, next) => {
 	const employee_id = req.params._id;
@@ -55,6 +69,8 @@ exports.update_employee = async (req, res, next) => {
         next(error);
     }
 };
+
+
 
 exports.get_employee_by_email = async (req, res, next) => {
     const employee_email = req.body.email;
