@@ -51,12 +51,13 @@ export default function SpecificFaculty({IdClicked}) {
       try {
         const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
         const response = await axios.get(`${apiUrl}/api/employees/${IdClicked}`);
+        const employeeData = response.data.employee; 
         setFacultyInfo({
-          firstName: response.data.data.firstName,
-          lastName: response.data.data.lastName,
-          username: response.data.data.username,
-          email: response.data.data.email,
-          role: response.data.data.role,
+          firstName: employeeData.firstName,
+          lastName: employeeData.lastName,
+          username: employeeData.username,
+          email: employeeData.email,
+          role: employeeData.role,
         });
       } catch (error) {
         console.error('Failed to fetch faculty data:', error);
