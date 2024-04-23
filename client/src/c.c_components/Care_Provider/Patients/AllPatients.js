@@ -133,7 +133,7 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
     								day: 'numeric'
   								})}</TableCell>
 								<TableCell align="center">{row.phoneNumber}</TableCell>
-								<TableCell align="center">Dr. {row.physician.firstName} {row.physician.lastName}</TableCell>
+								<TableCell align="center">Dr. {row.physician?.firstName} {row.physician?.lastName}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
