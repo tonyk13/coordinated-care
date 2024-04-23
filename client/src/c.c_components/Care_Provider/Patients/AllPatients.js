@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Box,
 	Table,
@@ -14,10 +14,10 @@ import {
 	IconButton,
 	Pagination,
 	Button,
-	Snackbar
+	Snackbar,
 } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
-import axios from 'axios';
+import axios from "axios";
 /*
 function createData(name, dob, phoneNumber, physician) {
 	return { name, dob, phoneNumber, physician };
@@ -37,48 +37,45 @@ const rows = [
 ];
 */
 
-
-export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarOpen, handleCloseSnackbar,patient , setPatient}) {
-
+export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarOpen, handleCloseSnackbar, patient, setPatient }) {
 	const [patients, setPatients] = useState([]);
 	const [page, setPage] = useState(1);
 	const rowsPerPage = 5;
 
 	useEffect(() => {
-        const fetchPatients = async () => {
-            try {
-				const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-        		const response = await axios.get(`${apiUrl}/api/patients`);
-       
-                setPatients(response.data);
+		const fetchPatients = async () => {
+			try {
+				const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
+				const response = await axios.get(`${apiUrl}/api/patients`);
+
+				setPatients(response.data);
 				//console.log("patients" , response.data);
-            } catch (error) {
-                console.error('Failed to fetch patients:', error);
-            }
-        };
+			} catch (error) {
+				console.error("Failed to fetch patients:", error);
+			}
+		};
 
-        fetchPatients();
-    }, []);
-
+		fetchPatients();
+	}, []);
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
 	};
 
-	const handleNameClick = (patient) => {
-		setPatient(patient);
-		console.log("Patient clicked",patient);
+	const handleNameClick = (patientt) => {
+		setPatient(patientt);
+		console.log("Patient clicked", patientt);
 		setCurrentPage("PatientInformation");
 	};
 	const handleNewPatient = () => {
 		setCurrentPage("newPatientForm");
-	}
+	};
 
 	// Calculate the number of pages
 	const count = Math.ceil(patients.length / rowsPerPage);
 
 	// Slice the rows array to only include the rows for the current page
-    const currentPageRows = patients.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+	const currentPageRows = patients.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
 	return (
 		<Box>
@@ -102,7 +99,9 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 					}}
 					sx={{ width: "30vw" }}
 				/>
-				<Button variant="contained" sx={{ml:4, mt:1}} onClick={handleNewPatient} >Add new Patient</Button>
+				<Button variant="contained" sx={{ ml: 4, mt: 1 }} onClick={handleNewPatient}>
+					Add new Patient
+				</Button>
 			</Box>
 			<TableContainer component={Paper} sx={{ maxHeight: "70vh", overflow: "auto" }}>
 				<Table stickyHeader aria-label="sticky table">
@@ -127,13 +126,17 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 										{row.firstName} {row.lastName}
 									</span>
 								</TableCell>
-								<TableCell align="center">{new Date(row.dateOfBirth).toLocaleDateString('en-US', {
-    								year: 'numeric',
-   									month: 'long',
-    								day: 'numeric'
-  								})}</TableCell>
+								<TableCell align="center">
+									{new Date(row.dateOfBirth).toLocaleDateString("en-US", {
+										year: "numeric",
+										month: "long",
+										day: "numeric",
+									})}
+								</TableCell>
 								<TableCell align="center">{row.phoneNumber}</TableCell>
-								<TableCell align="center">Dr. {row.physician?.firstName} {row.physician?.lastName}</TableCell>
+								<TableCell align="center">
+									Dr. {row.physician?.firstName} {row.physician?.lastName}
+								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
@@ -143,11 +146,11 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 				<Pagination count={count} page={page} onChange={handleChangePage} color="primary" />
 			</Box>
 			<Snackbar
-                open={snackbarOpen}
-                autoHideDuration={6000}
-                onClose={() => setSnackbarOpen(false)}
-                message="Patient Added successfully"
-            />
+				open={snackbarOpen}
+				autoHideDuration={6000}
+				onClose={() => setSnackbarOpen(false)}
+				message="Patient Added successfully"
+			/>
 		</Box>
 	);
 }

@@ -40,11 +40,11 @@ export default function Admin() {
 	const [patient, setPatient] = useState(null);
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const handleCloseSnackbar = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setSnackbarOpen(false);
-    };
+		if (reason === "clickaway") {
+			return;
+		}
+		setSnackbarOpen(false);
+	};
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -60,16 +60,41 @@ export default function Admin() {
 					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "Staff" && (
-						<Staff setCurrentPage={setCurrentPage}  IdClicked={IdClicked} setIdClicked={setIdClicked} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar}  />
+						<Staff
+							setCurrentPage={setCurrentPage}
+							IdClicked={IdClicked}
+							setIdClicked={setIdClicked}
+							snackbarOpen={snackbarOpen}
+							setSnackbarOpen={setSnackbarOpen}
+							handleCloseSnackbar={handleCloseSnackbar}
+						/>
 					)}
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
 					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
-					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar} patient={patient} setPatient={setPatient}/>}
-					{currentPage === "PatientInformation" && <PatientInformation setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
+					{currentPage === "Patients" && (
+						<Patients
+							setCurrentPage={setCurrentPage}
+							snackbarOpen={snackbarOpen}
+							setSnackbarOpen={setSnackbarOpen}
+							handleCloseSnackbar={handleCloseSnackbar}
+							patient={patient}
+							setPatient={setPatient}
+						/>
+					)}
+					{currentPage === "PatientInformation" && (
+						<PatientInformation setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />
+					)}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
-					{currentPage === "Add New Faculty" && <Add_new_faculty setCurrentPage={setCurrentPage} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar}/>}
+					{currentPage === "Add New Faculty" && (
+						<Add_new_faculty
+							setCurrentPage={setCurrentPage}
+							snackbarOpen={snackbarOpen}
+							setSnackbarOpen={setSnackbarOpen}
+							handleCloseSnackbar={handleCloseSnackbar}
+						/>
+					)}
 					{currentPage === "View User Feedback" && <UserFeedback />}
 					{currentPage === "SpecificFaculty" && <SpecificFaculty IdClicked={IdClicked} />}
 					{currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage} />}
@@ -89,8 +114,14 @@ export default function Admin() {
 
 					{currentPage === "Account Requests" && <AccountRequests setCurrentPage={setCurrentPage} />}
 
-					{currentPage === "newPatientForm" && <NewPatientForm setCurrentPage={setCurrentPage} snackbarOpen ={snackbarOpen} setSnackbarOpen = {setSnackbarOpen} handleCloseSnackbar = {handleCloseSnackbar} />}
-
+					{currentPage === "newPatientForm" && (
+						<NewPatientForm
+							setCurrentPage={setCurrentPage}
+							snackbarOpen={snackbarOpen}
+							setSnackbarOpen={setSnackbarOpen}
+							handleCloseSnackbar={handleCloseSnackbar}
+						/>
+					)}
 				</Box>
 			</Box>
 		</Box>
