@@ -88,19 +88,17 @@ export default function Processes({ setCurrentPage, setPatient }) {
 	};
 
 	useEffect(() => {
-		const filtered = rows.filter((row) => {
-			return (
-				row.patientName.toLowerCase().includes(searchTerm) ||
-				row.dateOfBirth.toLowerCase().includes(searchTerm) ||
-				row.treatment.toLowerCase().includes(searchTerm) ||
-				row.employeeName.toLowerCase().includes(searchTerm) ||
-				row.admissionDate.toLowerCase().includes(searchTerm) ||
-				row.expectedDischarge.toLowerCase().includes(searchTerm) ||
-				row.roomNumber.toLowerCase().includes(searchTerm) ||
-				row.status.toLowerCase().includes(searchTerm) ||
-				row.lastUpdated.toLowerCase().includes(searchTerm)
-			);
-		});
+		const filtered = rows.filter((row) => (
+			(row.patientName?.toLowerCase().includes(searchTerm) ||
+				row.dateOfBirth?.toLowerCase().includes(searchTerm) ||
+				row.treatment?.toLowerCase().includes(searchTerm) ||
+				row.employeeName?.toLowerCase().includes(searchTerm) ||
+				row.admissionDate?.toLowerCase().includes(searchTerm) ||
+				row.expectedDischarge?.toLowerCase().includes(searchTerm) ||
+				row.roomNumber?.toLowerCase().includes(searchTerm) ||
+				row.status?.toLowerCase().includes(searchTerm) ||
+				row.lastUpdated?.toLowerCase().includes(searchTerm))
+		));
 		setFilteredRows(filtered);
 	}, [rows, searchTerm]);
 
