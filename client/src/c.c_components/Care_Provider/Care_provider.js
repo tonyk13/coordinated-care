@@ -35,6 +35,14 @@ export default function CareProvider() {
 	const [currentPage, setCurrentPage] = useState("Dashboard");
 	const [patient, setPatient] = useState(null);
 
+	const [snackbarOpen, setSnackbarOpen] = useState(false);
+	const handleCloseSnackbar = (event, reason) => {
+		if (reason === "clickaway") {
+			return;
+		}
+		setSnackbarOpen(false);
+	};
+
 	//  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -52,8 +60,19 @@ export default function CareProvider() {
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
 					{currentPage === "send-feedback" && <Send_Feedback setCurrentPage={setCurrentPage} />}
 					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
-					{currentPage === "Patients" && <Patients setCurrentPage={setCurrentPage} />}
-					{currentPage === "PatientInformation" && <PatientInformation setCurrentPage={setCurrentPage} />}
+					{currentPage === "Patients" && (
+						<Patients
+							setCurrentPage={setCurrentPage}
+							snackbarOpen={snackbarOpen}
+							setSnackbarOpen={setSnackbarOpen}
+							handleCloseSnackbar={handleCloseSnackbar}
+							patient={patient}
+							setPatient={setPatient}
+						/>
+					)}
+					{currentPage === "PatientInformation" && (
+						<PatientInformation setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />
+					)}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditBilling" && <EditBilling setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
