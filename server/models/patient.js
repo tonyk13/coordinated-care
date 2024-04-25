@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
 // Contains references to: Employee, Room
@@ -52,22 +53,41 @@ const ProcedureSchema = new mongoose.Schema({
 });
 
 const PatientDocumentSchema = new mongoose.Schema({
-	documentType: {
-		type: String,
-		//required: true,
+	fileId: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true, // This will be the id in GridFS
 	},
-	file: {
+	documentName: {
 		type: String,
 		required: true,
+	},
+	uploadedBy: {
+		type: String,
+		// ref: "Employee",
+		required: true,
+	},
+	accessLevel: {
+		type: String,
+		required: true,
+	},
+	documentType: {
+		type: String,
+		required: true,
+	},
+	description: {
+		type: String,
 	},
 	lastUpdated: {
 		type: Date,
 		default: Date.now,
 	},
-	accessLevel: {
+	size: {
+		type: Number,
+		required: true,
+	},
+	mimeType: {
 		type: String,
-		//required: true,
-		enum: ["Public", "Private", "Restricted"],
+		required: true,
 	},
 });
 
@@ -141,19 +161,15 @@ const PatientSchema = new mongoose.Schema({
 	patientDocuments: [PatientDocumentSchema],
 	insuranceProvider: {
 		type: String,
-		
 	},
 	memberID: {
 		type: String,
-		
 	},
 	effectiveSince: {
 		type: Date,
-		
 	},
 	insurancePhoneNumber: {
 		type: String,
-		
 	},
 	patientBills: [PatientBillSchema],
 });

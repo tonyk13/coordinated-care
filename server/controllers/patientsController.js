@@ -1,10 +1,34 @@
 const patientModel = require("../models/patient");
 
+const mongoose = require("mongoose");
+const Grid = require("gridfs-stream");
+const conn = mongoose.connection;
+Grid.mongo = mongoose.mongo;
+let gfs;
+
+conn.once("open", () => {
+	gfs = Grid(conn.db);
+});
+
 //all_patients
 exports.all_patients = async (req, res, next) => {
 	try {
-		const patients = await patientModel.find().populate("physician", "firstName lastName -_id");
-		res.status(200).json(patients);
+		const patients = await patientModel.find().populate("physician", "firstName middleName lastName -_id");
+
+		const formattedPatients = patients.map((patient) => {
+			const physicianFullName = [patient.physician.firstName, patient.physician.middleName, patient.physician.lastName]
+				.filter(Boolean)
+				.join(" ");
+
+			return {
+				...patient.toObject({ virtuals: true }),
+				physician: physicianFullName,
+			};
+		});
+
+		res.status(200).json(formattedPatients);
+
+		// res.status(200).json(patients);
 	} catch (error) {
 		next(error);
 	}
@@ -99,5 +123,127 @@ exports.create_patient = async (req, res, next) => {
 	} catch (error) {
 		console.error("Error creating new patient:", error);
 		res.status(500).json({ message: "Failed to add new patient", error: error.message });
+	}
+};
+
+exports.upload_file = async (req, res, next) => {
+	if (!req.file) {
+		return res.status(400).json({ message: "No file uploaded" });
+	}
+
+	try {
+		const patientId = req.params._id;
+		const { mimetype, size, id } = req.file;
+
+		const newDocument = {
+			fileId: new mongoose.Types.ObjectId(id), // Save the _id from GridFS here
+			documentName: req.body.documentName,
+			uploadedBy: req.body.uploadedBy,
+			accessLevel: req.body.accessLevel,
+			documentType: req.body.documentType,
+			description: req.body.description,
+			lastUpdated: new Date(),
+			size: size,
+			mimeType: mimetype,
+		};
+
+		const updatedPatient = await patientModel.findByIdAndUpdate(
+			patientId,
+			{ $push: { patientDocuments: newDocument } },
+			{ new: true, useFindAndModify: false }
+		);
+
+		if (!updatedPatient) {
+			return res.status(404).json({ message: "Patient not found" });
+		}
+
+		res.status(201).json({ message: "File uploaded successfully", document: newDocument });
+	} catch (error) {
+		console.error("Error uploading file:", error);
+		res.status(500).json({ message: "Error uploading file", error: error.message });
+		next(error);
+	}
+};
+
+// Function to get all documents of a specific patient
+exports.getPatientDocuments = async (req, res, next) => {
+	try {
+		const patientId = req.params._id;
+
+		const patient = await patientModel.findById(patientId);
+
+		if (!patient) {
+			return res.status(404).json({ message: "Patient not found" });
+		}
+
+		const documents =
+			patient.patientDocuments?.map((doc) => {
+				return {
+					fileId: doc.fileId,
+					patientId: patientId,
+					documentName: doc.documentName,
+					uploadedBy: doc.uploadedBy,
+					accessLevel: doc.accessLevel,
+					documentType: doc.documentType,
+					description: doc.description,
+					lastUpdated: doc.lastUpdated,
+					size: doc.size,
+					mimeType: doc.mimeType,
+				};
+			}) || [];
+
+		// console.log("Documents in controller code:", documents);
+
+		res.status(200).json(documents);
+	} catch (error) {
+		console.error("Error fetching patient documents:", error);
+		res.status(500).json({ message: "Error fetching documents", error: error.message });
+		next(error);
+	}
+};
+
+exports.getPatientDocument = async (req, res, next) => {
+	try {
+		const fileId = req.params.fileId;
+
+		// Check if the fileId is a valid ObjectId
+		if (!mongoose.Types.ObjectId.isValid(fileId)) {
+			return res.status(400).json({ message: "Invalid file ID" });
+		}
+
+		// Find the file metadata from the uploads.files collection
+		const fileMetadata = await mongoose.connection.db.collection("uploads.files").findOne({ _id: new mongoose.Types.ObjectId(fileId) });
+
+		if (!fileMetadata) {
+			return res.status(404).json({ message: "File not found" });
+		}
+
+		// Check if the file is a PDF
+		if (fileMetadata.contentType !== "application/pdf") {
+			return res.status(400).json({ message: "Not a PDF file" });
+		}
+
+		// Find the file chunks from the uploads.chunks collection
+		const chunksQuery = { files_id: new mongoose.Types.ObjectId(fileId) };
+		const fileChunks = await mongoose.connection.db.collection("uploads.chunks").find(chunksQuery).sort({ n: 1 }).toArray();
+
+		if (!fileChunks || fileChunks.length === 0) {
+			return res.status(404).json({ message: "File data not found" });
+		}
+
+		// Combine the file chunks into a single buffer
+		const fileBuffer = Buffer.concat(fileChunks.map((chunk) => chunk.data.buffer));
+
+		// Set the appropriate response headers and send the file data
+		res.writeHead(200, {
+			"Content-Type": "application/pdf",
+			"Content-Disposition": `inline; filename="${fileMetadata.filename}"`,
+			"Content-Length": fileBuffer.length,
+		});
+		res.end(fileBuffer);
+	} catch (error) {
+		console.error("Error fetching patient document:", error);
+		res.status(500).json({ message: "Error fetching document", error: error.toString() });
+		next(error);
 	}
 };

@@ -1,50 +1,81 @@
-import React, { useState } from "react";
-import { Button, TextField, Grid, Typography, Box, Link, Container, Pagination, Avatar } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Table, TableHead, TableRow, TableCell, TableBody, Box, Button } from "@mui/material";
 
-// Extra mui materials for Table (datatable is outdated)
-import { Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
+export default function Documents({ setCurrentPage, patient, fileId, setFileId }) {
+	const [documents, setDocuments] = useState([]);
 
-export default function Documents() {
-	const sample_document_data = [
-		{
-			document_type: "Vaccinations",
-            last_updated: "3/26/2024",
-            access_level: "Public",
-		},
-        {
-            document_type: "Vaccinations",
-            last_updated: "4/1/2024",
-            access_level: "Public",
-		},
-        {
-			document_type: "Prescriptions",
-            last_updated: "4/1/2024",
-            access_level: "Public",
-		},	
-	];
+	// Fetch this patient's documents
+	useEffect(() => {
+		const patientId = patient._id;
+		console.log("Patient ID: ", patientId);
+
+		const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
+
+		axios
+			.get(`${apiUrl}/api/patients/${patientId}/documents`)
+			.then((response) => {
+				console.log("Documents in client side: ", response.data || []);
+				setDocuments(response.data || []);
+			})
+			.catch((error) => {
+				console.error("Error fetching documents:", error);
+				setDocuments([]);
+			});
+	}, [patient._id]);
+
+	const handleUploadClick = () => {
+		setCurrentPage("UploadPatientDocument");
+	};
+
+	const handleViewDocumentClick = (fileId) => {
+		setFileId(fileId);
+		setCurrentPage("ViewPatientDocument");
+	};
 
 	return (
-        <div>
-            <Box mt="10px">
-                <Table>
-                    <TableHead>
-                        <TableRow style={{ backgroundColor: "#f2f2f2", fontWeight: "bold", height: "100px", backgroundColor: "#b0b0b0" }}>
-                            <TableCell>Document Type</TableCell>
-                            <TableCell>Last Updated</TableCell>
-                            <TableCell>Access Level</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {sample_document_data.map((document, index) => (
-                            <TableRow key={index} style={{ backgroundColor: index % 2 === 0 ? "White" : "#f9f9f9" }}>
-                                <TableCell style={{ color: "blue", textDecoration: "underline" }}>{document.document_type}</TableCell>
-                                <TableCell>{document.last_updated}</TableCell>
-                                <TableCell>{document.access_level}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </Box>
-        </div>
-    );
+		<div>
+			<Box mt="10px">
+				<Table>
+					<TableHead>
+						<TableRow style={{ backgroundColor: "#b0b0b0", fontWeight: "bold", height: "100px" }}>
+							<TableCell>Document Name</TableCell>
+							<TableCell>Document Type</TableCell>
+							<TableCell>Uploaded By</TableCell>
+							<TableCell>Last Updated</TableCell>
+							<TableCell>Access Level</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{documents.length > 0 ? (
+							documents.map((document, index) => (
+								<TableRow key={index} style={{ backgroundColor: index % 2 === 0 ? "white" : "#f9f9f9" }}>
+									<TableCell style={{ color: "blue", textDecoration: "underline" }}>
+										<span
+											onClick={() => handleViewDocumentClick(document.fileId)}
+											style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
+											role="button"
+										>
+											{document.documentName}
+										</span>
+									</TableCell>
+									<TableCell>{document.documentType}</TableCell>
+									<TableCell>{document.uploadedBy}</TableCell>
+									<TableCell>{new Date(document.lastUpdated).toLocaleDateString()}</TableCell>
+									<TableCell>{document.accessLevel}</TableCell>
+								</TableRow>
+							))
+						) : (
+							<TableRow>
+								<TableCell colSpan={3}>No documents found</TableCell>
+							</TableRow>
+						)}
+					</TableBody>
+				</Table>
+				<Button variant="contained" component="span" onClick={handleUploadClick} style={{ marginTop: "10px" }}>
+					Upload a New Patient Document
+				</Button>
+			</Box>
+		</div>
+	);
 }
