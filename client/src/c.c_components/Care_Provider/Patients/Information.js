@@ -77,7 +77,7 @@ export default function Information({ setCurrentPage, patient, setPatient, setSe
 						<Tab label="Appointments" />
 						<Tab label="Procedures" />
 						<Tab label="Patient Documents" />
-						<Tab label="Referrals" />
+						{/* <Tab label="Referrals" /> */}
 						<Tab label="Billing" />
 					</Tabs>
 				</Box>
@@ -180,9 +180,9 @@ export default function Information({ setCurrentPage, patient, setPatient, setSe
 				{selectedTab === 1 && <Appointments setCurrentPage={setCurrentPage} patientId={patient._id} />}
 				{selectedTab === 2 && <Procedures patientId={patient._id} />}
 				{selectedTab === 3 && <Documents setCurrentPage={setCurrentPage} patient={patient} fileId={fileId} setFileId={setFileId} />}
-				{selectedTab === 5 && !isEditing && <Billing setCurrentPage={handleEditClick} patient={patient} />}
-				{selectedTab === 4 && <Referrals />}
-				{selectedTab === 5 && isEditing && (
+				{selectedTab === 4 && !isEditing && <Billing setCurrentPage={handleEditClick} patient={patient} />}
+				{/* {selectedTab === 4 && <Referrals />} */}
+				{selectedTab === 4 && isEditing && (
 					<EditBilling
 						setCurrentPage={() => setIsEditing(false)}
 						isEditing={isEditing}
