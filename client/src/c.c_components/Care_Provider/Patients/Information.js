@@ -177,7 +177,7 @@ export default function Information({ setCurrentPage, patient, setPatient }) {
 						)}
 					</Box>
 				)}
-				{selectedTab === 1 && <Appointments setCurrentPage={setCurrentPage} />}
+				{selectedTab === 1 && <Appointments setCurrentPage={setCurrentPage} patientId={patient._id}/>}
 				{selectedTab === 2 && <Procedures />}
 				{selectedTab === 3 && <Documents />}
 				{selectedTab === 5 && !isEditing && <Billing setCurrentPage={handleEditClick} patient = {patient} />}

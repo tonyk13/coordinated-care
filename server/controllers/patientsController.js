@@ -1,4 +1,5 @@
 const patientModel = require("../models/patient");
+const employeeModel = require("../models/employee");
 
 //all_patients
 exports.all_patients = async (req, res, next) => {
@@ -100,4 +101,75 @@ exports.create_patient = async (req, res, next) => {
 		console.error("Error creating new patient:", error);
 		res.status(500).json({ message: "Failed to add new patient", error: error.message });
 	}
+};
+
+// Get Appointments for a patient
+// New Appointment for a patient (Need to implement adding a physician)
+exports.get_appointments = async (req, res) => {
+    const patient_id = req.params._id;
+
+    try {
+		const patient = await patientModel.findById(patient_id);
+		if (!patient) {
+            return res.status(404).json({ success: false, message: 'Patient not found' });
+        }
+		res.status(200).json({ appointments: patient.appointments });
+	} catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: req.body});
+    }
+};
+
+
+// New Appointment for a patient
+exports.new_appointment = async (req, res) => {
+    const patient_id = req.params._id;
+    const { dateTime, providerAssigned, typeOfProcedure, status } = req.body;
+
+    try {
+		const patient = await patientModel.findById(patient_id);
+        if (!patient) {
+            return res.status(404).json({ success: false, message: 'Patient not found' });
+        }
+		const newAppointment = {
+			dateTime: dateTime,		
+			providerAssigned: providerAssigned,
+			typeOfProcedure: typeOfProcedure,
+			status: status,
+		};
+    	patient.appointments.push(newAppointment);
+        await patient.save();
+		res.status(201).json({ success: true, patient });
+	} catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: req.body});
+    }
+};
+
+// Update an appointment for a patient
+exports.update_appointment = async (req, res) => {
+    const patient_id = req.params._id;
+
+    try {
+		const patient = await patientModel.findById(patient_id);
+		if (!patient) {
+            return res.status(404).json({ success: false, message: 'Patient not found' });
+        }
+
+		// Updating Appointment
+		const appointment_id = req.body._id.toString();
+    	const updatedAppointmentData = req.body;
+		const appointmentIndex = patient.appointments.findIndex(appointment => appointment._id.toString() === appointment_id);
+
+        if (appointmentIndex === -1) {
+            return res.status(404).json({ success: false, message: appointmentIndex });
+        }
+        patient.appointments[appointmentIndex] = updatedAppointmentData;
+		await patient.save();
+
+		res.status(200).json({ data: req.body });
+	} catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: req.body});
+    }
 };

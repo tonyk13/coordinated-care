@@ -4,13 +4,13 @@ const mongoose = require("mongoose");
 
 const AppointmentSchema = new mongoose.Schema({
 	dateTime: {
-		type: Date,
+		type: String,
 		required: true,
 	},
 	providerAssigned: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Employee",
-		required: true,
+		required: false,
 	},
 	typeOfProcedure: {
 		type: String,
@@ -24,7 +24,7 @@ const AppointmentSchema = new mongoose.Schema({
 	room: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Room",
-		required: true,
+		required: false,
 	},
 });
 

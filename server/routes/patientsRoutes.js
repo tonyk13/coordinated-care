@@ -24,5 +24,16 @@ router.put("/patients/update_billing/:_id",patientsController.update_billing);
 router.get("/patients/:_id", patientsController.getPatient);
 
 
+// GET request for creating an appointment for a patient
+router.get("/patients/get_appointments/:_id", patientsController.get_appointments);
+
+// PUT request for creating an appointment for a patient
+router.put("/patients/new_appointment/:_id", patientsController.new_appointment);
+
+// PUT request for updating an appointment for a patient
+router.put("/patients/update_appointment/:_id", patientsController.update_appointment);
+
+
+
 
 module.exports = router;
