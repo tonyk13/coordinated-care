@@ -7,33 +7,24 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { useForm } from "react-hook-form";
 import dayjs from 'dayjs';
 
-const EditAppointment = ({ setCurrentAppointmentPage, patientId, currentAppointment }) => {
-	let appointmentData = {
-		dateTime: currentAppointment.dateTime,
-		providerAssigned: currentAppointment.providerAssigned,
-		typeOfProcedure: currentAppointment.typeOfProcedure,
-		status: currentAppointment.status,
-	}
-	const parsedCurrentAppointmentDateTime = dayjs(appointmentData.dateTime, "MM/DD/YYYY hh:mm A");
-	const [selectedDateTime, setSelectedDateTime] = useState(parsedCurrentAppointmentDateTime);
+const NewAppointment = ({ setCurrentAppointmentPage, patientId }) => {
+	const [selectedDateTime, setSelectedDateTime] = useState(null);
 	const { register, handleSubmit } = useForm();
-
     const onSubmit = async (data) => {
 		data.dateTime = dayjs(selectedDateTime).format('MM/DD/YYYY hh:mm A');
-		appointmentData = {
+		const appointmentData = {
 			dateTime: data.dateTime,
-			providerAssigned: data.physician || currentAppointment.providerAssigned,
+			providerAssigned: data.physician,
 			typeOfProcedure: data.procedure,
 			status: data.status,
-			_id: currentAppointment._id,
 		}
 		try {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
-			const response = await axios.put(`${baseURL}/api/patients/update_appointment/${patientId}`, appointmentData);
-			console.log('Appointment updated:', response.data);
+			const response = await axios.put(`${baseURL}/api/patients/new_appointment/${patientId}`, appointmentData);
+			// console.log('Appointment created:', response.data);
 		} catch (error) {
 			// Handle errors
-			console.error('Error updating appointment:', error);
+			console.error('Error creating appointment:', error);
 		}
 
 		setCurrentAppointmentPage("AllAppointments");
@@ -48,7 +39,6 @@ const EditAppointment = ({ setCurrentAppointmentPage, patientId, currentAppointm
 				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 				const response = await axios.get(`${baseURL}/api/employees/all_physician_names`);
 				setPhysicians(response.data);
-				setInputPhysician(appointmentData.providerAssigned);
 			} catch (error) {
 				console.error("Fetching physicians failed: ", error);
 			}
@@ -57,12 +47,11 @@ const EditAppointment = ({ setCurrentAppointmentPage, patientId, currentAppointm
 		fetchPhysicians();
 	}, []);
 
-	
 
 	return (
         <Box sx={{ display: "flex", flexDirection: "column"}}>
             <Typography variant="subtitle1" gutterBottom sx={{ mt: 4 }}>
-                Edit Appointment
+                New Appointment
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <FormControl fullWidth>
@@ -87,7 +76,6 @@ const EditAppointment = ({ setCurrentAppointmentPage, patientId, currentAppointm
                     label="Type of Appointment"	
                     {...register("procedure", { required: "Appointment Type is required" })}
                     margin="normal"
-					defaultValue={currentAppointment.typeOfProcedure}
                     required
                 />
 
@@ -97,14 +85,12 @@ const EditAppointment = ({ setCurrentAppointmentPage, patientId, currentAppointm
                         labelId="status-label"
                         id="status-select"
                         label="Status"
-						defaultValue={currentAppointment.status}
+						defaultValue="Pending"
 						{...register("status", { required: "Stauts is required" })}
                         required
                     >
-                        <MenuItem value="Confirmed">Confirmed</MenuItem>
-                        <MenuItem value="Completed">Completed</MenuItem>
-                        <MenuItem value="Cancelled">Cancelled</MenuItem>
                         <MenuItem value="Pending">Pending</MenuItem>
+                        <MenuItem value="Confirmed">Confirmed</MenuItem>
                     </Select>
                 </FormControl>
                 <FormControl fullWidth style={{ marginTop: 8 }}>
@@ -114,14 +100,13 @@ const EditAppointment = ({ setCurrentAppointmentPage, patientId, currentAppointm
                             id="datetime-select"
                             label="Date and Time*"
                             required
-							value={selectedDateTime}
                             onChange={setSelectedDateTime}
                             renderInput={(props) => <TextField {...props} />}
                         />
                     </LocalizationProvider>
                 </FormControl>
                 <Box sx={{ display: "flex", justifyContent: "center", gap: "20px", marginTop: 2 }}>
-					<Button type="submit" variant="contained" color="primary" sx={{ width: "100px" }}>
+                    <Button type="submit" variant="contained" color="primary" sx={{ width: "100px" }}>
                         Save
                     </Button>
 					<Button onClick={() => setCurrentAppointmentPage("AllAppointments")} variant="contained" color="error" sx={{ width: "100px" }}>
@@ -132,4 +117,4 @@ const EditAppointment = ({ setCurrentAppointmentPage, patientId, currentAppointm
         </Box>
     );
 };
-export default EditAppointment;
+export default NewAppointment;
