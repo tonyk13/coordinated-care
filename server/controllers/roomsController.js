@@ -13,3 +13,20 @@ exports.all_room_numbers = async (req, res, next) => {
 		next(error);
 	}
 };
+
+
+exports.get_room = async (req, res, next) => {
+	try {
+		const roomId = req.params._id;
+		const room = await roomModel.findById(roomId);
+
+		if (!room) {
+			return res.status(404).json({ message: "Room not found" });
+		}
+
+		res.status(200).json(room);
+	} catch (error) {
+		console.error("Error fetching room:", error);
+		next(error);
+	}
+};

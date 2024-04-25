@@ -1,3 +1,4 @@
+const { servicenetworking } = require("googleapis/build/src/apis/servicenetworking");
 const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
@@ -5,7 +6,7 @@ const mongoose = require("mongoose");
 
 const AppointmentSchema = new mongoose.Schema({
 	dateTime: {
-		type: Date,
+		type: String,
 		required: true,
 	},
 	providerAssigned: {
@@ -25,7 +26,7 @@ const AppointmentSchema = new mongoose.Schema({
 	room: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Room",
-		required: true,
+		required: false,
 	},
 });
 
@@ -33,7 +34,7 @@ const AppointmentSchema = new mongoose.Schema({
 
 const ProcedureSchema = new mongoose.Schema({
 	dateTime: {
-		type: Date,
+		type: String,
 		required: true,
 	},
 	providerAssigned: {

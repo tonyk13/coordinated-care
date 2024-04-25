@@ -19,7 +19,7 @@ export default function Profile( {setCurrentPage} ) {
         const employee_id = Cookies.get("employee_id");
         axios.get(`${baseURL}/api/employees/${employee_id}`)
         .then(response => {
-            const { firstName, middleName, lastName, username, phoneNumber, dateOfBirth, role } = response.data.data;
+            const { firstName, middleName, lastName, username, phoneNumber, dateOfBirth, role } = response.data.employee;
             setFormData({
                 firstName,
                 middleName,
