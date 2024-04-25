@@ -30,10 +30,10 @@ const EditAppointment = ({ setCurrentAppointmentPage, patientId, currentAppointm
 		try {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 			const response = await axios.put(`${baseURL}/api/patients/update_appointment/${patientId}`, appointmentData);
-			console.log('Appointment created:', response.data);
+			console.log('Appointment updated:', response.data);
 		} catch (error) {
 			// Handle errors
-			console.error('Error creating appointment:', error);
+			console.error('Error updating appointment:', error);
 		}
 
 		setCurrentAppointmentPage("AllAppointments");

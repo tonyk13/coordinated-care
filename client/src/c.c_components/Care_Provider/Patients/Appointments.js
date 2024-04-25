@@ -11,7 +11,7 @@ import NewAppointment from "./NewAppointment";
 export default function Appointments({ setCurrentPage, patientId }) {
 	/* 
 	Like set current page but for appointments
-	Appointments -- all appointments for a patient
+	AllAppointments -- all appointments for a patient
 	EditAppointment -- edit currently set appointment for a patient
 	NewAppointment -- new appointment for a patient
 	*/

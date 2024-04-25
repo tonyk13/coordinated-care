@@ -1,3 +1,4 @@
+const { servicenetworking } = require("googleapis/build/src/apis/servicenetworking");
 const mongoose = require("mongoose");
 
 // Contains references to: Employee, Room
@@ -10,7 +11,7 @@ const AppointmentSchema = new mongoose.Schema({
 	providerAssigned: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Employee",
-		required: false,
+		required: true,
 	},
 	typeOfProcedure: {
 		type: String,
@@ -32,7 +33,7 @@ const AppointmentSchema = new mongoose.Schema({
 
 const ProcedureSchema = new mongoose.Schema({
 	dateTime: {
-		type: Date,
+		type: String,
 		required: true,
 	},
 	providerAssigned: {

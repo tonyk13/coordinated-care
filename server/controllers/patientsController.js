@@ -104,7 +104,6 @@ exports.create_patient = async (req, res, next) => {
 };
 
 // Get Appointments for a patient
-// New Appointment for a patient (Need to implement adding a physician)
 exports.get_appointments = async (req, res) => {
     const patient_id = req.params._id;
 
@@ -168,6 +167,46 @@ exports.update_appointment = async (req, res) => {
 		await patient.save();
 
 		res.status(200).json({ data: req.body });
+	} catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: req.body});
+    }
+};
+
+// Get Procedures for a patient
+exports.get_procedures = async (req, res) => {
+    const patient_id = req.params._id;
+    try {
+		const patient = await patientModel.findById(patient_id);
+		if (!patient) {
+            return res.status(404).json({ success: false, message: 'Patient not found' });
+        }
+		res.status(200).json({ procedures: patient.procedures });
+	} catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: req.body});
+    }
+};
+
+// Create Procedure for a patient
+exports.new_procedure = async (req, res) => {
+	const patient_id = req.params._id;
+    const { dateTime, providerAssigned, typeOfProcedure, room } = req.body;
+
+    try {
+		const patient = await patientModel.findById(patient_id);
+        if (!patient) {
+            return res.status(404).json({ success: false, message: 'Patient not found' });
+        }
+		const newProcedure = {
+			dateTime: dateTime,		
+			providerAssigned: providerAssigned,
+			typeOfProcedure: typeOfProcedure,
+			room: room,
+		};
+    	patient.procedures.push(newProcedure);
+        await patient.save();
+		res.status(201).json({ success: true, patient });
 	} catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: req.body});
