@@ -67,7 +67,7 @@ export default function Appointments({ setCurrentPage, patientId }) {
 							<TableRow style={{ backgroundColor: "#f2f2f2", fontWeight: "bold", height: "100px", backgroundColor: "#b0b0b0" }}>
 								<TableCell>Date-Time</TableCell>
 								<TableCell>Provider Assigned</TableCell>
-								<TableCell>Type of Procedure</TableCell>
+								<TableCell>Type of Appointment</TableCell>
 								<TableCell>Status</TableCell>
 							</TableRow>
 						</TableHead>

@@ -84,8 +84,8 @@ const EditAppointment = ({ setCurrentAppointmentPage, patientId, currentAppointm
                 </FormControl>
                 <TextField
                     fullWidth
-                    label="Type of Procedure"	
-                    {...register("procedure", { required: "Procedure Type is required" })}
+                    label="Type of Appointment"	
+                    {...register("procedure", { required: "Appointment Type is required" })}
                     margin="normal"
 					defaultValue={currentAppointment.typeOfProcedure}
                     required
@@ -97,7 +97,7 @@ const EditAppointment = ({ setCurrentAppointmentPage, patientId, currentAppointm
                         labelId="status-label"
                         id="status-select"
                         label="Status"
-						defaultValue="Pending"
+						defaultValue={currentAppointment.status}
 						{...register("status", { required: "Stauts is required" })}
                         required
                     >

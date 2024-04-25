@@ -73,8 +73,8 @@ const NewAppointment = ({ setCurrentAppointmentPage, patientId }) => {
                 </FormControl>
                 <TextField
                     fullWidth
-                    label="Type of Procedure"	
-                    {...register("procedure", { required: "Procedure Type is required" })}
+                    label="Type of Appointment"	
+                    {...register("procedure", { required: "Appointment Type is required" })}
                     margin="normal"
                     required
                 />
