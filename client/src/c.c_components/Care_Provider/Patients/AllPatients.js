@@ -31,7 +31,7 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 
 				setPatients(response.data);
 			} catch (error) {
-				console.error("Failed to fetch patients:", error);
+				console.error("Failed to fetch patients:", error.response);
 			}
 		};
 
@@ -106,13 +106,13 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 								</TableCell>
 								<TableCell align="center">
 									{(() => {
-    									const date = new Date(row.dateOfBirth); 
-    									date.setDate(date.getDate() + 1); 
-   											 return date.toLocaleDateString("en-US", {
-       											 year: "numeric",
-       											 month: "long",
-       											 day: "numeric",
-   										 });
+										const date = new Date(row.dateOfBirth);
+										date.setDate(date.getDate() + 1);
+										return date.toLocaleDateString("en-US", {
+											year: "numeric",
+											month: "long",
+											day: "numeric",
+										});
 									})()}
 								</TableCell>
 								<TableCell align="center">{row.phoneNumber}</TableCell>
