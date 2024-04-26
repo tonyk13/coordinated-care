@@ -48,6 +48,7 @@ export default function Admin() {
 
 	const [selectedTab, setSelectedTab] = useState(0);
 	const [fileId, setFileId] = useState("");
+	const [selectedDocument, setSelectedDocument] = useState(null);
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -93,6 +94,8 @@ export default function Admin() {
 							setPatient={setPatient}
 							fileId={fileId}
 							setFileId={setFileId}
+							selectedDocument={selectedDocument}
+							setSelectedDocument={setSelectedDocument}
 						/>
 					)}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
@@ -127,7 +130,14 @@ export default function Admin() {
 					)}
 					{currentPage === "UploadPatientDocument" && <UploadPatientDocument patient={patient} setCurrentPage={setCurrentPage} />}
 					{currentPage === "ViewPatientDocument" && (
-						<ViewPatientDocument setCurrentPage={setCurrentPage} patient={patient} fileId={fileId} setFileId={setFileId} />
+						<ViewPatientDocument
+							setCurrentPage={setCurrentPage}
+							patient={patient}
+							fileId={fileId}
+							setFileId={setFileId}
+							selectedDocument={selectedDocument}
+							setSelectedDocument={setSelectedDocument}
+						/>
 					)}
 				</Box>
 			</Box>

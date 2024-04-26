@@ -4,8 +4,6 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function UploadPatientDocument({ patient, setCurrentPage }) {
-	// Successful submit should take you back to the documents tab
-
 	const { isAuthenticated, user } = useAuth0();
 	console.log("USER: ", user);
 
@@ -60,6 +58,7 @@ export default function UploadPatientDocument({ patient, setCurrentPage }) {
 				// You might want to refresh the list of documents or provide user feedback
 				// setDocuments([...documents, response.data.document]);
 				console.log("File uploaded successfully:", response.data);
+				setCurrentPage("PatientInformation");
 			})
 			.catch((error) => {
 				console.error("Error uploading file:", error);
@@ -90,16 +89,17 @@ export default function UploadPatientDocument({ patient, setCurrentPage }) {
 					value={documentName}
 					onChange={handleDocumentNameChange}
 					sx={{ mb: 2 }}
+					required
 				/>
-				<TextField fullWidth label="Uploaded By" variant="outlined" value={user.name} sx={{ mb: 2 }} />
-				<FormControl fullWidth sx={{ mb: 2 }}>
+				<TextField fullWidth label="Uploaded By" variant="outlined" value={user.name} sx={{ mb: 2 }} required />
+				<FormControl fullWidth sx={{ mb: 2 }} required>
 					<InputLabel>Access Level</InputLabel>
 					<Select value={accessLevel} label="Access Level" onChange={handleAccessLevelChange}>
 						<MenuItem value="Any faculty/staff can view">Any faculty/staff can view</MenuItem>
 						<MenuItem value="Only me and the patient can view">Only me and the patient can view</MenuItem>
 					</Select>
 				</FormControl>
-				<FormControl fullWidth sx={{ mb: 2 }}>
+				<FormControl fullWidth sx={{ mb: 2 }} required>
 					<InputLabel>Type</InputLabel>
 					<Select value={documentType} label="Type" onChange={handleDocumentTypeChange}>
 						<MenuItem value="Health Record">Health Record</MenuItem>
@@ -116,9 +116,10 @@ export default function UploadPatientDocument({ patient, setCurrentPage }) {
 					value={description}
 					onChange={handleDescriptionChange}
 					sx={{ mb: 2 }}
+					required
 				/>
 				{fileId && <p>Selected filename: {fileId.name}</p>}
-				<input type="file" id="fileInput" onChange={handleFileChange} style={{ display: "none" }} />
+				<input type="file" id="fileInput" onChange={handleFileChange} style={{ display: "none" }} accept=".pdf" />
 				<Button variant="contained" color="success" onClick={handleClick}>
 					Select File to Upload
 				</Button>

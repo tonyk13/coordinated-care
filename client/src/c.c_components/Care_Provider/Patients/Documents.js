@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, TableHead, TableRow, TableCell, TableBody, Box, Button } from "@mui/material";
 
-export default function Documents({ setCurrentPage, patient, fileId, setFileId }) {
+export default function Documents({ setCurrentPage, patient, setFileId, setSelectedDocument }) {
 	const [documents, setDocuments] = useState([]);
 
 	// Fetch this patient's documents
@@ -28,8 +28,9 @@ export default function Documents({ setCurrentPage, patient, fileId, setFileId }
 		setCurrentPage("UploadPatientDocument");
 	};
 
-	const handleViewDocumentClick = (fileId) => {
-		setFileId(fileId);
+	const handleViewDocumentClick = (document) => {
+		setFileId(document.fileId);
+		setSelectedDocument(document);
 		setCurrentPage("ViewPatientDocument");
 	};
 
@@ -52,7 +53,7 @@ export default function Documents({ setCurrentPage, patient, fileId, setFileId }
 								<TableRow key={index} style={{ backgroundColor: index % 2 === 0 ? "white" : "#f9f9f9" }}>
 									<TableCell style={{ color: "blue", textDecoration: "underline" }}>
 										<span
-											onClick={() => handleViewDocumentClick(document.fileId)}
+											onClick={() => handleViewDocumentClick(document)}
 											style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
 											role="button"
 										>

@@ -6,7 +6,16 @@ import Documents from "./Documents";
 import Procedures from "./Procedures";
 import Appointments from "./Appointments";
 
-export default function Information({ setCurrentPage, patient, setPatient, setSelectedTab, selectedTab, fileId, setFileId }) {
+export default function Information({
+	setCurrentPage,
+	patient,
+	setSelectedTab,
+	selectedTab,
+	fileId,
+	setFileId,
+	selectedDocument,
+	setSelectedDocument,
+}) {
 	const [isEditing, setIsEditing] = useState(false);
 	const [isEditingInfo, setIsEditingInfo] = useState(false);
 	const [formData, setFormData] = useState({
@@ -177,7 +186,16 @@ export default function Information({ setCurrentPage, patient, setPatient, setSe
 				)}
 				{selectedTab === 1 && <Appointments setCurrentPage={setCurrentPage} patientId={patient._id} />}
 				{selectedTab === 2 && <Procedures patientId={patient._id} />}
-				{selectedTab === 3 && <Documents setCurrentPage={setCurrentPage} patient={patient} fileId={fileId} setFileId={setFileId} />}
+				{selectedTab === 3 && (
+					<Documents
+						setCurrentPage={setCurrentPage}
+						patient={patient}
+						fileId={fileId}
+						setFileId={setFileId}
+						selectedDocument={selectedDocument}
+						setSelectedDocument={setSelectedDocument}
+					/>
+				)}
 				{selectedTab === 4 && !isEditing && <Billing setCurrentPage={handleEditClick} patient={patient} />}
 				{selectedTab === 4 && isEditing && (
 					<EditBilling

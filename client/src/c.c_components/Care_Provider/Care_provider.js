@@ -47,6 +47,7 @@ export default function CareProvider() {
 	};
 
 	const [fileId, setFileId] = useState("");
+	const [selectedDocument, setSelectedDocument] = useState(null);
 
 	//  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved
 	return (
@@ -84,6 +85,8 @@ export default function CareProvider() {
 							setPatient={setPatient}
 							fileId={fileId}
 							setFileId={setFileId}
+							selectedDocument={selectedDocument}
+							setSelectedDocument={setSelectedDocument}
 						/>
 					)}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
@@ -104,7 +107,14 @@ export default function CareProvider() {
 					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
 					{currentPage === "UploadPatientDocument" && <UploadPatientDocument patient={patient} setCurrentPage={setCurrentPage} />}
 					{currentPage === "ViewPatientDocument" && (
-						<ViewPatientDocument setCurrentPage={setCurrentPage} patient={patient} fileId={fileId} setFileId={setFileId} />
+						<ViewPatientDocument
+							setCurrentPage={setCurrentPage}
+							patient={patient}
+							fileId={fileId}
+							setFileId={setFileId}
+							selectedDocument={selectedDocument}
+							setSelectedDocument={setSelectedDocument}
+						/>
 					)}
 				</Box>
 			</Box>
