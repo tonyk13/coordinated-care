@@ -13,7 +13,7 @@ exports.getPatient = async (req, res, next) => {
     try {
         const patientId = req.params._id; 
 		console.log(patientId);
-		const patient = await patientModel.findById(patientId);
+        const patient = await patientModel.findById(patientId).populate('patientBills').exec();
 
         if (!patient) {
             return res.status(404).json({ message: "Patient not found" });
@@ -102,6 +102,44 @@ exports.create_patient = async (req, res, next) => {
 	  } catch (error) {
 		console.error("Error creating new patient:", error);
 		res.status(500).json({ message: "Failed to add new patient", error: error.message });
+	  }
+
+
+
+};
+//create_new_charge
+exports.create_new_charge = async (req, res, next) => {
+	try {
+		
+		const patientId = req.params._id; 
+
+
+		const { description, cost } = req.body;
+		console.log(description);
+		if (!description || cost === undefined) {
+            return res.status(400).json({ message: "Missing description or cost" });
+        }
+		const patient = await patientModel.findById(patientId);
+	
+		if (!patient) {
+			return res.status(404).json({ message: "Patient not found" });
+		}
+		const newCharge = {
+            description,
+            cost,
+        };
+		patient.patientBills.push(newCharge);
+		await patient.save();
+		res.status(201).json({
+            message: "New charge added successfully",
+            patientBills: patient.patientBills
+        });
+
+
+	  } catch (error) {
+		console.error("Failed to add new charge:", error);
+        res.status(500).json({ message: "Failed to add new charge", error: error.message });
+
 	  }
 
 

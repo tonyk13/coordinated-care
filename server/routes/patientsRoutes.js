@@ -14,6 +14,8 @@ router.get("/patients/all_patient_names", patientsController.all_patient_names);
 // // POST request for creating a patient
 router.post("/patients/add-new", patientsController.create_patient);
 
+router.post("/patients/:_id/charges", patientsController.create_new_charge);
+
 router.put("/patients/update_billing/:_id",patientsController.update_billing);
 
 // // GET request for retrieving a patient
