@@ -118,28 +118,28 @@ export default function Processes({ setCurrentPage, setPatient }) {
 				</Box>
 			) : (
 				<>
-					<Button variant="contained" onClick={handleNewProcessClick} sx={{ mb: 2 }}>
-						Create New Process
-					</Button>
 					<Box sx={{ mb: 2 }}>
-						<TextField
-							id="search"
-							type="search"
-							variant="outlined"
-							placeholder="Search"
-							value={searchTerm}
-							onChange={handleSearchChange}
-							InputProps={{
-								startAdornment: (
-									<InputAdornment position="start">
-										<IconButton>
+						<Box sx={{ mb: 2 }}>
+							<TextField
+								id="search"
+								type="search"
+								variant="outlined"
+								placeholder="Search"
+								value={searchTerm}
+								onChange={handleSearchChange}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
 											<SearchIcon />
-										</IconButton>
-									</InputAdornment>
-								),
-							}}
-							sx={{ width: "30vw" }}
-						/>
+										</InputAdornment>
+									),
+								}}
+								sx={{ width: "30vw" }}
+							/>
+							<Button variant="contained" onClick={handleNewProcessClick} sx={{ ml: 4, mt: 1 }}>
+								Create New Process
+							</Button>
+						</Box>
 					</Box>
 					<TableContainer component={Paper} sx={{ maxHeight: "70vh", overflow: "auto" }}>
 						<Table stickyHeader aria-label="sticky table">
