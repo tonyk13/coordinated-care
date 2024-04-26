@@ -18,6 +18,7 @@ jobs:
                         "get_process_test.js",
                         "get_rooms_test.js",
                         "get_users_test.js",
+                        "get_patient_document_test.js",
                     ]
 
         steps:
