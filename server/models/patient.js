@@ -152,8 +152,7 @@ const PatientSchema = new mongoose.Schema({
 		//required: true,
 	},
 	chronicConditions: {
-		type: [String],
-		default: [],
+		type: String,
 	},
 	appointments: [AppointmentSchema],
 	procedures: [ProcedureSchema],

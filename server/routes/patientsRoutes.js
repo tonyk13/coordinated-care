@@ -18,6 +18,8 @@ router.post("/patients/:_id/charges", patientsController.create_new_charge);
 
 router.put("/patients/update_billing/:_id", patientsController.update_billing);
 
+router.put("/patients/:_id", patientsController.update_patient_info);
+
 // // GET request for retrieving a patient
 // router.get("/patients/:_id", patientsController.get_patient);
 
