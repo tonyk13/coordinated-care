@@ -105,11 +105,15 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 									</span>
 								</TableCell>
 								<TableCell align="center">
-									{new Date(row.dateOfBirth).toLocaleDateString("en-US", {
-										year: "numeric",
-										month: "long",
-										day: "numeric",
-									})}
+									{(() => {
+    									const date = new Date(row.dateOfBirth); 
+    									date.setDate(date.getDate() + 1); 
+   											 return date.toLocaleDateString("en-US", {
+       											 year: "numeric",
+       											 month: "long",
+       											 day: "numeric",
+   										 });
+									})()}
 								</TableCell>
 								<TableCell align="center">{row.phoneNumber}</TableCell>
 								<TableCell align="center">Dr. {row.physician}</TableCell>
