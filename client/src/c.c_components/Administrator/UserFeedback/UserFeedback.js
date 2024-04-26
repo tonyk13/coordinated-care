@@ -18,8 +18,7 @@ export default function UserFeedback() {
                 
             } catch (error) {
                 console.error('Error fetching feedback:', error);
-                setError('Failed to fetch data.');
-                
+                //setError('Failed to fetch data.');
             }
         };
         fetchData();

@@ -20,7 +20,7 @@ export default function NewPatientForm({ setCurrentPage , setSnackbarOpen   }) {
             phoneNumber: "",
         },
 
-        //chronicConditions:"",
+        chronicConditions:"",
 	});
     const [physicians, setPhysicians] = useState([]);
     useEffect(()=>{
@@ -207,6 +207,19 @@ export default function NewPatientForm({ setCurrentPage , setSnackbarOpen   }) {
 								name="contact_phoneNumber"
 								label="Emergency Contact Phone Number"
 								value={formData.contact_phoneNumber}
+								onChange={handleChange}
+							/>
+						</Grid>
+						<Grid item xs={16}>
+							<TextField
+								fullWidth
+								multiline
+								rows={5}
+								type="text"
+								variant="outlined"
+								name="chronicConditions"
+								label="Chronic Conditions"
+								value={formData.chronicConditions}
 								onChange={handleChange}
 							/>
 						</Grid>

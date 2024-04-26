@@ -27,6 +27,8 @@ import Create_new_process from "./Processes-Procedures/Create_new_process";
 import Create_new_procedure from "./Processes-Procedures/Create_new_procedure";
 import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure";
 import EditAppointment from "../Care_Provider/Patients/EditAppointment";
+import UploadPatientDocument from "../Care_Provider/Patients/UploadPatientDocument";
+import ViewPatientDocument from "./Patients/ViewPatientDocument";
 
 import "../../stylesheets/App.css";
 import Dashboard from "./Dashboard";
@@ -34,6 +36,7 @@ import Dashboard from "./Dashboard";
 export default function CareProvider() {
 	const [currentPage, setCurrentPage] = useState("Dashboard");
 	const [patient, setPatient] = useState(null);
+	const [selectedTab, setSelectedTab] = useState(0);
 
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const handleCloseSnackbar = (event, reason) => {
@@ -42,6 +45,8 @@ export default function CareProvider() {
 		}
 		setSnackbarOpen(false);
 	};
+
+	const [fileId, setFileId] = useState("");
 
 	//  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved
 	return (
@@ -71,7 +76,15 @@ export default function CareProvider() {
 						/>
 					)}
 					{currentPage === "PatientInformation" && (
-						<PatientInformation setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />
+						<PatientInformation
+							selectedTab={selectedTab}
+							setSelectedTab={setSelectedTab}
+							setCurrentPage={setCurrentPage}
+							patient={patient}
+							setPatient={setPatient}
+							fileId={fileId}
+							setFileId={setFileId}
+						/>
 					)}
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditBilling" && <EditBilling setCurrentPage={setCurrentPage} />}
@@ -89,6 +102,10 @@ export default function CareProvider() {
 					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} />}
 					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
+					{currentPage === "UploadPatientDocument" && <UploadPatientDocument patient={patient} setCurrentPage={setCurrentPage} />}
+					{currentPage === "ViewPatientDocument" && (
+						<ViewPatientDocument setCurrentPage={setCurrentPage} patient={patient} fileId={fileId} setFileId={setFileId} />
+					)}
 				</Box>
 			</Box>
 		</Box>
