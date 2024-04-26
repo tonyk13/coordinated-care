@@ -15,4 +15,7 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
   },
+  env: {
+    REACT_APP_API_URL: 'https://coordinated-care-cce88007d728.herokuapp.com',
+  }
 });

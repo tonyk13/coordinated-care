@@ -40,7 +40,7 @@ exports.getPatient = async (req, res, next) => {
 	try {
 		const patientId = req.params._id;
 		console.log(patientId);
-		const patient = await patientModel.findById(patientId);
+        const patient = await patientModel.findById(patientId).populate('patientBills').exec();
 
 		if (!patient) {
 			return res.status(404).json({ message: "Patient not found" });
@@ -52,6 +52,44 @@ exports.getPatient = async (req, res, next) => {
 		next(error);
 	}
 };
+//update_patient_info
+exports.update_patient_info = async (req, res, next) => {
+    try {
+        const patientId = req.params._id;
+
+        let update = {};
+        if (req.body.firstName) update.firstName = req.body.firstName;
+        if (req.body.lastName) update.lastName = req.body.lastName;
+        if (req.body.dob) update.dateOfBirth = req.body.dob;
+        if (req.body.phoneNumber) update.phoneNumber = req.body.phoneNumber;
+        if (req.body.email) update.email = req.body.email;
+        if (req.body.address) update.address = req.body.address;
+        if (req.body.physician) update.physician = req.body.physician;
+        if (req.body.emergencyContact) {
+            update['emergencyContact.name'] = req.body.emergencyContact.name;
+            update['emergencyContact.phoneNumber'] = req.body.emergencyContact.phoneNumber;
+            update['emergencyContact.relationship'] = req.body.emergencyContact.relationship;
+        }
+        if (req.body.chronicConditions) update.chronicConditions = req.body.chronicConditions;
+
+        const updatedPatient = await patientModel.findByIdAndUpdate(
+            patientId,
+            { $set: update },
+            { new: true}
+        );
+
+        if (!updatedPatient) {
+            return res.status(404).json({ message: "Patient not found" });
+        }
+
+        res.status(200).json(updatedPatient);
+    } catch (error) {
+        console.error("Error updating patient info", error);
+        res.status(500).json({ error: "Server error" });
+        next(error);
+    }
+};
+
 
 //router.put("/patients/update_billing/:_id",patientsController.update_billing);
 exports.update_billing = async (req, res, next) => {
@@ -104,7 +142,7 @@ exports.all_patient_names = async (req, res, next) => {
 
 //create_patient
 exports.create_patient = async (req, res, next) => {
-	const { firstName, lastName, dateOfBirth, phoneNumber, address, email, emergencyContact, physician } = req.body;
+	const { firstName, lastName, dateOfBirth, phoneNumber, address, email, emergencyContact, physician, chronicConditions } = req.body;
 
 	try {
 		const newPatient = new patientModel({
@@ -116,6 +154,7 @@ exports.create_patient = async (req, res, next) => {
 			email,
 			emergencyContact,
 			physician,
+			chronicConditions
 		});
 
 		const savedPatient = await newPatient.save();
@@ -125,6 +164,44 @@ exports.create_patient = async (req, res, next) => {
 		console.error("Error creating new patient:", error);
 		res.status(500).json({ message: "Failed to add new patient", error: error.message });
 	}
+};
+//create_new_charge
+exports.create_new_charge = async (req, res, next) => {
+	try {
+		
+		const patientId = req.params._id; 
+
+
+		const { description, cost } = req.body;
+		console.log(description);
+		if (!description || cost === undefined) {
+            return res.status(400).json({ message: "Missing description or cost" });
+        }
+		const patient = await patientModel.findById(patientId);
+	
+		if (!patient) {
+			return res.status(404).json({ message: "Patient not found" });
+		}
+		const newCharge = {
+            description,
+            cost,
+        };
+		patient.patientBills.push(newCharge);
+		await patient.save();
+		res.status(201).json({
+            message: "New charge added successfully",
+            patientBills: patient.patientBills
+        });
+
+
+	  } catch (error) {
+		console.error("Failed to add new charge:", error);
+        res.status(500).json({ message: "Failed to add new charge", error: error.message });
+
+	  }
+
+
+
 };
 
 // Get Appointments for a patient
@@ -357,3 +434,5 @@ exports.getPatientDocument = async (req, res, next) => {
 		next(error);
 	}
 };
+
+

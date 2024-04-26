@@ -140,7 +140,8 @@ const EmployeeSchema = new mongoose.Schema({
 		type: String,
 	},
 	auth0Id: { 
-		type: String, unique: true 
+		type: String,
+		sparse: true,
 	},
 
 });
