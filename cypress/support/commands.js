@@ -25,8 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('login', () => {
-    cy.visit('https://coordinated-care-cce88007d728.herokuapp.com'); // will use env variables to avoid hardcoded data and security vulnerability
-
+    cy.visit(Cypress.env('REACT_APP_API_URL')); // will use env variables to avoid hardcoded data and security vulnerability
 
     cy.get('.login_button').click(); 
   
@@ -36,4 +35,5 @@ Cypress.Commands.add('login', () => {
         cy.get('input[name="password"]').type('cse416@coordinated');
         cy.get('button[type="submit"]').click();
     });
+    
   });
