@@ -3,9 +3,11 @@ const feedbackModel = require('../models/feedback');
 exports.all_feedback = async (req, res, next) => {
     try {
 		const feedbackList = await feedbackModel.find({});
+        
         if (feedbackList.length === 0) {
-            return res.status(404).json({ message: "No feedback found" });
+            return res.status(200).json({ message: "No feedback found" });
         }
+        
 
         res.status(200).json(feedbackList);
 
