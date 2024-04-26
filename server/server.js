@@ -1,9 +1,12 @@
 // Run this script to launch the server.
 // The server should run on localhost port 8000.
-// This is where you should start writing server-side code for this application.
 require("dotenv").config();
 console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
 console.log("CORS_ORIGIN:", process.env.CORS_ORIGIN);
+const path = require("path");
+
+// Import for GridFS
+const Grid = require("gridfs-stream");
 
 const express = require("express");
 const cors = require("cors");
@@ -13,19 +16,20 @@ const port = process.env.PORT || 8000;
 console.log("RUNNING ON PORT: ", port);
 console.log("RUNNING ON PORT: ", port);
 
+// Imports for old routes
 const answersRoutes = require("./routes/answersRoutes");
 const tagsRoutes = require("./routes/tagsRoutes");
 const questionsRoutes = require("./routes/questionsRoutes");
 const authRoutes = require("./routes/authRoutes");
 const commentsRoutes = require("./routes/commentsRoutes");
 
+// Imports for the routes we're actually using in this app
 const processesRoutes = require("./routes/processesRoutes");
 const patientsRoutes = require("./routes/patientsRoutes");
 const employeesRoutes = require("./routes/employeesRoutes");
 const roomsRoutes = require("./routes/roomsRoutes");
 const equipmentRoutes = require("./routes/equipmentRoutes");
 const discussionsRoutes = require("./routes/discussionsRoutes");
-
 const feedbackRoutes = require("./routes/feedbackRoutes");
 
 const cookieSession = require("cookie-session");
@@ -41,13 +45,6 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// Command line arguments
-const args = process.argv.slice(2);
-
-// Check if the secret key argument is provided
-//const secretKeyIndex = args.indexOf("--secretKey");
-//const secretKey = secretKeyIndex !== -1 ? args[secretKeyIndex + 1] : "default_secret_key";
-
 app.use(
 	cookieSession({
 		name: "session",
@@ -59,13 +56,16 @@ app.use(
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/coordinated-care");
 
+let gfs;
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
 	console.log("Connected to MongoDB");
-});
 
-// Command to start server: "node server.js --secretKey your_actual_secret_key" -> add this to the readme
+	gfs = Grid(db.db, mongoose.mongo);
+	gfs.collection("uploads");
+});
 
 // (Old) routes
 app.use("/api", answersRoutes);
@@ -84,9 +84,7 @@ app.use("/api", equipmentRoutes);
 app.use("/api", feedbackRoutes);
 app.use("/api", discussionsRoutes);
 
-
 // Serve static files from the React app build directory
-const path = require("path");
 app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
 // The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.

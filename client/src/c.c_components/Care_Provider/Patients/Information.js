@@ -5,36 +5,33 @@ import EditBilling from "./EditBilling";
 import Documents from "./Documents";
 import Procedures from "./Procedures";
 import Appointments from "./Appointments";
-import Referrals from "./Referrals";
 
-export default function Information({ setCurrentPage, patient, setPatient }) {
-	const [selectedTab, setSelectedTab] = useState(0);
-	const [isEditing, setIsEditing] = useState(false); 
+export default function Information({ setCurrentPage, patient, setPatient, setSelectedTab, selectedTab, fileId, setFileId }) {
+	const [isEditing, setIsEditing] = useState(false);
 	const [isEditingInfo, setIsEditingInfo] = useState(false);
 	const [formData, setFormData] = useState({
-		name: (patient.firstName +" "+ patient.lastName) || "",
+		name: patient.firstName + " " + patient.lastName || "",
 		dob: patient.dateOfBirth || "",
 		phone: patient.phone || "",
 		email: patient.email || "",
 		address: patient.address || "",
 		emergencyContact: patient.emergencyContact?.name || "",
 		emergencyPhone: patient.emergencyContact?.phoneNumber || "",
-		//chronicConditions: patient.chronicConditions?.join(', ') || "",  
+		//chronicConditions: patient.chronicConditions?.join(', ') || "",
 	});
 
 	useEffect(() => {
 		setFormData({
-			name: (patient.firstName +" "+ patient.lastName) || "",
+			name: patient.firstName + " " + patient.lastName || "",
 			dob: patient.dateOfBirth || "",
 			phone: patient.phone || "",
 			email: patient.email || "",
 			address: patient.address || "",
 			emergencyContact: patient.emergencyContact?.name || "",
 			emergencyPhone: patient.emergencyContact?.phoneNumber || "",
-			//chronicConditions: patient.chronicConditions?.join(', ') || "", 
+			//chronicConditions: patient.chronicConditions?.join(', ') || "",
 		});
 	}, [patient]);
-	
 
 	const handleTabChange = (event, newValue) => {
 		setSelectedTab(newValue);
@@ -56,7 +53,6 @@ export default function Information({ setCurrentPage, patient, setPatient }) {
 
 	const saveChanges = () => {
 		setIsEditing(false);
-		
 	};
 
 	return (
@@ -80,7 +76,6 @@ export default function Information({ setCurrentPage, patient, setPatient }) {
 						<Tab label="Appointments" />
 						<Tab label="Procedures" />
 						<Tab label="Patient Documents" />
-						<Tab label="Referrals" />
 						<Tab label="Billing" />
 					</Tabs>
 				</Box>
@@ -137,12 +132,15 @@ export default function Information({ setCurrentPage, patient, setPatient }) {
 								<Typography variant="h5" sx={{ mt: 2, mb: 1, fontWeight: "bold" }}>
 									Personal Information
 								</Typography>
-								<Typography variant="body1">Name: {patient.firstName +" "+ patient.lastName}</Typography>
-								<Typography variant="body1">Date of Birth: {new Date(patient.dateOfBirth).toLocaleDateString('en-US', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric'
-                                })}</Typography>
+								<Typography variant="body1">Name: {patient.firstName + " " + patient.lastName}</Typography>
+								<Typography variant="body1">
+									Date of Birth:{" "}
+									{new Date(patient.dateOfBirth).toLocaleDateString("en-US", {
+										year: "numeric",
+										month: "long",
+										day: "numeric",
+									})}
+								</Typography>
 
 								<Divider sx={{ my: 1 }} />
 
@@ -177,13 +175,17 @@ export default function Information({ setCurrentPage, patient, setPatient }) {
 						)}
 					</Box>
 				)}
-				{selectedTab === 1 && <Appointments setCurrentPage={setCurrentPage} />}
-				{selectedTab === 2 && <Procedures />}
-				{selectedTab === 3 && <Documents />}
-				{selectedTab === 5 && !isEditing && <Billing setCurrentPage={handleEditClick} patient = {patient} />}
-				{selectedTab === 4 && <Referrals />}
-				{selectedTab === 5 && isEditing && (
-					<EditBilling setCurrentPage={() => setIsEditing(false)} isEditing={isEditing} setIsEditing={setIsEditing} patient = {patient}/>
+				{selectedTab === 1 && <Appointments setCurrentPage={setCurrentPage} patientId={patient._id} />}
+				{selectedTab === 2 && <Procedures patientId={patient._id} />}
+				{selectedTab === 3 && <Documents setCurrentPage={setCurrentPage} patient={patient} fileId={fileId} setFileId={setFileId} />}
+				{selectedTab === 4 && !isEditing && <Billing setCurrentPage={handleEditClick} patient={patient} />}
+				{selectedTab === 4 && isEditing && (
+					<EditBilling
+						setCurrentPage={() => setIsEditing(false)}
+						isEditing={isEditing}
+						setIsEditing={setIsEditing}
+						patient={patient}
+					/>
 				)}
 			</Paper>
 		</Box>

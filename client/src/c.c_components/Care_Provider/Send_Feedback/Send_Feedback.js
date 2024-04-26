@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Button, TextField, Grid, Typography, Box, Container, Snackbar } from "@mui/material";
-import { useAuth0 } from '@auth0/auth0-react';
-import axios from 'axios';
-
-
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 
 export default function Send_Feedback({ setCurrentPage }) {
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -24,26 +22,26 @@ export default function Send_Feedback({ setCurrentPage }) {
 			console.log("User not authenticated");
 			return;
 		}
-	
+
 		try {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 			const response = await axios.post(`${baseURL}/api/feedback`, {
 				askedBy: user.sub,
 				summary: formData.summary,
-				details: formData.details
+				details: formData.details,
 			});
 			console.log("Feedback sent:", response.data);
 			setSnackbarOpen(true);
 			setFormData({ summary: "", details: "" });
-			// setCurrentPage('Dashboard'); 
+			// setCurrentPage('Dashboard');
 		} catch (error) {
-			console.error('Error submitting feedback:', error);
+			console.error("Error submitting feedback:", error);
 		}
 	};
-	
+
 	const handleCancel = () => {
 		setFormData({ summary: "", details: "" });
-		setCurrentPage('Dashboard'); 
+		setCurrentPage("Dashboard");
 	};
 
 	return (
@@ -68,7 +66,7 @@ export default function Send_Feedback({ setCurrentPage }) {
 							<TextField
 								fullWidth
 								multiline
-								rows={19} 
+								rows={10}
 								type="text"
 								name="details"
 								label="Details"
@@ -89,15 +87,15 @@ export default function Send_Feedback({ setCurrentPage }) {
 				</Button>
 			</Box>
 			<Snackbar
-    			open={snackbarOpen}
-    			autoHideDuration={6000}
-    			onClose={() => setSnackbarOpen(false)}
-   				message="Feedback has been sent"
-    			action={
-        			<Button color="secondary" size="small" onClick={() => setSnackbarOpen(false)}>
-            			Close
-        			</Button>
-    			}
+				open={snackbarOpen}
+				autoHideDuration={6000}
+				onClose={() => setSnackbarOpen(false)}
+				message="Feedback has been sent"
+				action={
+					<Button color="secondary" size="small" onClick={() => setSnackbarOpen(false)}>
+						Close
+					</Button>
+				}
 			/>
 		</div>
 	);

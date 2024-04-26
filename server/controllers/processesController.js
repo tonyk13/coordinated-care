@@ -9,7 +9,7 @@ exports.all_processes = async (req, res, next) => {
 	try {
 		const processes = await processModel
 			.find()
-			.populate("patient", "name")
+			.populate("patient", "firstName lastName")
 			.populate("physician", "firstName middleName lastName")
 			.populate("room", "roomNumber")
 			.populate("equipment", "equipmentName")
@@ -24,7 +24,9 @@ exports.all_processes = async (req, res, next) => {
 				return process;
 			}
 
-			const fullName = [process.physician.firstName, process.physician.middleName, process.physician.lastName]
+			const patientFullName = [process.patient.firstName, process.patient.lastName].filter(Boolean).join(" ");
+
+			const physicianFullName = [process.physician.firstName, process.physician.middleName, process.physician.lastName]
 				.filter(Boolean)
 				.join(" ");
 
@@ -60,8 +62,8 @@ exports.all_processes = async (req, res, next) => {
 
 			return {
 				...process.toObject({ virtuals: true }),
-				patientName: process.patient.name,
-				employeeName: fullName,
+				patientName: patientFullName,
+				employeeName: physicianFullName,
 				roomNumber: roomNumber,
 				equipment: equipmentName,
 				dateOfBirth: moment(process.dateOfBirth).format("MM/DD/YYYY"),
@@ -95,7 +97,7 @@ exports.get_process = async (req, res) => {
 	try {
 		const process = await processModel
 			.findById(req.params._id)
-			.populate("patient", "name")
+			.populate("patient", "firstName lastName")
 			.populate("physician", "firstName middleName lastName")
 			.populate("room", "roomNumber")
 			.populate("equipment", "equipmentName")
@@ -113,6 +115,8 @@ exports.get_process = async (req, res) => {
 			if (!process.patient) {
 				return process;
 			}
+
+			const patientFullName = [process.patient.firstName, process.patient.lastName].filter(Boolean).join(" ");
 
 			const fullName = [process.physician.firstName, process.physician.middleName, process.physician.lastName]
 				.filter(Boolean)
@@ -150,7 +154,7 @@ exports.get_process = async (req, res) => {
 
 			return {
 				...process.toObject({ virtuals: true }),
-				patientName: process.patient.name,
+				patientName: patientFullName,
 				employeeName: fullName,
 				roomNumber: roomNumber,
 				equipment: equipmentName,
