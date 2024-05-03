@@ -79,7 +79,9 @@ exports.get_employee_by_email = async (req, res, next) => {
         if (!employee) {
             return res.status(404).json({ error: "Employee Not Found" });
         }
-        res.json({ employee_id: employee._id.toString() });
+        console.log(employee);
+        res.json({ employee_id: employee._id.toString() , employee});
+
     } catch (error) {
         next(error);
     }
