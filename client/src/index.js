@@ -14,9 +14,9 @@ root.render(
         <Auth0Provider
             domain="dev-7ovxrmzmzr4wfp60.us.auth0.com"
             clientId="gEmcdAr3PJETuUg8qxg6SqBpEXtv6eef"
-            audience="https://dev-crsl7fds3e2pp8gg.us.auth0.com/api/v2/"
+            //audience="https://dev-crsl7fds3e2pp8gg.us.auth0.com/api/v2/"
             redirectUri={window.location.origin}
-            scope="openid profile email"
+            //scope="openid profile email"
         >
             <App />
         </Auth0Provider>
