@@ -4,9 +4,20 @@ const questionsModel = require("../models/questions");
 const answersModel = require("../models/answers");
 const tagsModel = require("../models/tags");
 const commentsModel = require("../models/comments");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const Employee = require('../models/employee');
 const crypto = require('crypto');
+//const { ManagementClient } = require('auth0');
+/*
+const auth0 = new ManagementClient({
+    domain: 'dev-crsl7fds3e2pp8gg.us.auth0.com',
+    clientId: 'qzb196eeCom4w7g9m5gW7IAfRTWAA2qN',
+    clientSecret: 'R_c2knm1gZHCGSOxlnpkoElT5vSahQMY1ciS1OikamYUA_kPq35wOaB6_yDTx5VA',
+	scope: 'create:users read:users',
+  	audience: 'https://dev-crsl7fds3e2pp8gg.us.auth0.com/api/v2/'
+    
+  });
+  */
 
 const nodemailer = require('nodemailer');
 
@@ -56,6 +67,7 @@ module.exports.CreateAccount = async (req, res, next) => {
 			role,
 			address,
 			professionalQualifications,
+			isAdmin
 		} = req.body;
 
 		/*
@@ -104,6 +116,7 @@ module.exports.CreateAccount = async (req, res, next) => {
 			role,
 			address,
 			professionalQualifications,
+			isAdmin
 		});
 		const token = crypto.randomBytes(20).toString('hex');
 
@@ -176,16 +189,34 @@ module.exports.ResetPassword = async (req, res, next) => {
 		if (!employee) {
 			return res.status(400).send('employee with requested token not found. ');
 		}
-		employee.passwordHash = password;
+
+		const hashedPassword = await bcrypt.hash(password, 10); 
+
+        employee.passwordHash = hashedPassword;
+		//employee.passwordHash = password;
 		//employee.resetPasswordToken = undefined;
 
 		await employee.save();
+		/*
+		auth0.users.create({
+			email: employee.email,
+			password: employee.password,
+			connection: 'Username-Password-Authentication'
+		  })
+		  .then(function (user) {
+			console.log('User created:', user);
+		  })
+		  .catch(function (err) {
+			console.error('Error creating user:', err);
+		  });
+		  */
 
 		//res.cookie("loggedInUser", user._id, {});
 		
 		res.status(201).json({
 			message: "Password Updated",
 			success: true,
+			employee: employee,
 		});
 		
 		//next();

@@ -14,6 +14,7 @@ export default function Add_new_faculty({ setCurrentPage , snackbarOpen,handleCl
 		email: "",
 		role: "",
 		professionalQualifications: "",
+		isAdmin: false,
 	});
 	
 
@@ -23,19 +24,26 @@ export default function Add_new_faculty({ setCurrentPage , snackbarOpen,handleCl
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 	const allFieldsFilled = () => {
-        return Object.values(formData).every(value => value.trim() !== "");
-    };
+		return Object.values(formData).every(value => typeof value === 'string' ? value.trim() !== "" : value !== "");
+	};
+	
 
 	// Same function for now for save cancel, just console logs clicked
 	const saveEdits = () => {
 		
 		if (allFieldsFilled()) {
-            console.log("Form data:", formData);
+            
+			const updatedFormData = {
+				...formData,
+				isAdmin: formData.role === 'Admin'
+			};
+			console.log(" UPdated Form data:", updatedFormData);
+	
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 			const apiUrl = `${baseURL}/api/createaccount`;
 			
 
-			axios.post(apiUrl, formData)
+			axios.post(apiUrl, updatedFormData)
             	.then(response => {
                 	console.log(response.data); 
                 	setSnackbarOpen(true); 

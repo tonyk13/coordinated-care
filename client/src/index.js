@@ -12,9 +12,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <Auth0Provider
-            domain="dev-crsl7fds3e2pp8gg.us.auth0.com"
-            clientId="qzb196eeCom4w7g9m5gW7IAfRTWAA2qN"
+            domain="dev-7ovxrmzmzr4wfp60.us.auth0.com"
+            clientId="gEmcdAr3PJETuUg8qxg6SqBpEXtv6eef"
+            audience="https://dev-crsl7fds3e2pp8gg.us.auth0.com/api/v2/"
             redirectUri={window.location.origin}
+            scope="openid profile email"
         >
             <App />
         </Auth0Provider>
