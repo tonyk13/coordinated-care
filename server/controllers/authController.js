@@ -190,7 +190,7 @@ module.exports.ResetPassword = async (req, res, next) => {
 			return res.status(400).send('employee with requested token not found. ');
 		}
 
-		const hashedPassword = await bcrypt.hash(password); 
+		const hashedPassword = await bcrypt.hash(password, 10); 
 
         employee.passwordHash = hashedPassword;
 		//employee.passwordHash = password;
