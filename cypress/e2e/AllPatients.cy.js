@@ -3,7 +3,7 @@ describe("All Patients", () => {
 		cy.login();
 	});
 	it("All Patients", () => {
-		cy.get("#continueAsAdmintempButton").click();
+		// cy.get("#continueAsAdmintempButton").click();
 
 		cy.get(".Patients").click();
 
