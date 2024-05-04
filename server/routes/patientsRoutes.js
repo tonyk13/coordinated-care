@@ -36,6 +36,9 @@ router.put("/patients/new_appointment/:_id", patientsController.new_appointment)
 // PUT request for updating an appointment for a patient
 router.put("/patients/update_appointment/:_id", patientsController.update_appointment);
 
+// GET request for all appointments for an employee
+router.get("/patients/get_appointments_for_employee/:_id", patientsController.get_appointments_for_employee);
+
 // GET request for procedures for a patient
 router.get("/patients/get_procedures/:_id", patientsController.get_procedures);
 

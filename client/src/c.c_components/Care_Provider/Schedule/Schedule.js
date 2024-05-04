@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from 'axios';
-
-// No Calendar in mui anymore
 import { Button, Grid, Typography, Box, Avatar, Container, Link} from "@mui/material";
 import { DayPilotCalendar } from "@daypilot/daypilot-lite-react";
 import { DayPilot } from "@daypilot/daypilot-lite-react";
 import dayjs from 'dayjs';
 
-export default function Schedules({IdClicked}) {
+export default function Schedule({IdClicked}) {
     const calendarRef = useRef();
     // const employeeProcedures;
     // const employeeAppointments;
