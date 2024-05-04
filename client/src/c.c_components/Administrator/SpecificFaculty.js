@@ -152,7 +152,7 @@ export default function SpecificFaculty({IdClicked}) {
         </Paper>   
       </TabPanel>
       <TabPanel value={value} index="3">
-        <Schedules nameClicked={facultyInfo.name} />
+        <Schedules IdClicked={IdClicked} />
       </TabPanel>
       <Snackbar
                 open={snackbarOpen}

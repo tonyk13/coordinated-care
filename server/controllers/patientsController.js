@@ -273,6 +273,34 @@ exports.update_appointment = async (req, res) => {
 	}
 };
 
+// GET request for all appointments for an employee
+exports.get_appointments_for_employee = async (req, res) => {
+	const employee_id = req.params._id;
+	try {
+		const patients = await patientModel.find({"appointments.providerAssigned": employee_id})
+		let employeeAppointments = [];
+		let patientInfoOfAppointment = [];
+        patients.forEach(patient => {
+            const appointments = patient.appointments.filter(appointment => appointment.providerAssigned.toString() === employee_id);
+			for (const appointment of appointments) {
+				let patientInfo = {};
+                patientInfo.patientFirstName = patient.firstName;
+                patientInfo.patientLastName = patient.lastName;
+				patientInfo.patient = patient._id;
+				patientInfoOfAppointment.push(patientInfo);
+            }
+			employeeAppointments = employeeAppointments.concat(appointments);
+			
+        });
+		// console.log(patientInfoOfProcedure[0])
+        res.status(200).json({ appointments: employeeAppointments, patientInfoOfAppointment: patientInfoOfAppointment});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
+
+
 // Get Procedures for a patient
 exports.get_procedures = async (req, res) => {
 	const patient_id = req.params._id;
