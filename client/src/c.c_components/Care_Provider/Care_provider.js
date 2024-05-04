@@ -48,6 +48,7 @@ export default function CareProvider() {
 
 	const [fileId, setFileId] = useState("");
 	const [selectedDocument, setSelectedDocument] = useState(null);
+	const [currentProcedure, setCurrentProcedure] = useState({});
 
 	//  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved
 	return (
@@ -98,11 +99,11 @@ export default function CareProvider() {
 					{currentPage === "EditProcess" && (
 						<EditProcess patient={patient} setPatient={setPatient} setCurrentPage={setCurrentPage} />
 					)}
-					{currentPage === "Procedures" && <MyProcedures setCurrentPage={setCurrentPage} />}
+					{currentPage === "Procedures" && <MyProcedures setCurrentPage={setCurrentPage} currentPage={currentPage} currentProcedure={currentProcedure} setCurrentProcedure={setCurrentProcedure}/>}
 					{/* {currentPage === "Procedures" && <Procedures setCurrentPage={setCurrentPage}/>} */}
 					{currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage} />}
-					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} />}
-					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} />}
+					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} currentPage={currentPage}/>}
+					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} procedure={currentProcedure} setCurrentProcedure={setCurrentProcedure}/>}
 					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
 					{currentPage === "UploadPatientDocument" && <UploadPatientDocument patient={patient} setCurrentPage={setCurrentPage} />}
