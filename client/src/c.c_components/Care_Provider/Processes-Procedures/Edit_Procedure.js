@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
 
-export default function EditProcedure({ setCurrentPage, procedure }) {
+export default function EditProcedure({ setCurrentPage, procedure, setCurrentProcedure }) {
 	const inputPhysicianId = Cookies.get("employee_id");
 	const { register, handleSubmit } = useForm();
 	const parsedCurrentProcedureDateTime = dayjs(procedure.dateTime, "MM/DD/YYYY hh:mm A");
