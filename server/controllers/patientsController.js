@@ -288,6 +288,33 @@ exports.get_procedures = async (req, res) => {
 	}
 };
 
+// GET request for all procedures for an employee
+exports.get_procedures_for_employee = async (req, res) => {
+	const employee_id = req.params._id;
+	try {
+		const patients = await patientModel.find({"procedures.providerAssigned": employee_id})
+		let employeeProcedures = [];
+		let patientInfoOfProcedure = [];
+        patients.forEach(patient => {
+            const procedures = patient.procedures.filter(procedure => procedure.providerAssigned.toString() === employee_id);
+			for (const procedure of procedures) {
+				let patientInfo = {};
+                patientInfo.patientFirstName = patient.firstName;
+                patientInfo.patientLastName = patient.lastName;
+				patientInfo.patient = patient._id;
+				patientInfoOfProcedure.push(patientInfo);
+            }
+			employeeProcedures = employeeProcedures.concat(procedures);
+			
+        });
+		// console.log(patientInfoOfProcedure[0])
+        res.status(200).json({ procedures: employeeProcedures, patientInfoOfProcedure: patientInfoOfProcedure});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
+
 // Create Procedure for a patient
 exports.new_procedure = async (req, res) => {
 	const patient_id = req.params._id;
@@ -312,6 +339,34 @@ exports.new_procedure = async (req, res) => {
 		res.status(500).json({ success: false, message: req.body });
 	}
 };
+
+exports.update_procedure = async (req, res) => {
+	const patient_id = req.params._id;
+
+	try {
+		const patient = await patientModel.findById(patient_id);
+		if (!patient) {
+			return res.status(404).json({ success: false, message: "Patient not found" });
+		}
+
+		// Updating Appointment
+		const procedure_id = req.body._id.toString();
+		const updatedProcedureData = req.body;
+		const procedureIndex = patient.procedures.findIndex((procedure) => procedure._id.toString() === procedure_id);
+
+		if (procedureIndex === -1) {
+			return res.status(404).json({ success: false, message: req.body });
+		}
+		patient.procedures[procedureIndex] = updatedProcedureData;
+		await patient.save();
+
+		res.status(200).json({ data: req.body });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ success: false, message: req.body });
+	}
+};
+
 
 exports.upload_file = async (req, res, next) => {
 	if (!req.file) {
