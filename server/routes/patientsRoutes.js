@@ -39,8 +39,16 @@ router.put("/patients/update_appointment/:_id", patientsController.update_appoin
 // GET request for procedures for a patient
 router.get("/patients/get_procedures/:_id", patientsController.get_procedures);
 
+// GET request for all procedures for an employee
+router.get("/patients/get_procedures_for_employee/:_id", patientsController.get_procedures_for_employee);
+
 // PUT request for creating a procedure for a patient
-router.put("/patients/new_procedure/:_id", patientsController.new_procedure); // POST request for uploading a document for a patient
+router.put("/patients/new_procedure/:_id", patientsController.new_procedure); 
+
+// PUT request for editing a procedure for a patient
+router.put("/patients/update_procedure/:_id", patientsController.update_procedure); 
+
+// POST request for uploading a document for a patient
 router.post("/patients/:_id/files/upload", upload.single("fileId"), patientsController.upload_file);
 
 // GET request for retrieving a document for a patient
