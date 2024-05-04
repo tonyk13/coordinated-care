@@ -17,7 +17,7 @@ import PatientInformation from "../Care_Provider/Patients/Information";
 import Billing from "../Care_Provider/Patients/Billing";
 import EditBilling from "../Care_Provider/Patients/EditBilling";
 import OrderLabTest from "../Care_Provider/Patients/Order_LabTest";
-import Edit_Rooms from "./Rooms/Edit_Rooms";
+import ViewRoom from "./Rooms/ViewRoom";
 import ViewProcess from "./Processes-Procedures/ViewProcess";
 import EditProcess from "./Processes-Procedures/EditProcess";
 import MyProcedures from "./Processes-Procedures/MyProcedures";
@@ -49,6 +49,8 @@ export default function CareProvider() {
 	const [fileId, setFileId] = useState("");
 	const [selectedDocument, setSelectedDocument] = useState(null);
 
+	const [selectedRoom, setSelectedRoom] = useState(null);
+
 	//  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -65,7 +67,7 @@ export default function CareProvider() {
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
 					{currentPage === "send-feedback" && <Send_Feedback setCurrentPage={setCurrentPage} />}
-					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
+					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} setSelectedRoom={setSelectedRoom} />}
 					{currentPage === "Patients" && (
 						<Patients
 							setCurrentPage={setCurrentPage}
@@ -92,7 +94,7 @@ export default function CareProvider() {
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditBilling" && <EditBilling setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
-					{currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage} />}
+					{currentPage === "ViewRoom" && <ViewRoom setCurrentPage={setCurrentPage} selectedRoom={selectedRoom} />}
 					{currentPage === "Processes" && <Processes setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
 					{currentPage === "ViewProcess" && <ViewProcess patient={patient} setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditProcess" && (

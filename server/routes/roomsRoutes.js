@@ -3,7 +3,7 @@ const router = express.Router();
 const roomsController = require("../controllers/roomsController");
 
 // // GET request for list of all rooms
-// router.get("/rooms", roomsController.all_rooms);
+router.get("/rooms", roomsController.all_rooms);
 
 // GET request for list of all room numbers
 router.get("/rooms/all_room_numbers", roomsController.all_room_numbers);

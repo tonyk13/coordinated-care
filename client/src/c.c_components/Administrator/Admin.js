@@ -18,7 +18,7 @@ import CreateDiscussionPost from "../Discussion_Board/Create_Discussion_Post";
 import Messages from "../Messages/Messages";
 import Add_new_faculty from "./Add_new_faculty";
 import UserFeedback from "./UserFeedback/UserFeedback";
-import Edit_Rooms from "../Care_Provider/Rooms/Edit_Rooms";
+import ViewRoom from "../Care_Provider/Rooms/ViewRoom";
 import Processes from "../Care_Provider/Processes-Procedures/Processes";
 import ViewProcess from "../Care_Provider/Processes-Procedures/ViewProcess";
 import EditProcess from "../Care_Provider/Processes-Procedures/EditProcess";
@@ -50,6 +50,8 @@ export default function Admin() {
 	const [fileId, setFileId] = useState("");
 	const [selectedDocument, setSelectedDocument] = useState(null);
 
+	const [selectedRoom, setSelectedRoom] = useState(null);
+
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
 			<AdminTopbanner setCurrentPage={setCurrentPage} />
@@ -74,7 +76,7 @@ export default function Admin() {
 					)}
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
-					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
+					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} setSelectedRoom={setSelectedRoom} />}
 					{currentPage === "Patients" && (
 						<Patients
 							setCurrentPage={setCurrentPage}
@@ -110,7 +112,7 @@ export default function Admin() {
 					)}
 					{currentPage === "View User Feedback" && <UserFeedback />}
 					{currentPage === "SpecificFaculty" && <SpecificFaculty IdClicked={IdClicked} />}
-					{currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage} />}
+					{currentPage === "ViewRoom" && <ViewRoom setCurrentPage={setCurrentPage} selectedRoom={selectedRoom} />}
 					{currentPage === "Processes" && <Processes setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
 					{currentPage === "ViewProcess" && <ViewProcess patient={patient} setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditProcess" && <EditProcess patient={patient} setCurrentPage={setCurrentPage} />}
