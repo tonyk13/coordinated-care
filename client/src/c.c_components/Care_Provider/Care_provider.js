@@ -29,10 +29,14 @@ import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure"
 import EditAppointment from "../Care_Provider/Patients/EditAppointment";
 import UploadPatientDocument from "../Care_Provider/Patients/UploadPatientDocument";
 import ViewPatientDocument from "./Patients/ViewPatientDocument";
+
+import AddEquipment from "./Equipment/AddEquipment";
+import RequestEquipment from "./Equipment/RequestEquipment"
 import Schedule from "./Schedule/Schedule";
 import Cookies from "js-cookie";
 import "../../stylesheets/App.css";
 import Dashboard from "./Dashboard";
+
 
 export default function CareProvider() {
 	const [currentPage, setCurrentPage] = useState("Dashboard");
@@ -121,6 +125,22 @@ export default function CareProvider() {
 						/>
 					)}
 					{currentPage === "Schedule" && <Schedule IdClicked={Cookies.get("employee_id")} />}
+					{currentPage === "AddEquipment" && (
+						<AddEquipment
+							setCurrentPage={setCurrentPage}
+							snackbarOpen={snackbarOpen}
+							setSnackbarOpen={setSnackbarOpen}
+							handleCloseSnackbar={handleCloseSnackbar}
+						/>
+					)}
+					{currentPage === "RequestEquipment" && (
+						<RequestEquipment
+							setCurrentPage={setCurrentPage}
+							snackbarOpen={snackbarOpen}
+							setSnackbarOpen={setSnackbarOpen}
+							handleCloseSnackbar={handleCloseSnackbar}
+						/>
+					)}
 
 				</Box>
 			</Box>
