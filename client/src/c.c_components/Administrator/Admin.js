@@ -30,6 +30,8 @@ import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure"
 import EditAppointment from "../Care_Provider/Patients/EditAppointment";
 import UploadPatientDocument from "../Care_Provider/Patients/UploadPatientDocument";
 import ViewPatientDocument from "../Care_Provider/Patients/ViewPatientDocument";
+import AddEquipment from "../Care_Provider/Equipment/AddEquipment";
+import RequestEquipment from "../../c.c_components/Care_Provider/Equipment/RequestEquipment"
 
 import "../../stylesheets/App.css";
 import SpecificFaculty from "./SpecificFaculty";
@@ -139,6 +141,22 @@ export default function Admin() {
 							setFileId={setFileId}
 							selectedDocument={selectedDocument}
 							setSelectedDocument={setSelectedDocument}
+						/>
+					)}
+					{currentPage === "AddEquipment" && (
+						<AddEquipment
+							setCurrentPage={setCurrentPage}
+							snackbarOpen={snackbarOpen}
+							setSnackbarOpen={setSnackbarOpen}
+							handleCloseSnackbar={handleCloseSnackbar}
+						/>
+					)}
+					{currentPage === "RequestEquipment" && (
+						<RequestEquipment
+							setCurrentPage={setCurrentPage}
+							snackbarOpen={snackbarOpen}
+							setSnackbarOpen={setSnackbarOpen}
+							handleCloseSnackbar={handleCloseSnackbar}
 						/>
 					)}
 				</Box>
