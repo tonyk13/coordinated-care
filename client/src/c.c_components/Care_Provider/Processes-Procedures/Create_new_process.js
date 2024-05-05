@@ -23,7 +23,6 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import axios from "axios";
 
-// For now we're going to be manually inputting the "Treatment" field
 const treatments = ["Chemotherapy", "Physical Therapy", "Surgery"];
 
 const sections = [
@@ -46,7 +45,7 @@ export default function CreateNewProcess({ setCurrentPage }) {
 		equipment: [],
 		status: "Pre-Op",
 		lastUpdated: dayjs().format("YYYY-MM-DD"),
-		sections: sections.map((section) => ({ name: section, tasks: [""] })),
+		sections: sections.map((section) => ({ name: section, tasks: [{ name: "", employee: "" }] })),
 	});
 
 	const [patientNames, setPatientNames] = useState([]);
@@ -55,10 +54,9 @@ export default function CreateNewProcess({ setCurrentPage }) {
 	const [isOtherTreatment, setIsOtherTreatment] = useState(false);
 
 	const [physicians, setPhysicians] = useState([]);
-
 	const [roomNumbers, setRoomNumbers] = useState([]);
-
 	const [equipmentOptions, setEquipmentOptions] = useState([]);
+	const [employees, setEmployees] = useState([]);
 
 	const today = dayjs();
 
@@ -83,7 +81,7 @@ export default function CreateNewProcess({ setCurrentPage }) {
 				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 				const response = await axios.get(`${baseURL}/api/employees/all_physician_names`);
 
-				console.log(response.data);
+				// console.log(response.data);
 
 				setPhysicians(response.data);
 			} catch (error) {
@@ -92,6 +90,24 @@ export default function CreateNewProcess({ setCurrentPage }) {
 		};
 
 		fetchPhysicians();
+	}, []);
+
+	useEffect(() => {
+		const fetchEmployees = async () => {
+			try {
+				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+				const response = await axios.get(`${baseURL}/api/employees`);
+				const formattedEmployees = response.data.map((emp) => ({
+					...emp,
+					fullName: `${emp.firstName} ${emp.middleName ? emp.middleName + " " : ""}${emp.lastName}`,
+				}));
+				setEmployees(formattedEmployees);
+			} catch (error) {
+				console.error("Fetching employees failed: ", error);
+			}
+		};
+
+		fetchEmployees();
 	}, []);
 
 	useEffect(() => {
@@ -193,12 +209,33 @@ export default function CreateNewProcess({ setCurrentPage }) {
 	const handleTaskChange = (sectionIndex, taskIndex, event) => {
 		const newSections = processDetails.sections.map((section, sIndex) => {
 			if (sIndex === sectionIndex) {
-				const newTasks = section.tasks.map((task, tIndex) => (tIndex === taskIndex ? event.target.value : task));
+				const newTasks = section.tasks.map((task, tIndex) => {
+					if (tIndex === taskIndex) {
+						return { ...task, name: event.target.value };
+					}
+					return task;
+				});
 				return { ...section, tasks: newTasks };
 			}
 			return section;
 		});
-		setProcessDetails({ ...processDetails, sections: newSections });
+		setProcessDetails((prevDetails) => ({ ...prevDetails, sections: newSections }));
+	};
+
+	const handleEmployeeChange = (sectionIndex, taskIndex, event) => {
+		const newSections = processDetails.sections.map((section, sIndex) => {
+			if (sIndex === sectionIndex) {
+				const newTasks = section.tasks.map((task, tIndex) => {
+					if (tIndex === taskIndex) {
+						return { ...task, employee: event.target.value };
+					}
+					return task;
+				});
+				return { ...section, tasks: newTasks };
+			}
+			return section;
+		});
+		setProcessDetails((prevDetails) => ({ ...prevDetails, sections: newSections }));
 	};
 
 	const handleAddTask = (sectionIndex) => {
@@ -227,7 +264,14 @@ export default function CreateNewProcess({ setCurrentPage }) {
 
 		const formattedSections = processDetails.sections.map((section) => ({
 			name: section.name,
-			tasks: section.tasks.filter((task) => task.trim() !== "").map((taskName) => ({ name: taskName })),
+			tasks: section.tasks
+				.filter((task) => task.name.trim() !== "")
+				.map((task) => ({
+					name: task.name,
+					assignedTo: task.employee || undefined,
+					lastUpdated: new Date().toISOString(),
+					completed: false,
+				})),
 		}));
 
 		const selectedEquipmentIds = processDetails.equipment.map((equipmentName) => {
@@ -245,14 +289,14 @@ export default function CreateNewProcess({ setCurrentPage }) {
 			admissionDate: processDetails.admissionDate.toISOString(),
 			expectedDischarge: processDetails.expectedDischarge.toISOString(),
 			status: processDetails.status,
-			lastUpdated: new Date(processDetails.lastUpdated).toISOString(),
+			lastUpdated: new Date().toISOString(),
 			sections: formattedSections,
 		};
 
 		try {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 			const response = await axios.post(`${baseURL}/api/processes`, formattedProcessDetails);
-			console.log("Process created: ", response.data);
+			// console.log("Process created: ", response.data);
 			setCurrentPage("Processes");
 		} catch (error) {
 			console.error("Failed to create process: ", error);
@@ -437,15 +481,33 @@ export default function CreateNewProcess({ setCurrentPage }) {
 								</Typography>
 								<List>
 									{section.tasks.map((task, taskIndex) => (
-										<ListItem key={taskIndex} sx={{ display: "flex", alignItems: "center" }}>
+										<ListItem key={taskIndex} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
 											<TextField
 												fullWidth
 												label={`Task ${taskIndex + 1}`}
 												variant="outlined"
-												value={task}
+												value={task.name}
 												onChange={(event) => handleTaskChange(sectionIndex, taskIndex, event)}
 												sx={{ mr: 1 }}
 											/>
+											<FormControl fullWidth>
+												<InputLabel id={`employee-select-label-${sectionIndex}-${taskIndex}`}>
+													Assign Employee
+												</InputLabel>
+												<Select
+													labelId={`employee-select-label-${sectionIndex}-${taskIndex}`}
+													id={`employee-select-${sectionIndex}-${taskIndex}`}
+													value={task.employee}
+													onChange={(event) => handleEmployeeChange(sectionIndex, taskIndex, event)}
+													label="Assign Employee"
+												>
+													{employees.map((employee) => (
+														<MenuItem key={employee._id} value={employee._id}>
+															{employee.fullName}
+														</MenuItem>
+													))}
+												</Select>
+											</FormControl>
 											<IconButton onClick={() => handleAddTask(sectionIndex)}>
 												<AddCircleOutlineIcon />
 											</IconButton>

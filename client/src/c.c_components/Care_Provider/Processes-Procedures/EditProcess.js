@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
 	Box,
+	Grid,
 	List,
 	ListItem,
 	ListItemText,
@@ -14,49 +15,84 @@ import {
 	Stack,
 } from "@mui/material";
 import axios from "axios";
+import dayjs from "dayjs";
 
 const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) => {
 	const [sections, setSections] = useState(selectedProcess.sections);
 
 	const handleToggle = (sectionIndex, taskIndex) => {
-		const newSections = JSON.parse(JSON.stringify(sections));
+		const newSections = sections.map((section, idx) => {
+			if (idx === sectionIndex) {
+				return {
+					...section,
+					tasks: section.tasks.map((task, tIdx) => {
+						if (tIdx === taskIndex) {
+							return {
+								...task,
+								completed: !task.completed,
+							};
+						}
+						return task;
+					}),
+				};
+			}
+			return section;
+		});
 
-		console.log("newSections: ", newSections);
-		console.log("Value of sectionIndex: ", sectionIndex);
-		console.log("Value of taskIndex: ", taskIndex);
-		console.log("Is this task currently completed? ", newSections[sectionIndex].tasks[taskIndex].completed);
-
-		console.log("The task:", newSections[sectionIndex].tasks[taskIndex]);
-		newSections[sectionIndex].tasks[taskIndex].completed = !newSections[sectionIndex].tasks[taskIndex].completed;
-
-		console.log("This task is updated, is it completed now? ", newSections[sectionIndex].tasks[taskIndex].completed);
+		console.log("Updated Sections:", newSections);
 
 		setSections(newSections);
 	};
 
 	const ChecklistSection = ({ kza, title, items }) => (
 		<Box>
-			<Typography variant="h6" sx={{ mt: 2 }}>
+			<Typography variant="h6" sx={{ mt: 2, fontWeight: "600" }}>
+				{" "}
 				{title}
 			</Typography>
-			<List dense>
+			<List>
 				{items.map((item, index) => (
-					<ListItem key={index}>
-						<ListItemIcon>
-							<Checkbox
-								edge="start"
-								checked={item.completed}
-								onChange={() => handleToggle(kza, index)}
-								inputProps={{ "aria-labelledby": `checkbox-list-label-${index}` }}
-							/>
-						</ListItemIcon>
-						<ListItemText id={`checkbox-list-label-${index}`} primary={item.name} />
-						{item.assignedTo && (
-							<Typography variant="caption">{`Assigned to ${item.assignedTo.role} ${item.assignedTo.fullName}`}</Typography>
-						)}
-						{item.dueDate && (
-							<Typography variant="caption">{`Due by: ${new Date(item.dueDate).toLocaleDateString()}`}</Typography>
-						)}
+					<ListItem key={index} divider>
+						<Grid container alignItems="center">
+							<Grid item xs={1}>
+								<ListItemIcon>
+									<Checkbox
+										edge="start"
+										checked={item.completed}
+										onChange={() => handleToggle(kza, index)}
+										inputProps={{ "aria-labelledby": `checkbox-list-label-${index}` }}
+									/>
+								</ListItemIcon>
+							</Grid>
+							<Grid item xs={11}>
+								<ListItemText
+									id={`checkbox-list-label-${index}`}
+									primary={item.name}
+									primaryTypographyProps={{
+										fontSize: "1.125rem",
+										fontWeight: "medium",
+									}}
+								/>
+								<Box sx={{ mt: 1, ml: 2 }}>
+									{" "}
+									{item.assignedTo && (
+										<Typography variant="caption" sx={{ display: "block" }}>
+											{`Assigned to: ${item.assignedTo.role} ${item.assignedTo.fullName}`}
+										</Typography>
+									)}
+									{item.lastUpdated && (
+										<Typography variant="caption" sx={{ display: "block" }}>
+											{`Last updated: ${dayjs(item.lastUpdated).format("MM/DD/YYYY hh:mm A")}`}
+										</Typography>
+									)}
+									{item.dueDate && (
+										<Typography variant="caption" sx={{ display: "block" }}>
+											{`Due by: ${dayjs(item.dueDate).format("MM/DD/YYYY hh:mm A")}`}
+										</Typography>
+									)}
+								</Box>
+							</Grid>
+						</Grid>
 					</ListItem>
 				))}
 			</List>
@@ -76,14 +112,13 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 			...section,
 			tasks: section.tasks.map((task) => ({
 				...task,
-				assignedTo: task.assignedTo?._id,
+				assignedTo: task.assignedTo._id,
 			})),
 		}));
 
 		try {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 			const response = await axios.put(`${baseURL}/api/processes/${selectedProcess._id}`, { sections: formattedSections });
-			console.log("Save response:", response);
 			selectedProcess.sections = formattedSections;
 			setPatient(selectedProcess);
 			setCurrentPage("ViewProcess");
@@ -104,7 +139,12 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 					<Typography variant="subtitle1">{`Treatment: ${selectedProcess.treatment}`}</Typography>
 					<Typography variant="subtitle1">{`Status: ${selectedProcess.status}`}</Typography>
 					<Typography variant="subtitle1">{`Room: ${selectedProcess.roomNumber}`}</Typography>
-					<Typography variant="subtitle1">{`Last Updated: ${selectedProcess.lastUpdated}`}</Typography>
+					<Typography variant="subtitle1">{`Last Updated: ${dayjs(selectedProcess.lastUpdated).format(
+						"MM/DD/YYYY HH:mm A"
+					)}`}</Typography>
+					<Typography variant="subtitle1">
+						Equipment: {selectedProcess.equipment.map((equip) => equip.name).join(", ")}
+					</Typography>
 				</Box>
 				<Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2 }}>
 					<Button variant="outlined" color="primary" onClick={handleCancel} sx={{ width: "100px" }}>
@@ -127,6 +167,7 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 						name: task.name,
 						completed: task.completed,
 						assignedTo: task.assignedTo,
+						lastUpdated: task.lastUpdated,
 						dueDate: task.dueDate,
 					}))}
 				/>
@@ -135,7 +176,6 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 			<Box>
 				<Typography variant="subtitle1">{`Admission Date: ${selectedProcess.admissionDate}`}</Typography>
 				<Typography variant="subtitle1">{`Expected Discharge: ${selectedProcess.expectedDischarge}`}</Typography>
-				<Typography variant="subtitle1">{`Equipment: ${selectedProcess.equipment}`}</Typography>
 			</Box>
 		</Container>
 	);
