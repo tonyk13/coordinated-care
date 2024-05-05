@@ -11,28 +11,26 @@ conn.once("open", () => {
 	gfs = Grid(conn.db);
 });
 
-//all_patients
+const getPhysicianFullName = (physician) => {
+    return physician ? [physician.firstName, physician.lastName].filter(Boolean).join(" ") : 'Unknown Physician';
+};
+
+const formatPatients = (patients) => {
+    return patients.map(patient => ({
+        ...patient.toObject({ virtuals: true }),
+        physician: getPhysicianFullName(patient.physician),
+    }));
+};
+
 exports.all_patients = async (req, res, next) => {
-	try {
-		const patients = await patientModel.find().populate("physician", "firstName middleName lastName -_id");
-
-		const formattedPatients = patients.map((patient) => {
-			const physicianFullName = [patient.physician.firstName, patient.physician.middleName, patient.physician.lastName]
-				.filter(Boolean)
-				.join(" ");
-
-			return {
-				...patient.toObject({ virtuals: true }),
-				physician: physicianFullName,
-			};
-		});
-
-		res.status(200).json(formattedPatients);
-
-		// res.status(200).json(patients);
-	} catch (error) {
-		next(error);
-	}
+    try {
+        const patients = await patientModel.find().populate("physician", "firstName lastName -_id");
+        const formattedPatients = formatPatients(patients);
+        res.status(200).json(formattedPatients);
+    } catch (error) {
+        console.error("Error fetching patients:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 };
 
 //router.get("/patients/:_id", patientsController.getPatient);

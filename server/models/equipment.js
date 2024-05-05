@@ -8,15 +8,36 @@ const EquipmentSchema = new mongoose.Schema({
 	quantity: {
 		type: Number,
 		required: true,
+		default: 0
 	},
+	/*
 	nextAvailableDateAndTime: {
 		type: Date,
-		required: true,
+		required: false,
 	},
+	*/
+	
 	notes: {
 		type: String,
 		required: false,
 	},
+	status: {
+        type: String,
+        required: false,
+        enum: ['Available', 'Maintenance', 'Reserved', 'Out of Stock'],
+        default: 'Available'
+    },
+	reservations: [{
+        date: {
+            type: Date,
+            required: false
+        },
+		user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Employee',
+            required: false
+        }
+    }],
 });
 
 const Equipment = mongoose.model("Equipment", EquipmentSchema);
