@@ -51,20 +51,48 @@ function PasswordReset({ setCurrentPage, token}) {
     };
 
     return (
-        <div>
-            <h2>Reset Password</h2>
-            <form onSubmit={handleSubmit}>
+        <div style={{
+            height: "100vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "DodgerBlue"
+        }}>
+            <form onSubmit={handleSubmit} style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "20px",
+                borderRadius: "5px",
+            }}>
+                <h2 style={{ color: "white" }}>Reset Password</h2>
                 <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="New Password"
                     required
+                    style={{
+                        padding: "10px",
+                        marginBottom: "20px",
+                        width: "200px",
+                        borderRadius: "5px",
+                        border: "none"
+                    }}
                 />
-                <button type="submit">Reset Password</button>
+                <button type="submit" style={{
+                    padding: "10px 20px",
+                    backgroundColor: "white",
+                    color: "DodgerBlue",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    fontSize: "16px"
+                }}>Reset Password</button>
             </form>
         </div>
     );
+    
 }
 
 export default PasswordReset;
