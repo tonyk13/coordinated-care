@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, IconButton, Tooltip, Avatar, Menu, MenuItem, Typography } from '@mui/material';
 import heartlogo from '../c.c_components/img/Heart_Rate.png'
 import '../stylesheets/App.css';
 import LogoutButton from './Login/LogoutButton';
 import { useAuth0 } from '@auth0/auth0-react';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const settings = ['Profile', 'Settings', 'Send Feedback', 'Logout'];
 
@@ -35,6 +37,19 @@ export default function Topbanner({setCurrentPage}) {
     }
 
   };
+  const [avatarInitial, setAvatarInitial] = useState("");
+  useEffect(() => {
+    const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+    const employee_id = Cookies.get("employee_id");
+    axios
+        .get(`${baseURL}/api/employees/${employee_id}`)
+        .then((response) => {
+          setAvatarInitial(response.data.employee.firstName)
+        })
+        .catch((error) => {
+            console.error("Error fetching employee ID:", error);
+        });
+}, []);
 
   
 
@@ -47,7 +62,7 @@ export default function Topbanner({setCurrentPage}) {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="User Avatar" src="/static/images/avatar/2.jpg" />
+          <Avatar alt={avatarInitial} src="/static/images/avatar/2.jpg" />
         </IconButton>
       </Tooltip>
       <Menu

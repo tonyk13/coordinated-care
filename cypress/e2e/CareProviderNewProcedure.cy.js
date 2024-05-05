@@ -1,6 +1,6 @@
 describe("Admin Patients", () => {
 	beforeEach(() => {
-		cy.login();
+		cy.care_provider_login();
 	});
 	it("Care Provider Patients", () => {
 		// cy.get('#continueAsCPtempButton').click();
