@@ -35,3 +35,15 @@ Cypress.Commands.add("login", () => {
 		cy.get('button[type="submit"]').click();
 	});
 });
+
+Cypress.Commands.add("care_provider_login", () => {
+	cy.visit(Cypress.env("REACT_APP_API_URL")); // will use env variables to avoid hardcoded data and security vulnerability
+
+	cy.get(".login_button").click();
+
+	cy.origin("https://dev-7ovxrmzmzr4wfp60.us.auth0.com", () => {
+		cy.get('input[name="username"]').type("johndoe@example.com");
+		cy.get('input[name="password"]').type("password");
+		cy.get('button[type="submit"]').click();
+	});
+});
