@@ -17,7 +17,7 @@ import PatientInformation from "../Care_Provider/Patients/Information";
 import Billing from "../Care_Provider/Patients/Billing";
 import EditBilling from "../Care_Provider/Patients/EditBilling";
 import OrderLabTest from "../Care_Provider/Patients/Order_LabTest";
-import Edit_Rooms from "./Rooms/Edit_Rooms";
+import ViewRoom from "./Rooms/ViewRoom";
 import ViewProcess from "./Processes-Procedures/ViewProcess";
 import EditProcess from "./Processes-Procedures/EditProcess";
 import MyProcedures from "./Processes-Procedures/MyProcedures";
@@ -29,7 +29,8 @@ import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure"
 import EditAppointment from "../Care_Provider/Patients/EditAppointment";
 import UploadPatientDocument from "../Care_Provider/Patients/UploadPatientDocument";
 import ViewPatientDocument from "./Patients/ViewPatientDocument";
-
+import Schedule from "./Schedule/Schedule";
+import Cookies from "js-cookie";
 import "../../stylesheets/App.css";
 import Dashboard from "./Dashboard";
 
@@ -48,6 +49,9 @@ export default function CareProvider() {
 
 	const [fileId, setFileId] = useState("");
 	const [selectedDocument, setSelectedDocument] = useState(null);
+	const [currentProcedure, setCurrentProcedure] = useState({});
+
+	const [selectedRoom, setSelectedRoom] = useState(null);
 
 	//  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved
 	return (
@@ -65,7 +69,7 @@ export default function CareProvider() {
 					{currentPage === "Settings Page" && <Settings />}
 					{currentPage === "profile-screen" && <Profile setCurrentPage={setCurrentPage} />}
 					{currentPage === "send-feedback" && <Send_Feedback setCurrentPage={setCurrentPage} />}
-					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} />}
+					{currentPage === "Rooms" && <Rooms setCurrentPage={setCurrentPage} setSelectedRoom={setSelectedRoom} />}
 					{currentPage === "Patients" && (
 						<Patients
 							setCurrentPage={setCurrentPage}
@@ -92,17 +96,17 @@ export default function CareProvider() {
 					{currentPage === "Billing" && <Billing setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditBilling" && <EditBilling setCurrentPage={setCurrentPage} />}
 					{currentPage === "Order Lab Test" && <OrderLabTest setCurrentPage={setCurrentPage} />}
-					{currentPage === "Edit_Rooms" && <Edit_Rooms setCurrentPage={setCurrentPage} />}
+					{currentPage === "ViewRoom" && <ViewRoom setCurrentPage={setCurrentPage} selectedRoom={selectedRoom} />}
 					{currentPage === "Processes" && <Processes setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
 					{currentPage === "ViewProcess" && <ViewProcess patient={patient} setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditProcess" && (
 						<EditProcess patient={patient} setPatient={setPatient} setCurrentPage={setCurrentPage} />
 					)}
-					{currentPage === "Procedures" && <MyProcedures setCurrentPage={setCurrentPage} />}
+					{currentPage === "Procedures" && <MyProcedures setCurrentPage={setCurrentPage} currentPage={currentPage} currentProcedure={currentProcedure} setCurrentProcedure={setCurrentProcedure}/>}
 					{/* {currentPage === "Procedures" && <Procedures setCurrentPage={setCurrentPage}/>} */}
 					{currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage} />}
-					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} />}
-					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} />}
+					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} currentPage={currentPage}/>}
+					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} procedure={currentProcedure} setCurrentProcedure={setCurrentProcedure}/>}
 					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
 					{currentPage === "UploadPatientDocument" && <UploadPatientDocument patient={patient} setCurrentPage={setCurrentPage} />}
@@ -116,6 +120,8 @@ export default function CareProvider() {
 							setSelectedDocument={setSelectedDocument}
 						/>
 					)}
+					{currentPage === "Schedule" && <Schedule IdClicked={Cookies.get("employee_id")} />}
+
 				</Box>
 			</Box>
 		</Box>

@@ -26,11 +26,13 @@ const RoomSchema = new mongoose.Schema({
 		type: Date,
 		required: true,
 	},
-	equipment: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "Equipment",
-		required: false,
-	},
+	equipment: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Equipment",
+			required: false,
+		},
+	],
 	notes: {
 		type: String,
 		required: false,

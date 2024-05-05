@@ -12,7 +12,6 @@ import {
 	Typography,
 	TextField,
 	InputAdornment,
-	IconButton,
 	Pagination,
 	CircularProgress,
 } from "@mui/material";
