@@ -14,6 +14,10 @@ const TaskSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false,
 	},
+	lastUpdated: {
+		type: Date,
+		default: Date.now,
+	},
 	dueDate: {
 		type: Date,
 		required: false,
@@ -67,11 +71,13 @@ const ProcessSchema = new mongoose.Schema({
 		type: Date,
 		required: true,
 	},
-	equipment: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "Equipment",
-		required: true,
-	},
+	equipment: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Equipment",
+			required: true,
+		},
+	],
 	status: {
 		type: String,
 		required: true,

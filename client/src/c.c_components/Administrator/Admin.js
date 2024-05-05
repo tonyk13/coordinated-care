@@ -115,7 +115,9 @@ export default function Admin() {
 					{currentPage === "ViewRoom" && <ViewRoom setCurrentPage={setCurrentPage} selectedRoom={selectedRoom} />}
 					{currentPage === "Processes" && <Processes setCurrentPage={setCurrentPage} patient={patient} setPatient={setPatient} />}
 					{currentPage === "ViewProcess" && <ViewProcess patient={patient} setCurrentPage={setCurrentPage} />}
-					{currentPage === "EditProcess" && <EditProcess patient={patient} setCurrentPage={setCurrentPage} />}
+					{currentPage === "EditProcess" && (
+						<EditProcess patient={patient} setPatient={setPatient} setCurrentPage={setCurrentPage} />
+					)}
 					{currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage} />}
 					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} />}

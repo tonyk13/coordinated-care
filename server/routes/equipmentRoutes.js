@@ -12,7 +12,7 @@ router.get("/equipment/all_equipment_names", equipmentController.all_equipment_n
 // router.post("/equipment/", equipmentController.create_equipment);
 
 // // GET request for retrieving an equipment
-// router.get("/equipment/:_id", equipmentController.get_equipment);
+router.get("/equipment/:_id", equipmentController.get_an_equipment);
 
 // // PUT request for updating an equipment
 // router.put("/equipment/:_id", equipmentController.update_equipment);

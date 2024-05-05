@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 import axios from "axios";
+import dayjs from "dayjs";
 
 export default function Processes({ setCurrentPage, setPatient }) {
 	const [isLoading, setIsLoading] = useState(false);
@@ -183,11 +184,11 @@ export default function Processes({ setCurrentPage, setPatient }) {
 										<TableCell align="center">{row.dateOfBirth}</TableCell>
 										<TableCell align="center">{row.treatment}</TableCell>
 										<TableCell align="center">{row.employeeName}</TableCell>
-										<TableCell align="center">{row.admissionDate}</TableCell>
-										<TableCell align="center">{row.expectedDischarge}</TableCell>
+										<TableCell align="center">{dayjs(row.admissionDate).format("MM/DD/YYYY hh:mm A")}</TableCell>
+										<TableCell align="center">{dayjs(row.expectedDischarge).format("MM/DD/YYYY hh:mm A")}</TableCell>
 										<TableCell align="center">{row.roomNumber}</TableCell>
 										<TableCell align="center">{row.status}</TableCell>
-										<TableCell align="center">{row.lastUpdated}</TableCell>
+										<TableCell align="center">{dayjs(row.lastUpdated).format("MM/DD/YYYY hh:mm A")}</TableCell>
 									</TableRow>
 								))}
 							</TableBody>
