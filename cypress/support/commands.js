@@ -42,7 +42,7 @@ Cypress.Commands.add("care_provider_login", () => {
 	cy.get(".login_button").click();
 
 	cy.origin("https://dev-7ovxrmzmzr4wfp60.us.auth0.com", () => {
-		cy.get('input[name="username"]').type("johndoe@example.com");
+		cy.get('input[name="username"]').type("jpark1980@gmail.com");
 		cy.get('input[name="password"]').type("password");
 		cy.get('button[type="submit"]').click();
 	});
