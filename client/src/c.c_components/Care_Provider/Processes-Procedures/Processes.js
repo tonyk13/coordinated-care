@@ -184,11 +184,15 @@ export default function Processes({ setCurrentPage, setPatient }) {
 										<TableCell align="center">{row.dateOfBirth}</TableCell>
 										<TableCell align="center">{row.treatment}</TableCell>
 										<TableCell align="center">{row.employeeName}</TableCell>
-										<TableCell align="center">{dayjs(row.admissionDate).format("MM/DD/YYYY hh:mm A")}</TableCell>
-										<TableCell align="center">{dayjs(row.expectedDischarge).format("MM/DD/YYYY hh:mm A")}</TableCell>
+										<TableCell align="center">{dayjs(new Date(row.admissionDate)).format("MM/DD/YYYY")}</TableCell>
+										<TableCell align="center">
+											{dayjs(new Date(row.expectedDischarge)).format("MM/DD/YYYY hh:mm A")}
+										</TableCell>
 										<TableCell align="center">{row.roomNumber}</TableCell>
 										<TableCell align="center">{row.status}</TableCell>
-										<TableCell align="center">{dayjs(row.lastUpdated).format("MM/DD/YYYY hh:mm A")}</TableCell>
+										<TableCell align="center">
+											{dayjs(new Date(row.lastUpdated)).format("MM/DD/YYYY hh:mm A")}
+										</TableCell>
 									</TableRow>
 								))}
 							</TableBody>

@@ -30,8 +30,10 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 							return {
 								...task,
 								completed: !task.completed,
+								lastUpdated: new Date(),
 							};
 						}
+						console.log("Task:", task);
 						return task;
 					}),
 				};
@@ -112,13 +114,21 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 			...section,
 			tasks: section.tasks.map((task) => ({
 				...task,
-				assignedTo: task.assignedTo._id,
 			})),
 		}));
 
+		selectedProcess.lastUpdated = new Date();
+
 		try {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
-			const response = await axios.put(`${baseURL}/api/processes/${selectedProcess._id}`, { sections: formattedSections });
+
+			const updateData = {
+				sections: formattedSections,
+				lastUpdated: selectedProcess.lastUpdated,
+			};
+
+			await axios.put(`${baseURL}/api/processes/${selectedProcess._id}`, updateData);
+
 			selectedProcess.sections = formattedSections;
 			setPatient(selectedProcess);
 			setCurrentPage("ViewProcess");

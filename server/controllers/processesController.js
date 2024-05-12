@@ -236,7 +236,7 @@ exports.get_process = async (req, res) => {
 };
 
 exports.update_process = async (req, res) => {
-	const { sections } = req.body;
+	const { sections, lastUpdated } = req.body;
 
 	try {
 		const process = await processModel.findById(req.params._id);
@@ -245,6 +245,7 @@ exports.update_process = async (req, res) => {
 		}
 
 		process.sections = sections;
+		process.lastUpdated = lastUpdated || new Date(); // Set lastUpdated to passed value or current date
 
 		await process.save();
 		res.json({ message: "Process updated successfully", process });
