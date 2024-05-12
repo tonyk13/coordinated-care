@@ -51,7 +51,7 @@ export default function Login({ setCurrentPage }) {
 		<>
 			{!isAuthenticated && (
 				<div className="login_screen">
-					<div className="login_app_name">Coordinated Care changed title</div>
+					<div className="login_app_name">Coordinated Care</div>
 					<br />
 					<div className="motto">
 						Revolutionizing the future of
