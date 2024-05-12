@@ -30,8 +30,10 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 							return {
 								...task,
 								completed: !task.completed,
+								lastUpdated: new Date(),
 							};
 						}
+						console.log("Task:", task);
 						return task;
 					}),
 				};
@@ -82,7 +84,7 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 									)}
 									{item.lastUpdated && (
 										<Typography variant="caption" sx={{ display: "block" }}>
-											{`Last updated: ${dayjs(item.lastUpdated).format("MM/DD/YYYY hh:mm A")}`}
+											{`Last updated: ${dayjs(new Date(item.lastUpdated)).format("MM/DD/YYYY hh:mm A")}`}
 										</Typography>
 									)}
 									{item.dueDate && (
@@ -112,13 +114,21 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 			...section,
 			tasks: section.tasks.map((task) => ({
 				...task,
-				assignedTo: task.assignedTo._id,
 			})),
 		}));
 
+		selectedProcess.lastUpdated = new Date();
+
 		try {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
-			const response = await axios.put(`${baseURL}/api/processes/${selectedProcess._id}`, { sections: formattedSections });
+
+			const updateData = {
+				sections: formattedSections,
+				lastUpdated: selectedProcess.lastUpdated,
+			};
+
+			await axios.put(`${baseURL}/api/processes/${selectedProcess._id}`, updateData);
+
 			selectedProcess.sections = formattedSections;
 			setPatient(selectedProcess);
 			setCurrentPage("ViewProcess");
@@ -140,7 +150,7 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 					<Typography variant="subtitle1">{`Status: ${selectedProcess.status}`}</Typography>
 					<Typography variant="subtitle1">{`Room: ${selectedProcess.roomNumber}`}</Typography>
 					<Typography variant="subtitle1">{`Last Updated: ${dayjs(selectedProcess.lastUpdated).format(
-						"MM/DD/YYYY HH:mm A"
+						"MM/DD/YYYY hh:mm A"
 					)}`}</Typography>
 					<Typography variant="subtitle1">
 						Equipment: {selectedProcess.equipment.map((equip) => equip.name).join(", ")}

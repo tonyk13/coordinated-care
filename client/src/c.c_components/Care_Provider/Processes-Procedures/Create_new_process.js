@@ -81,8 +81,6 @@ export default function CreateNewProcess({ setCurrentPage }) {
 				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 				const response = await axios.get(`${baseURL}/api/employees/all_physician_names`);
 
-				// console.log(response.data);
-
 				setPhysicians(response.data);
 			} catch (error) {
 				console.error("Fetching physicians failed: ", error);
@@ -296,7 +294,7 @@ export default function CreateNewProcess({ setCurrentPage }) {
 		try {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 			const response = await axios.post(`${baseURL}/api/processes`, formattedProcessDetails);
-			// console.log("Process created: ", response.data);
+
 			setCurrentPage("Processes");
 		} catch (error) {
 			console.error("Failed to create process: ", error);

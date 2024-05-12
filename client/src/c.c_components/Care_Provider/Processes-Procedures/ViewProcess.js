@@ -51,7 +51,7 @@ const ChecklistSection = ({ title, items }) => (
 								)}
 								{item.lastUpdated && (
 									<Typography variant="caption" sx={{ display: "block" }}>
-										{`Last updated: ${dayjs(item.lastUpdated).format("MM/DD/YYYY hh:mm A")}`}
+										{`Last updated: ${dayjs(new Date(item.lastUpdated)).format("MM/DD/YYYY hh:mm A")}`}
 									</Typography>
 								)}
 								{item.dueDate && (
@@ -91,7 +91,7 @@ const ViewProcess = ({ setCurrentPage, patient: selectedProcess }) => {
 				<Typography variant="subtitle1">{`Treatment: ${selectedProcess.treatment}`}</Typography>
 				<Typography variant="subtitle1">{`Status: ${selectedProcess.status}`}</Typography>
 				<Typography variant="subtitle1">{`Room: ${selectedProcess.roomNumber}`}</Typography>
-				<Typography variant="subtitle1">{`Last Updated: ${dayjs(selectedProcess.lastUpdated).format(
+				<Typography variant="subtitle1">{`Last Updated: ${dayjs(new Date(selectedProcess.lastUpdated)).format(
 					"MM/DD/YYYY hh:mm A"
 				)}`}</Typography>
 				<Typography variant="subtitle1">Equipment: {selectedProcess.equipment.map((equip) => equip.name).join(", ")}</Typography>
