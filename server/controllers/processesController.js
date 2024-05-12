@@ -66,9 +66,9 @@ exports.all_processes = async (req, res, next) => {
 				roomNumber: roomNumber,
 				equipment: equipmentDetails,
 				dateOfBirth: moment(process.dateOfBirth).format("MM/DD/YYYY"),
-				lastUpdated: moment(process.lastUpdated).format("MM/DD/YYYY"), // fix this
-				admissionDate: moment(process.admissionDate).format("MM/DD/YYYY"), // fix this
-				expectedDischarge: moment(process.expectedDischarge).format("MM/DD/YYYY"), // fix this
+				lastUpdated: process.lastUpdated,
+				admissionDate: process.admissionDate,
+				expectedDischarge: process.expectedDischarge,
 				sections: sections,
 			};
 		});
@@ -220,9 +220,9 @@ exports.get_process = async (req, res) => {
 			roomNumber: roomNumber,
 			equipment: equipmentName,
 			dateOfBirth: moment(process.dateOfBirth).format("MM/DD/YYYY"),
-			lastUpdated: moment(process.lastUpdated).format("MM/DD/YYYY"),
-			admissionDate: moment(process.admissionDate).format("MM/DD/YYYY"),
-			expectedDischarge: moment(process.expectedDischarge).format("MM/DD/YYYY"),
+			lastUpdated: process.lastUpdated,
+			admissionDate: process.admissionDate,
+			expectedDischarge: process.expectedDischarge,
 			sections: sections,
 		};
 

@@ -40,6 +40,7 @@ export default function Processes({ setCurrentPage, setPatient }) {
 			try {
 				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 				const response = await axios.get(`${baseURL}/api/processes`);
+
 				setRows(response.data);
 				setFilteredRows(response.data);
 				setIsLoading(false);
@@ -185,9 +186,7 @@ export default function Processes({ setCurrentPage, setPatient }) {
 										<TableCell align="center">{row.treatment}</TableCell>
 										<TableCell align="center">{row.employeeName}</TableCell>
 										<TableCell align="center">{dayjs(new Date(row.admissionDate)).format("MM/DD/YYYY")}</TableCell>
-										<TableCell align="center">
-											{dayjs(new Date(row.expectedDischarge)).format("MM/DD/YYYY hh:mm A")}
-										</TableCell>
+										<TableCell align="center">{dayjs(new Date(row.expectedDischarge)).format("MM/DD/YYYY")}</TableCell>
 										<TableCell align="center">{row.roomNumber}</TableCell>
 										<TableCell align="center">{row.status}</TableCell>
 										<TableCell align="center">

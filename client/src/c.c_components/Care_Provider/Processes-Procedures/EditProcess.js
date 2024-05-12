@@ -84,7 +84,7 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 									)}
 									{item.lastUpdated && (
 										<Typography variant="caption" sx={{ display: "block" }}>
-											{`Last updated: ${dayjs(item.lastUpdated).format("MM/DD/YYYY hh:mm A")}`}
+											{`Last updated: ${dayjs(new Date(item.lastUpdated)).format("MM/DD/YYYY hh:mm A")}`}
 										</Typography>
 									)}
 									{item.dueDate && (
@@ -150,7 +150,7 @@ const EditProcess = ({ setCurrentPage, patient: selectedProcess, setPatient }) =
 					<Typography variant="subtitle1">{`Status: ${selectedProcess.status}`}</Typography>
 					<Typography variant="subtitle1">{`Room: ${selectedProcess.roomNumber}`}</Typography>
 					<Typography variant="subtitle1">{`Last Updated: ${dayjs(selectedProcess.lastUpdated).format(
-						"MM/DD/YYYY HH:mm A"
+						"MM/DD/YYYY hh:mm A"
 					)}`}</Typography>
 					<Typography variant="subtitle1">
 						Equipment: {selectedProcess.equipment.map((equip) => equip.name).join(", ")}
