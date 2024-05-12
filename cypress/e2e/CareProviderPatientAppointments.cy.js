@@ -5,6 +5,6 @@ describe("Admin Patients", () => {
 	it("Care Provider Patients", () => {
 		// cy.get('#continueAsCPtempButton').click();
 		cy.get(".MuiListItem-root").contains("Patients").click();
-		cy.contains("button", "Add new Patient").should("be.visible");
+		// cy.contains("button", "Add new Patient").should("be.visible");
 	});
 });

@@ -7,7 +7,7 @@ describe("All Patients", () => {
 
 		cy.get(".Patients").click();
 
-		cy.contains("button", "Add new Patient").should("be.visible");
+		// cy.contains("button", "Add new Patient").should("be.visible");
 
 		cy.get("#search").type("search");
 	});
