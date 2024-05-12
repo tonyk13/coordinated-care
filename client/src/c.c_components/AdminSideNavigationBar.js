@@ -6,7 +6,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import ForumIcon from "@mui/icons-material/Forum";
 import RoomIcon from "@mui/icons-material/BedroomChild";
 import EquipmentIcon from "@mui/icons-material/Vaccines";
-import MessagesIcon from "@mui/icons-material/Email"
+// import MessagesIcon from "@mui/icons-material/Email";
 
 const drawerWidth = 240;
 
@@ -19,8 +19,8 @@ export default function AdminSideNavigationBar({ setCurrentPage }) {
 		{ text: "Equipment", icon: <EquipmentIcon /> },
 		{ text: "Discussion Board", icon: <ForumIcon /> },
 		{ text: "View User Feedback", icon: <CommentIcon /> },
-		{ text: "Messages", icon: <MessagesIcon /> },
-		{ text: "Account Requests", icon: <GroupsIcon/>}
+		// { text: "Messages", icon: <MessagesIcon /> },
+		{ text: "Account Requests", icon: <GroupsIcon /> },
 	];
 
 	const handleClick = (item) => {
@@ -33,7 +33,7 @@ export default function AdminSideNavigationBar({ setCurrentPage }) {
 		if (item.text === "Discussion Board") setCurrentPage("Discussion Board");
 		if (item.text === "Patients") setCurrentPage("Patients");
 		if (item.text === "View User Feedback") setCurrentPage("View User Feedback");
-		if (item.text === "Messages") setCurrentPage("Messages");
+		// if (item.text === "Messages") setCurrentPage("Messages");
 		if (item.text === "Account Requests") setCurrentPage("Account Requests");
 	};
 
@@ -53,7 +53,7 @@ export default function AdminSideNavigationBar({ setCurrentPage }) {
 					<List>
 						{menuItems.map((item, index) => (
 							<ListItem key={item.text}>
-								<ListItemButton className={item.text.replace(/[\s/]+/g, '-')} onClick={() => handleClick(item)}>
+								<ListItemButton className={item.text.replace(/[\s/]+/g, "-")} onClick={() => handleClick(item)}>
 									<ListItemIcon>{item.icon}</ListItemIcon>
 									<ListItemText primary={item.text} />
 								</ListItemButton>
