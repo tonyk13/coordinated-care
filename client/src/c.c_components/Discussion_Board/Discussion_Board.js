@@ -3,9 +3,8 @@ import { Box, Typography, Paper, List, ListItemButton, ListItemText, Divider, Bu
 import Discussion_Post from "./Discussion_Post";
 import axios from "axios";
 
-export default function DiscussionBoard({ setCurrentPage }) {
+export default function DiscussionBoard({ setCurrentPage, discussionId, setDiscussionId }) {
 	const [topics, setTopics] = useState([]);
-
 	const [selectedTopic, setSelectedTopic] = useState(null);
 
 	useEffect(() => {
@@ -26,6 +25,7 @@ export default function DiscussionBoard({ setCurrentPage }) {
 
 	const handleTopicClick = (topic) => {
 		setSelectedTopic(topic);
+		setDiscussionId(topic._id);
 	};
 
 	return (
@@ -71,7 +71,9 @@ export default function DiscussionBoard({ setCurrentPage }) {
 				</Paper>
 			)}
 
-			{selectedTopic && <Discussion_Post setSelectedTopic={setSelectedTopic} selectedTopic={selectedTopic} />}
+			{selectedTopic && (
+				<Discussion_Post setSelectedTopic={setSelectedTopic} selectedTopic={selectedTopic} setCurrentPage={setCurrentPage} />
+			)}
 		</Box>
 	);
 }

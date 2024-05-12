@@ -22,7 +22,6 @@ import ViewProcess from "./Processes-Procedures/ViewProcess";
 import EditProcess from "./Processes-Procedures/EditProcess";
 import MyProcedures from "./Processes-Procedures/MyProcedures";
 import Processes from "./Processes-Procedures/Processes";
-// import Procedures from "./Processes-Procedures/Procedures";
 import Create_new_process from "./Processes-Procedures/Create_new_process";
 import Create_new_procedure from "./Processes-Procedures/Create_new_procedure";
 import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure";
@@ -31,12 +30,12 @@ import UploadPatientDocument from "../Care_Provider/Patients/UploadPatientDocume
 import ViewPatientDocument from "./Patients/ViewPatientDocument";
 
 import AddEquipment from "./Equipment/AddEquipment";
-import RequestEquipment from "./Equipment/RequestEquipment"
+import RequestEquipment from "./Equipment/RequestEquipment";
 import Schedule from "./Schedule/Schedule";
 import Cookies from "js-cookie";
 import "../../stylesheets/App.css";
 import Dashboard from "./Dashboard";
-
+import AddComment from "../Discussion_Board/AddComment";
 
 export default function CareProvider() {
 	const [currentPage, setCurrentPage] = useState("Dashboard");
@@ -57,7 +56,8 @@ export default function CareProvider() {
 
 	const [selectedRoom, setSelectedRoom] = useState(null);
 
-	//  {currentPage === 'User Feedback' && (<Send_Feedback setCurrentPage={setCurrentPage}/>)} <--- Implement Later when send/user feedback conflict is resolved
+	const [discussionId, setDiscussionId] = useState(null);
+
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
 			<Topbanner setCurrentPage={setCurrentPage} />
@@ -65,7 +65,9 @@ export default function CareProvider() {
 				<Side_navigation_bar setCurrentPage={setCurrentPage} />
 				<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 					{currentPage === "Dashboard" && <Dashboard setCurrentPage={setCurrentPage} />}
-					{currentPage === "Discussion Board" && <Discussion_Board setCurrentPage={setCurrentPage} />}
+					{currentPage === "Discussion Board" && (
+						<Discussion_Board setCurrentPage={setCurrentPage} discussionId={discussionId} setDiscussionId={setDiscussionId} />
+					)}
 					{currentPage === "CreateDiscussionPost" && <CreateDiscussionPost setCurrentPage={setCurrentPage} />}
 					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
@@ -106,11 +108,25 @@ export default function CareProvider() {
 					{currentPage === "EditProcess" && (
 						<EditProcess patient={patient} setPatient={setPatient} setCurrentPage={setCurrentPage} />
 					)}
-					{currentPage === "Procedures" && <MyProcedures setCurrentPage={setCurrentPage} currentPage={currentPage} currentProcedure={currentProcedure} setCurrentProcedure={setCurrentProcedure}/>}
-					{/* {currentPage === "Procedures" && <Procedures setCurrentPage={setCurrentPage}/>} */}
+					{currentPage === "Procedures" && (
+						<MyProcedures
+							setCurrentPage={setCurrentPage}
+							currentPage={currentPage}
+							currentProcedure={currentProcedure}
+							setCurrentProcedure={setCurrentProcedure}
+						/>
+					)}
 					{currentPage === "Create_new_process" && <Create_new_process setCurrentPage={setCurrentPage} />}
-					{currentPage === "Create_new_procedure" && <Create_new_procedure setCurrentPage={setCurrentPage} currentPage={currentPage}/>}
-					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} procedure={currentProcedure} setCurrentProcedure={setCurrentProcedure}/>}
+					{currentPage === "Create_new_procedure" && (
+						<Create_new_procedure setCurrentPage={setCurrentPage} currentPage={currentPage} />
+					)}
+					{currentPage === "EditProcedure" && (
+						<EditProcedure
+							setCurrentPage={setCurrentPage}
+							procedure={currentProcedure}
+							setCurrentProcedure={setCurrentProcedure}
+						/>
+					)}
 					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
 					{currentPage === "UploadPatientDocument" && <UploadPatientDocument patient={patient} setCurrentPage={setCurrentPage} />}
@@ -141,7 +157,7 @@ export default function CareProvider() {
 							handleCloseSnackbar={handleCloseSnackbar}
 						/>
 					)}
-
+					{currentPage === "AddComment" && <AddComment setCurrentPage={setCurrentPage} discussionId={discussionId} />}
 				</Box>
 			</Box>
 		</Box>

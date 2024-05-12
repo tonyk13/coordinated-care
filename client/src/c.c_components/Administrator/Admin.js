@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import AdminTopbanner from "../AdminTopBanner";
-import { Box, Toolbar } from "@mui/material";
+import { Box } from "@mui/material";
 import AdminSideNavigationBar from "../AdminSideNavigationBar";
 import Discussion_Board from "../Discussion_Board/Discussion_Board";
-// import Faculty_Staff from "./Faculty_Staff";
 import Equipment from "../Care_Provider/Equipment/Equipment";
 import EditEquipment from "../Care_Provider/Equipment/EditEquipment";
 import Staff from "../Administrator/Staff";
@@ -31,10 +30,11 @@ import EditAppointment from "../Care_Provider/Patients/EditAppointment";
 import UploadPatientDocument from "../Care_Provider/Patients/UploadPatientDocument";
 import ViewPatientDocument from "../Care_Provider/Patients/ViewPatientDocument";
 import AddEquipment from "../Care_Provider/Equipment/AddEquipment";
-import RequestEquipment from "../../c.c_components/Care_Provider/Equipment/RequestEquipment"
+import RequestEquipment from "../../c.c_components/Care_Provider/Equipment/RequestEquipment";
 
 import "../../stylesheets/App.css";
 import SpecificFaculty from "./SpecificFaculty";
+import AddComment from "../Discussion_Board/AddComment";
 
 export default function Admin() {
 	const [currentPage, setCurrentPage] = useState("Processes");
@@ -54,15 +54,17 @@ export default function Admin() {
 
 	const [selectedRoom, setSelectedRoom] = useState(null);
 
+	const [discussionId, setDiscussionId] = useState(null);
+
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
 			<AdminTopbanner setCurrentPage={setCurrentPage} />
 			<Box sx={{ display: "flex", flexGrow: 1 }}>
 				<AdminSideNavigationBar setCurrentPage={setCurrentPage} />
 				<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-					{/* {currentPage === "Discussion Board" && <Discussion_Board />} */}
-					{/* {currentPage === "Staff" && <Staff />} */}
-					{currentPage === "Discussion Board" && <Discussion_Board setCurrentPage={setCurrentPage} />}
+					{currentPage === "Discussion Board" && (
+						<Discussion_Board setCurrentPage={setCurrentPage} discussionId={discussionId} setDiscussionId={setDiscussionId} />
+					)}
 					{currentPage === "CreateDiscussionPost" && <CreateDiscussionPost setCurrentPage={setCurrentPage} />}
 					{currentPage === "Equipment" && <Equipment setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditEquipment" && <EditEquipment setCurrentPage={setCurrentPage} />}
@@ -161,6 +163,7 @@ export default function Admin() {
 							handleCloseSnackbar={handleCloseSnackbar}
 						/>
 					)}
+					{currentPage === "AddComment" && <AddComment setCurrentPage={setCurrentPage} discussionId={discussionId} />}
 				</Box>
 			</Box>
 		</Box>

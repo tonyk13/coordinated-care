@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Paper, List, ListItem, ListItemText, Divider, Button } from "@mui/material";
 
-export default function Discussion_Post({ selectedTopic, setSelectedTopic }) {
+export default function Discussion_Post({ selectedTopic, setSelectedTopic, setCurrentPage }) {
 	return (
 		<Paper sx={{ p: 2 }}>
 			<Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
@@ -37,7 +37,7 @@ export default function Discussion_Post({ selectedTopic, setSelectedTopic }) {
 			<Button variant="contained" onClick={() => setSelectedTopic(null)}>
 				Back to topics
 			</Button>
-			<Button variant="contained" color="success" sx={{ ml: 2 }} onClick={() => alert("Add Comment functionality to be implemented")}>
+			<Button variant="contained" color="success" sx={{ ml: 2 }} onClick={() => setCurrentPage("AddComment")}>
 				Add Comment
 			</Button>
 		</Paper>
