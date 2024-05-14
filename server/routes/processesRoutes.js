@@ -17,4 +17,7 @@ router.put("/processes/:_id", processesController.update_process);
 // POST request for creating a process
 router.post("/processes", processesController.create_process);
 
+// GET request for retrieving all processes for an employee (for Care Provider Home Screen)
+router.get("/processes/:_id/get_processes_for_employee", processesController.get_processes_for_employee);
+
 module.exports = router;
