@@ -60,11 +60,11 @@ export default function Login({ setCurrentPage }) {
                     </div>
                     <LoginButton />
                     <br />
-                    <br />
+                    {/* <br />
                     <Button className="request_account_button" onClick={takemetorequestaccountpage}>
                         Request Account
                     </Button>
-                    <br />
+                    <br /> */}
                 </div>
             )}
             <div className="credits">Proudly presented by Team Dodger Blue</div>
