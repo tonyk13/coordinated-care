@@ -128,7 +128,7 @@ export default function Admin() {
 					{currentPage === "EditProcedure" && <EditProcedure setCurrentPage={setCurrentPage} />}
 					{currentPage === "EditAppointment" && <EditAppointment setCurrentPage={setCurrentPage} />}
 					{currentPage === "Messages" && <Messages setCurrentPage={setCurrentPage} />}
-					{currentPage === "Account Requests" && <AccountRequests setCurrentPage={setCurrentPage} />}
+					{/* {currentPage === "Account Requests" && <AccountRequests setCurrentPage={setCurrentPage} />} */}
 					{currentPage === "newPatientForm" && (
 						<NewPatientForm
 							setCurrentPage={setCurrentPage}
