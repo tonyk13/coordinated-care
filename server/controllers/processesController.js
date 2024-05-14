@@ -188,3 +188,21 @@ exports.create_process = async (req, res, next) => {
 		next(error);
 	}
 };
+
+
+// get_processes_for_employee
+exports.get_processes_for_employee = async (req, res) => {
+    const employee_to_find_processes_id = req.params._id;
+    try {
+        const processes_for_employee = await processModel.find({ 'physician': employee_to_find_processes_id });
+		console.log(processes_for_employee);
+
+        if (!processes_for_employee || processes_for_employee.length === 0) {
+            return res.status(404).json({ processes: None });
+        }
+
+        res.status(200).json({ processes: processes_for_employee });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server error' });
+    }
+};
