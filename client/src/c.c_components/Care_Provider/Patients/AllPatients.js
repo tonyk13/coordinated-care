@@ -77,7 +77,9 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 					}}
 					sx={{ width: "30vw" }}
 				/>
-				
+				<Button variant="contained" sx={{ ml: 4, mt: 1 }} onClick={handleNewPatient}>
+					Add new Patient
+				</Button>
 			</Box>
 			<TableContainer component={Paper} sx={{ maxHeight: "70vh", overflow: "auto" }}>
 				<Table stickyHeader aria-label="sticky table">
