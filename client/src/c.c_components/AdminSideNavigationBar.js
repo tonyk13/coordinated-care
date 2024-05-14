@@ -20,7 +20,7 @@ export default function AdminSideNavigationBar({ setCurrentPage }) {
 		{ text: "Discussion Board", icon: <ForumIcon /> },
 		{ text: "View User Feedback", icon: <CommentIcon /> },
 		// { text: "Messages", icon: <MessagesIcon /> },
-		{ text: "Account Requests", icon: <GroupsIcon /> },
+	// 	{ text: "Account Requests", icon: <GroupsIcon /> },
 	];
 
 	const handleClick = (item) => {
@@ -34,7 +34,7 @@ export default function AdminSideNavigationBar({ setCurrentPage }) {
 		if (item.text === "Patients") setCurrentPage("Patients");
 		if (item.text === "View User Feedback") setCurrentPage("View User Feedback");
 		// if (item.text === "Messages") setCurrentPage("Messages");
-		if (item.text === "Account Requests") setCurrentPage("Account Requests");
+		// if (item.text === "Account Requests") setCurrentPage("Account Requests");
 	};
 
 	return (

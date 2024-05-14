@@ -47,27 +47,29 @@ export default function Login({ setCurrentPage }) {
 		}
 	}, [isAuthenticated, user, setCurrentPage]);
 
-	return (
-		<>
-			{!isAuthenticated && (
-				<div className="login_screen">
-					<div className="login_app_name">Coordinated Care</div>
-					<br />
-					<div className="motto">
-						Revolutionizing the future of
-						<br /> hospital process management
-						<br /> systems
-					</div>
-					<LoginButton />
-					<br />
-					<br />
-					<Button className="request_account_button" onClick={takemetorequestaccountpage}>
-						Request Account
-					</Button>
-					<br />
-				</div>
-			)}
-			<div className="credits">Proudly presented by Team Dodger Blue</div>
-		</>
-	);
+
+    return (
+        <>
+            {!isAuthenticated && (
+                <div className="login_screen">
+                    <div className="login_app_name">Coordinated Care</div>
+                    <br />
+                    <div className="motto">
+                        Revolutionizing the future of
+                        <br /> hospital process management
+                        <br /> systems
+                    </div>
+                    <LoginButton />
+                    <br />
+                    {/* <br />
+                    <Button className="request_account_button" onClick={takemetorequestaccountpage}>
+                        Request Account
+                    </Button>
+                    <br /> */}
+                </div>
+            )}
+            <div className="credits">Proudly presented by Team Dodger Blue</div>
+        </>
+    );
+
 }
