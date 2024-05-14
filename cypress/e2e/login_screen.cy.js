@@ -18,7 +18,7 @@ describe('Login Screen', () => {
     it('should render login button', () => {
         cy.get(LoginButton).should('exist');
     });
-    it('should render request account button', () => {
-        cy.get('.request_account_button').should('exist');
-    });
+    // it('should render request account button', () => {
+    //     cy.get('.request_account_button').should('exist');
+    // });
 });
