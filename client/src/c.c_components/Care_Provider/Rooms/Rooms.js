@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
 	Box,
+	Button,
 	TextField,
 	Typography,
 	Paper,
@@ -11,31 +12,66 @@ import {
 	TableCell,
 	TableBody,
 	Pagination,
-	InputAdornment,
 } from "@mui/material";
 import RoomIcon from "@mui/icons-material/BedroomChild";
-import { Search as SearchIcon } from "@mui/icons-material";
 import axios from "axios";
+
+const fetchRooms = async () => {
+	try {
+		const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+		const response = await axios.get(`${baseURL}/api/rooms`);
+
+		return response.data;
+	} catch (error) {
+		console.error("Failed to fetch rooms:", error);
+		return [];
+	}
+};
 
 export default function Rooms({ setCurrentPage, setSelectedRoom }) {
 	const [rooms, setRooms] = useState([]);
 	const [currentPage, setCurrentPageNumber] = useState(1);
 	const [searchTerm, setSearchTerm] = useState("");
-	const rowsPerPage = 10;
+	const [rowsPerPage, setRowsPerPage] = useState(5);
 
 	useEffect(() => {
-		const fetchRooms = async () => {
-			try {
-				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
-				const response = await axios.get(`${baseURL}/api/rooms`);
-				setRooms(response.data);
-			} catch (error) {
-				console.error("Failed to fetch rooms:", error);
-			}
-		};
+		fetchRooms().then((data) => {
+			const updatedData = data.map((item) => ({
+				...item,
+				nextAvailable: calculateNextAvailable(item.reservations),
+			}));
 
-		fetchRooms();
+			setRooms(updatedData);
+		});
 	}, []);
+
+	function calculateNextAvailable(reservations) {
+		const now = new Date();
+		now.setHours(0, 0, 0, 0);
+
+		const futureReservations = reservations.filter((res) => {
+			const reservationDate = new Date(res.date);
+			reservationDate.setHours(0, 0, 0, 0);
+			return reservationDate >= now;
+		});
+
+		if (futureReservations.length === 0) {
+			return "Now Available";
+		}
+
+		futureReservations.sort((a, b) => new Date(a.date) - new Date(b.date));
+		const nextAvailableDate = new Date(futureReservations[0].date);
+		nextAvailableDate.setDate(nextAvailableDate.getDate() + 1);
+		return nextAvailableDate.toLocaleDateString();
+	}
+
+	const requestRoom = () => {
+		setCurrentPage("RequestRoom");
+	};
+
+	const addRoom = () => {
+		setCurrentPage("AddRoom");
+	};
 
 	const handleRoomClick = (roomId) => {
 		setSelectedRoom(roomId);
@@ -57,7 +93,7 @@ export default function Rooms({ setCurrentPage, setSelectedRoom }) {
 			case "Open":
 				return "green";
 			case "Awaiting Cleanup":
-				return "#FFC400"; // Orange-yellow
+				return "#FFC400";
 			default:
 				return "black";
 		}
@@ -82,30 +118,33 @@ export default function Rooms({ setCurrentPage, setSelectedRoom }) {
 					Rooms
 				</Typography>
 			</Box>
-			<Box mt={2} mb={2}>
+			<Box mt="10px" display="flex" alignItems="center">
 				<TextField
 					id="search"
-					type="search"
 					variant="outlined"
-					placeholder="Search rooms"
+					label="Search"
 					value={searchTerm}
 					onChange={handleSearchChange}
-					InputProps={{
-						startAdornment: (
-							<InputAdornment position="start">
-								<SearchIcon />
-							</InputAdornment>
-						),
-					}}
-					sx={{ width: "30vw" }}
+					sx={{ marginRight: "10px" }}
 				/>
+				<Box ml={30}>
+					<Button variant="contained" style={{ backgroundColor: "green", width: "100px" }} onClick={requestRoom}>
+						Request
+					</Button>
+				</Box>
+				<Box ml={10}>
+					<Button variant="contained" color="primary" style={{ width: "110px" }} onClick={addRoom}>
+						Add New
+					</Button>
+				</Box>
+				<Box ml={10}></Box>
 			</Box>
-			<TableContainer component={Paper} sx={{ maxHeight: "70vh", overflow: "auto" }}>
+			<TableContainer component={Paper} sx={{ maxHeight: "70vh", overflow: "auto", mt: "10px" }}>
 				<Table stickyHeader aria-label="sticky table">
 					<TableHead>
 						<TableRow>
 							<TableCell>Room Number</TableCell>
-							<TableCell>Status</TableCell>
+							<TableCell>Patient</TableCell>
 							<TableCell>Notes</TableCell>
 							<TableCell>Next Available</TableCell>
 						</TableRow>
@@ -115,7 +154,7 @@ export default function Rooms({ setCurrentPage, setSelectedRoom }) {
 							<TableRow key={index}>
 								<TableCell>
 									<span
-										onClick={() => handleRoomClick(room._id)}
+										onClick={() => handleRoomClick(room.id)}
 										style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
 										role="button"
 										tabIndex={0}
@@ -123,9 +162,13 @@ export default function Rooms({ setCurrentPage, setSelectedRoom }) {
 										{room.roomNumber}
 									</span>
 								</TableCell>
-								<TableCell style={{ color: getStatusColor(room.status) }}>{room.status}</TableCell>
+								<TableCell>
+									{room.reservations.length > 0 && room.reservations[0].patient
+										? room.reservations[0].patient
+										: "No patient"}
+								</TableCell>
 								<TableCell>{room.notes}</TableCell>
-								<TableCell>{new Date(room.nextAvailableDateAndTime).toLocaleString()}</TableCell>
+								<TableCell>{room.nextAvailable}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>

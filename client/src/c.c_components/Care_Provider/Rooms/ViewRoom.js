@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Typography, Paper, Grid, CircularProgress, Alert, List, ListItem, Button } from "@mui/material";
+import dayjs from "dayjs";
 
 export default function ViewRoom({ setCurrentPage, selectedRoom }) {
 	const [room, setRoom] = useState(null);
@@ -53,21 +54,18 @@ export default function ViewRoom({ setCurrentPage, selectedRoom }) {
 								<Typography>Status: {room.status}</Typography>
 							</Grid>
 							<Grid item xs={12}>
-								<Typography>Patient: {room.patient?.name || "None"}</Typography>
+								<Typography>
+									Patient:{" "}
+									{room.reservations.length > 0 && room.reservations[0].patient
+										? room.reservations[0].patient
+										: "No patient"}
+								</Typography>
 							</Grid>
 							<Grid item xs={12}>
-								<Typography>Attending Nurse: {room.attendingNurse?.name || "None"}</Typography>
-							</Grid>
-							<Grid item xs={12}>
-								<Typography>Next Available: {new Date(room.nextAvailableDateAndTime).toLocaleString()}</Typography>
-							</Grid>
-							<Grid item xs={12}>
-								<Typography>Equipment being used:</Typography>
-								<List>
-									{room.equipment?.map((equip, index) => (
-										<ListItem key={index}>{equip.name}</ListItem>
-									))}
-								</List>
+								<Typography>
+									Employee:{" "}
+									{room.reservations.length > 0 && room.reservations[0].user ? room.reservations[0].user : "None"}
+								</Typography>
 							</Grid>
 							<Grid item xs={12}>
 								<Typography>Notes: {room.notes || "None"}</Typography>

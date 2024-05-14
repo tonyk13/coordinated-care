@@ -61,6 +61,7 @@ exports.create_equipment = async (req, res, next) => {
 		next(error);
 	}
 };
+
 //make_reservation
 exports.make_reservation = async (req, res, next) => {
 	const { equipmentId, date, employeeId } = req.body;

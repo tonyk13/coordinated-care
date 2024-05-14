@@ -31,10 +31,11 @@ import UploadPatientDocument from "../Care_Provider/Patients/UploadPatientDocume
 import ViewPatientDocument from "../Care_Provider/Patients/ViewPatientDocument";
 import AddEquipment from "../Care_Provider/Equipment/AddEquipment";
 import RequestEquipment from "../../c.c_components/Care_Provider/Equipment/RequestEquipment";
-
 import "../../stylesheets/App.css";
 import SpecificFaculty from "./SpecificFaculty";
 import AddComment from "../Discussion_Board/AddComment";
+import AddRoom from "../Care_Provider/Rooms/AddRoom";
+import RequestRoom from "../Care_Provider/Rooms/RequestRoom";
 
 export default function Admin() {
 	const [currentPage, setCurrentPage] = useState("Processes");
@@ -164,6 +165,8 @@ export default function Admin() {
 						/>
 					)}
 					{currentPage === "AddComment" && <AddComment setCurrentPage={setCurrentPage} discussionId={discussionId} />}
+					{currentPage === "AddRoom" && <AddRoom setCurrentPage={setCurrentPage} />}
+					{currentPage === "RequestRoom" && <RequestRoom setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>
 		</Box>

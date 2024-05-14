@@ -5,12 +5,14 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import axios from "axios";
 
-export default function RequestEquipment({ setCurrentPage }) {
-	const [equipment, setEquipment] = useState([]);
-	const [selectedEquipment, setSelectedEquipment] = useState("");
+export default function RequestRoom({ setCurrentPage }) {
+	const [rooms, setRooms] = useState([]);
+	const [selectedRoom, setSelectedRoom] = useState("");
 	const [requestDate, setRequestDate] = useState(null);
 	const [employees, setEmployees] = useState([]);
 	const [selectedEmployee, setSelectedEmployee] = useState("");
+	const [patients, setPatients] = useState([]);
+	const [selectedPatient, setSelectedPatient] = useState("");
 	const [reservedDates, setReservedDates] = useState([]);
 
 	const isDateReserved = (date) => {
@@ -20,30 +22,35 @@ export default function RequestEquipment({ setCurrentPage }) {
 	};
 
 	useEffect(() => {
-		const fetchEquipmentAndEmployees = async () => {
+		const fetchRoomsAndEmployees = async () => {
 			try {
 				const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
-				const equipmentData = await axios.get(`${baseURL}/api/equipment`);
+				const roomData = await axios.get(`${baseURL}/api/rooms`);
 
 				const employeeData = await axios.get(`${baseURL}/api/getAllEmployees`);
 
-				setEquipment(equipmentData.data);
+				const patientData = await axios.get(`${baseURL}/api/patients`);
+
+				setRooms(roomData.data);
+
 				setEmployees(employeeData.data.data);
+
+				setPatients(patientData.data);
 			} catch (error) {
 				console.error("Failed to fetch data:", error);
 			}
 		};
 
-		fetchEquipmentAndEmployees();
+		fetchRoomsAndEmployees();
 	}, []);
 
 	useEffect(() => {
 		const fetchReservedDates = async () => {
-			if (selectedEquipment) {
+			if (selectedRoom) {
 				try {
 					const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
-					const response = await axios.get(`${baseURL}/api/equipment/${selectedEquipment}/reservations`);
+					const response = await axios.get(`${baseURL}/api/rooms/${selectedRoom}/reservations`);
 					const dates = response.data.map((reservation) => reservation.date);
 					setReservedDates(dates);
 				} catch (error) {
@@ -53,10 +60,10 @@ export default function RequestEquipment({ setCurrentPage }) {
 		};
 
 		fetchReservedDates();
-	}, [selectedEquipment]);
+	}, [selectedRoom]);
 
 	const handleRequest = async () => {
-		if (!selectedEquipment || !requestDate || !selectedEmployee) {
+		if (!selectedRoom || !requestDate || !selectedEmployee) {
 			alert("Please fill all the fields.");
 			return;
 		}
@@ -64,14 +71,15 @@ export default function RequestEquipment({ setCurrentPage }) {
 		try {
 			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
-			await axios.put(`${baseURL}/api/equipment_reservation`, {
-				equipmentId: selectedEquipment,
+			await axios.put(`${baseURL}/api/room_reservation`, {
+				roomId: selectedRoom,
 				date: requestDate,
+				patientId: selectedPatient,
 				employeeId: selectedEmployee,
 			});
 
-			alert("Equipment requested successfully.");
-			setCurrentPage("Equipment");
+			alert("Room requested successfully.");
+			setCurrentPage("Rooms");
 		} catch (error) {
 			console.error("Error making request:", error);
 			alert("Failed to make the request.");
@@ -79,23 +87,18 @@ export default function RequestEquipment({ setCurrentPage }) {
 	};
 
 	const handleCancel = () => {
-		setCurrentPage("Equipment");
+		setCurrentPage("Rooms");
 	};
 
 	return (
 		<div>
-			<h1>Request Equipment</h1>
+			<h1>Request Room</h1>
 			<FormControl fullWidth>
-				<InputLabel id="equipment-label">Equipment</InputLabel>
-				<Select
-					labelId="equipment-label"
-					value={selectedEquipment}
-					label="Equipment"
-					onChange={(e) => setSelectedEquipment(e.target.value)}
-				>
-					{equipment.map((eq) => (
+				<InputLabel id="room-label">Room</InputLabel>
+				<Select labelId="room-label" value={selectedRoom} label="Room" onChange={(e) => setSelectedRoom(e.target.value)}>
+					{rooms.map((eq) => (
 						<MenuItem key={eq._id} value={eq.id}>
-							{eq.name}
+							{eq.roomNumber}
 						</MenuItem>
 					))}
 				</Select>
@@ -104,7 +107,7 @@ export default function RequestEquipment({ setCurrentPage }) {
 			<br />
 			<LocalizationProvider dateAdapter={AdapterDateFns}>
 				<DatePicker
-					label="Request Date"
+					label="Next Available Date"
 					value={requestDate}
 					onChange={(newValue) => setRequestDate(newValue)}
 					renderInput={(params) => <TextField {...params} />}
@@ -122,6 +125,20 @@ export default function RequestEquipment({ setCurrentPage }) {
 					}}
 				/>
 			</LocalizationProvider>
+			<br />
+			<br />
+			<FormControl fullWidth>
+				<InputLabel id="patient-label">Patient</InputLabel>
+				<Select
+					labelId="patient-label"
+					value={selectedPatient}
+					label="Patient"
+					onChange={(e) => setSelectedPatient(e.target.value)}
+				>
+					{Array.isArray(patients) &&
+						patients.map((emp) => <MenuItem key={emp._id} value={emp._id}>{`${emp.firstName} ${emp.lastName}`}</MenuItem>)}
+				</Select>
+			</FormControl>
 			<br />
 			<br />
 			<FormControl fullWidth>

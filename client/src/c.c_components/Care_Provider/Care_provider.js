@@ -28,7 +28,6 @@ import EditProcedure from "../Care_Provider/Processes-Procedures/Edit_Procedure"
 import EditAppointment from "../Care_Provider/Patients/EditAppointment";
 import UploadPatientDocument from "../Care_Provider/Patients/UploadPatientDocument";
 import ViewPatientDocument from "./Patients/ViewPatientDocument";
-
 import AddEquipment from "./Equipment/AddEquipment";
 import RequestEquipment from "./Equipment/RequestEquipment";
 import Schedule from "./Schedule/Schedule";
@@ -36,6 +35,8 @@ import Cookies from "js-cookie";
 import "../../stylesheets/App.css";
 import Dashboard from "./Dashboard";
 import AddComment from "../Discussion_Board/AddComment";
+import AddRoom from "./Rooms/AddRoom";
+import RequestRoom from "./Rooms/RequestRoom";
 
 export default function CareProvider() {
 	const [currentPage, setCurrentPage] = useState("Dashboard");
@@ -158,6 +159,8 @@ export default function CareProvider() {
 						/>
 					)}
 					{currentPage === "AddComment" && <AddComment setCurrentPage={setCurrentPage} discussionId={discussionId} />}
+					{currentPage === "AddRoom" && <AddRoom setCurrentPage={setCurrentPage} />}
+					{currentPage === "RequestRoom" && <RequestRoom setCurrentPage={setCurrentPage} />}
 				</Box>
 			</Box>
 		</Box>

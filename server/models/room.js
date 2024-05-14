@@ -9,34 +9,32 @@ const RoomSchema = new mongoose.Schema({
 	},
 	status: {
 		type: String,
-		required: true,
+		required: false,
 		enum: ["Occupied", "Open", "Awaiting Cleanup"],
+		default: "Open",
 	},
-	patient: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "Patient",
-		required: false,
-	},
-	attendingNurse: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "Employee",
-		required: false,
-	},
-	nextAvailableDateAndTime: {
-		type: Date,
-		required: true,
-	},
-	equipment: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Equipment",
-			required: false,
-		},
-	],
 	notes: {
 		type: String,
 		required: false,
 	},
+	reservations: [
+		{
+			date: {
+				type: Date,
+				required: false,
+			},
+			patient: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Patient",
+				required: false,
+			},
+			user: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Employee",
+				required: false,
+			},
+		},
+	],
 });
 
 const Room = mongoose.model("Room", RoomSchema);
