@@ -43,7 +43,7 @@ export default function Documents({ setCurrentPage, patient, setFileId, setSelec
 							<TableCell>Document Name</TableCell>
 							<TableCell>Document Type</TableCell>
 							<TableCell>Uploaded By</TableCell>
-							<TableCell>Last Updated</TableCell>
+							<TableCell>Date Uploaded</TableCell>
 							<TableCell>Access Level</TableCell>
 						</TableRow>
 					</TableHead>

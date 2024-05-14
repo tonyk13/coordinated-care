@@ -1,58 +1,76 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Paper, Stack, Divider } from "@mui/material";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import dayjs from 'dayjs';
+import { CircularProgress } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
-const patientsProcesses = [
-	{
-		name: "John Doe",
-		dob: "02/14/1990",
-		procedures: [
-			{ name: "Initial Consultation", physician: "Dr. Smith", completed: true },
-			{ name: "Blood Test", physician: "Dr. Johnson", completed: true },
-			{ name: "X-Ray", physician: "Dr. Clark", completed: false },
-			{ name: "Surgery", physician: "Dr. Wilson", completed: false },
-		],
-	},
-	{
-		name: "Jane Smith",
-		dob: "03/22/1985",
-		procedures: [
-			{ name: "Physical Exam", physician: "Dr. Adams", completed: true },
-			{ name: "MRI Scan", physician: "Dr. Clark", completed: false },
-		],
-	},
-];
 
 export default function Dashboard() {
+
+	const [employeeData, setEmployeeData] = useState({});
+	const employee_id = Cookies.get("employee_id");
+	useEffect(() => {
+		const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+		axios.get(`${baseURL}/api/employees/${employee_id}`)
+		.then(response => {
+			setEmployeeData(response.data.employee)
+			})
+			.catch(error => {
+				console.error('Error fetching employee ID:', error);
+			});
+	}, []);
+	
+	const [employeeProcesses, setEmployeeProcesses] = useState([]);
+	useEffect(() => {
+		const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+
+		axios.get(`${baseURL}/api/processes/${employee_id}/get_processes_for_employee`)
+			.then(async (response) => {
+				const processes = response.data.processes;
+				const processPromises = processes.map(async (process) => {
+					const patientResponse = await axios.get(`${baseURL}/api/patients/${process.patient}`);
+					const patientData = patientResponse.data;
+					return { ...process, patientData };
+				});
+				const updatedProcesses = await Promise.all(processPromises);
+				setEmployeeProcesses(updatedProcesses);
+			})
+			.catch(error => {
+				console.error('Error fetching processes:', error);
+			});
+	}, []);
+
+	console.log(employeeProcesses)
+
+	// const [patientNames, setPatientNames] = useState({});
+
+
 	return (
-		<Box sx={{ width: "100%", overflowX: "auto", p: 2 }}>
-			<Typography variant="h4">Welcome User!</Typography>
-			<Typography variant="h4">Today is April 5, 2024</Typography>
-			<br />
-			<Typography variant="h3">Today's Patients: </Typography>
-			<br />
-
-			{patientsProcesses.map((patient, patientIndex) => (
-				<Box key={patientIndex} sx={{ mb: 4 }}>
-					<Typography variant="h6" sx={{ mb: 2 }}>{`Patient: ${patient.name}, DOB: ${patient.dob}`}</Typography>
-
-					<Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
-						{patient.procedures.map((procedure, index) => (
-							<Paper key={index} elevation={3} sx={{ display: "flex", alignItems: "center", gap: 2, p: 2 }}>
-								{procedure.completed ? <CheckCircleOutlineIcon color="success" /> : <HourglassEmptyIcon color="action" />}
-
-								<Box>
-									<Typography variant="h6" component="h1">
-										{procedure.name}
-									</Typography>
-									<Typography>{`Physician: ${procedure.physician}`}</Typography>
-								</Box>
-							</Paper>
-						))}
-					</Stack>
-				</Box>
-			))}
+		<Box sx={{ width: '100%', overflowX: 'auto', p: 2 }}>
+		  <Typography variant="h3">Welcome: {employeeData.firstName} {employeeData.lastName}</Typography>
+		  <br/>
+		  <Typography variant="h5">My Upcoming Patient's Process Tasks:</Typography>
+		  {employeeProcesses.map((process, index) => (
+			<Paper key={index} style={{ marginTop: '1vh' }}>
+			<Typography variant="h5" style={{ marginLeft: '0.5vh', textDecoration: 'underline', fontWeight:'bold' }}>
+				Name: {process.patientData.firstName} {process.patientData.lastName} | DOB: {dayjs(process.patientData.dateOfBirth).format('MM/DD/YYYY')}
+			</Typography>
+			  {process.sections.map((section, sectionIndex) => (
+				<div key={sectionIndex} style={{ marginBottom: '1vh', marginLeft: '0.5vh' }}>
+				  <Typography variant="h6" style={{ marginBottom: '0.5vh', marginLeft: '0.5vh' }}>{section.name}</Typography>
+				  	{section.tasks.map((task, taskIndex) => (
+					<div key={taskIndex} style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5vh', marginLeft: '2vh', color: '#1e90ff' }}>
+					  <Typography style={{ marginRight: '1vh' }}>{task.name}</Typography>
+					  	{task.completed ? <CheckIcon style={{ color: 'green' }} /> : <CircularProgress size={20} color="secondary" />}
+					</div>
+				  ))}
+				</div>
+			  ))}
+			</Paper>
+		  ))}
 		</Box>
-	);
+	  );
+	  
 }

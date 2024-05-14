@@ -23,6 +23,27 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 	const [page, setPage] = useState(1);
 	const rowsPerPage = 5;
 
+	const [filteredRows, setFilteredRows] = useState([]);
+
+	const [searchTerm, setSearchTerm] = useState("");
+
+	const handleSearchChange = (event) => {
+		setSearchTerm(event.target.value.toLowerCase());
+	};
+
+	useEffect(() => {
+		const filtered = patients.filter(
+			(patient) =>
+				patient.name?.toLowerCase().includes(searchTerm) ||
+				patient.firstName?.toLowerCase().includes(searchTerm) ||
+				patient.lastName?.toLowerCase().includes(searchTerm) ||
+				patient.dateOfBirth?.toLowerCase().includes(searchTerm) ||
+				patient.phoneNumber?.toLowerCase().includes(searchTerm) ||
+				patient.physician?.toLowerCase().includes(searchTerm)
+		);
+		setFilteredRows(filtered);
+	}, [patients, searchTerm]);
+
 	useEffect(() => {
 		const fetchPatients = async () => {
 			try {
@@ -51,11 +72,9 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 		setCurrentPage("newPatientForm");
 	};
 
-	// Calculate the number of pages
-	const count = Math.ceil(patients.length / rowsPerPage);
+	const count = Math.ceil(filteredRows.length / rowsPerPage);
 
-	// Slice the rows array to only include the rows for the current page
-	const currentPageRows = patients.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+	const currentPageRows = filteredRows.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
 	return (
 		<Box>
@@ -68,6 +87,8 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 					type="search"
 					variant="outlined"
 					placeholder="Search"
+					value={searchTerm}
+					onChange={handleSearchChange}
 					InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">
@@ -77,7 +98,6 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 					}}
 					sx={{ width: "30vw" }}
 				/>
-				
 			</Box>
 			<TableContainer component={Paper} sx={{ maxHeight: "70vh", overflow: "auto" }}>
 				<Table stickyHeader aria-label="sticky table">

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
@@ -7,17 +6,33 @@ import { Button, Box, Snackbar, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 export default function Staff({ setCurrentPage, IdClicked, setIdClicked, snackbarOpen, handleCloseSnackbar }) {
-	const [searchTerm, setSearchTerm] = React.useState("");
+	const [searchTerm, setSearchTerm] = useState("");
 	const [staffData, setStaffData] = useState([]);
+	const [filteredRows, setFilteredRows] = useState([]);
 
 	const handleSearchChange = (event) => {
-		setSearchTerm(event.target.value);
+		setSearchTerm(event.target.value.toLowerCase());
 	};
+
+	useEffect(() => {
+		const filtered = staffData.filter(
+			(staff) =>
+				staff.id?.toLowerCase().includes(searchTerm) ||
+				`${staff.firstName} ${staff.lastName}`.toLowerCase().includes(searchTerm) ||
+				staff.firstName?.toLowerCase().includes(searchTerm) ||
+				staff.lastName?.toLowerCase().includes(searchTerm) ||
+				staff.phoneNumber?.toLowerCase().includes(searchTerm) ||
+				staff.role?.toLowerCase().includes(searchTerm)
+		);
+		setFilteredRows(filtered);
+	}, [staffData, searchTerm]);
+
 	const handleIdClick = (id) => {
 		console.log(id);
 		setCurrentPage("SpecificFaculty");
 		setIdClicked(id);
 	};
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -56,7 +71,7 @@ export default function Staff({ setCurrentPage, IdClicked, setIdClicked, snackba
 						style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
 						onClick={() => {
 							const fullName = `${cellValues.row.firstName || ""} ${cellValues.row.lastName || ""}`;
-							handleIdClick(cellValues.row._id);
+							handleIdClick(cellValues.row.id);
 						}}
 					>
 						{`${cellValues.row.firstName || ""} ${cellValues.row.lastName || ""}`}
@@ -69,27 +84,14 @@ export default function Staff({ setCurrentPage, IdClicked, setIdClicked, snackba
 		{
 			field: "phoneNumber",
 			headerName: "Phone Number",
-			width: 90,
+			width: 130,
 		},
 		{
 			field: "role",
 			headerName: "Role",
+			width: 130,
 		},
 	];
-
-	/*
-      const rows = [
-        { id: 1322323, lastName: 'Snow', firstName: 'Jon', phoneNumber: 35423323, role: 'Doctor' },
-        { id: 2323232, lastName: 'Lannister', firstName: 'Cersei', phoneNumber: 42323232, role: 'Medical Assistant' },
-        { id: 332323, lastName: 'Lannister', firstName: 'Jaime', phoneNumber: 45232323, role: 'Doctor' },
-        { id: 493993, lastName: 'Stark', firstName: 'Arya', phoneNumber: 163232323, role: 'Medical Assistant' },
-        { id: 5333233, lastName: 'Targaryen', firstName: 'Daenerys', phoneNumber: 32323232, role: 'Doctor' },
-        { id: 6323223, lastName: 'Melisandre', firstName: null, phoneNumber: 3232232,role: 'Medical Assistant' },
-        { id: 7323232, lastName: 'Clifford', firstName: 'Ferrara', phoneNumber: 43232324, role: 'Doctor' },
-        { id: 82323, lastName: 'Frances', firstName: 'Rossini', phoneNumber: 33232326, role: 'Doctor' },
-        { id: 932323, lastName: 'Roxie', firstName: 'Harvey', phoneNumber: 6323232323, role: 'Doctor' },
-      ];
-      */
 
 	const setAddNewFacultyScreen = () => {
 		setCurrentPage("Add New Faculty");
@@ -121,7 +123,7 @@ export default function Staff({ setCurrentPage, IdClicked, setIdClicked, snackba
 			</Box>
 			<div style={{ height: 400, width: "100%" }}>
 				<DataGrid
-					rows={staffData}
+					rows={filteredRows}
 					columns={columns}
 					initialState={{
 						pagination: {
