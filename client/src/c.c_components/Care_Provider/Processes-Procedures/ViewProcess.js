@@ -104,8 +104,12 @@ const ViewProcess = ({ setCurrentPage, patient: selectedProcess }) => {
 			))}
 			<Divider sx={{ my: 2 }} />
 			<Box>
-				<Typography variant="subtitle1">{`Admission Date: ${selectedProcess.admissionDate}`}</Typography>
-				<Typography variant="subtitle1">{`Expected Discharge: ${selectedProcess.expectedDischarge}`}</Typography>
+				<Typography variant="subtitle1">{`Admission Date: ${dayjs(new Date(selectedProcess.admissionDate)).format(
+					"MM/DD/YYYY"
+				)}`}</Typography>
+				<Typography variant="subtitle1">{`Expected Discharge: ${dayjs(new Date(selectedProcess.expectedDischarge)).format(
+					"MM/DD/YYYY"
+				)}`}</Typography>
 			</Box>
 		</Container>
 	);

@@ -5,6 +5,7 @@ import "@react-pdf-viewer/zoom/lib/styles/index.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import axios from "axios";
 import { Button, Paper, Typography } from "@mui/material";
+import dayjs from "dayjs";
 
 export default function ViewPatientDocument({ setCurrentPage, selectedDocument }) {
 	const [pdfUrl, setPdfUrl] = useState(null);
@@ -57,7 +58,9 @@ export default function ViewPatientDocument({ setCurrentPage, selectedDocument }
 				<Typography variant="h5">{selectedDocument.documentName}</Typography>
 				<Typography variant="subtitle1">{`Document Type: ${selectedDocument.documentType}`}</Typography>
 				<Typography variant="subtitle1">{`Uploaded By: ${selectedDocument.uploadedBy}`}</Typography>
-				<Typography variant="subtitle1">{`Last Updated: ${selectedDocument.lastUpdated}`}</Typography>
+				<Typography variant="subtitle1">{`Date Uploaded: ${dayjs(new Date(selectedDocument.lastUpdated)).format(
+					"MM/DD/YYYY hh:mm A"
+				)}`}</Typography>
 				<Typography variant="subtitle1">{`Access Level: ${selectedDocument.accessLevel}`}</Typography>
 			</Paper>
 
