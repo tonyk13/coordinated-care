@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Cookies from 'js-cookie';
 import {
 	Box,
 	Table,
@@ -72,6 +73,23 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 		setCurrentPage("newPatientForm");
 	};
 
+	const [employeeIsAdmin, setIsAdmin] = useState(false);
+	useEffect(() => {
+		try {
+			const baseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+			const employee_id = Cookies.get("employee_id");
+			axios.get(`${baseURL}/api/employees/${employee_id}`)
+			.then(response => {
+				if (response.data.employee.isAdmin) {
+					setIsAdmin(true)
+				}		
+			});
+		} catch (error) {
+			console.error('Error fetching employee:', error);
+		}
+	
+	  }, []); 
+
 	const count = Math.ceil(filteredRows.length / rowsPerPage);
 
 	const currentPageRows = filteredRows.slice((page - 1) * rowsPerPage, page * rowsPerPage);
@@ -98,9 +116,11 @@ export default function AllPatients({ setCurrentPage, snackbarOpen, setSnackbarO
 					}}
 					sx={{ width: "30vw" }}
 				/>
-				<Button variant="contained" sx={{ ml: 4, mt: 1 }} onClick={handleNewPatient}>
-					Add new Patient
-				</Button>
+				{employeeIsAdmin && 
+					<Button variant="contained" sx={{ ml: 4, mt: 1 }} onClick={handleNewPatient}>
+						Add new Patient
+					</Button>
+				}
 			</Box>
 			<TableContainer component={Paper} sx={{ maxHeight: "70vh", overflow: "auto" }}>
 				<Table stickyHeader aria-label="sticky table">
